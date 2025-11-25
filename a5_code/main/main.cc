@@ -1,4 +1,12 @@
+/* 
+Filename: main.cc
+Author: Taim Alsaadi
+Date: 2024-06-15
+Last Edited: 2024-06-15
 
+Description:
+This is the main file that runs Biquardis.
+*/
 
 import <iostream>;
 import <string>;
@@ -22,4 +30,5 @@ int main(int argc, char* argv[]) {
         game.startGame(/*INPUTS*/);
     }
 
+    return 0;
 }
