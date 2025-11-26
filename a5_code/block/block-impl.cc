@@ -13,6 +13,9 @@ void Block::setPosition(vector<pair<int,int>>& newPos) {
     }
 }
 
+void Block::getType(){
+    return blockType;
+}
 vector<pair<int,int>> Block::rotatePosition(bool clockwise) {
     vector<pair<int,int>> rotated;
     
@@ -72,4 +75,12 @@ vector<pair<int,int>> Block::rotatePosition(bool clockwise) {
     }
     
     return rotated;
+}
+
+bool Block::decreaseCells() {
+    cellsLeft--;
+    if (cellsLeft == 0) {
+        return true;
+    }
+    return false;
 }

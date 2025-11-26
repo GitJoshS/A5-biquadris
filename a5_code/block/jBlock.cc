@@ -5,10 +5,7 @@ import utility;
 import vector;
 import Block;
 
-export class JBlock : public Block{
-    int tilesLeft;
-    
+export class JBlock : public Block{  
     public:
     JBlock(int level);
-    char getShape();
 }

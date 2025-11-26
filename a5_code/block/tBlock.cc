@@ -5,10 +5,7 @@ import utility;
 import vector;
 import Block;
 
-export class TBlock : public Block{
-    int tilesLeft;
-    
+export class TBlock : public Block{   
     public:
     TBlock(int level);
-    char getShape();
 }
