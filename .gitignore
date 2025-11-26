@@ -1,3 +1,9 @@
 test_sandbox/
 .vscode/
 settings.json
+test.cc
+test_program
+commandCenter.o
+commandCenter-impl.o
+test.o
+*.json

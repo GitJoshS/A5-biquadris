@@ -1,0 +1,12 @@
+left
+right
+down
+clockwise
+counterclockwise
+drop
+levelup
+leveldown
+random
+norandom
+sequence
+restart

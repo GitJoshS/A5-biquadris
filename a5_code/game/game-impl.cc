@@ -1,8 +1,8 @@
 /* 
 Filename: game-impl.cc 
 Author: Josh Stein
-Date: 2024-06-15
-Last Edited: 2024-06-15
+Date: 2024-11-25
+Last Edited: 2024-06-26
 
 Description:
 This file contains the implementation of the Game class, which manages the overall game state,
@@ -16,30 +16,36 @@ import Player;
 import <string>;
 import <iostream>;
 
+using namespace std;
+
+// default constructor
+Game::Game() 
+    : p1{nullptr}, 
+      p2{nullptr}, 
+      currP{nullptr}, 
+      textDisplay{nullptr},
+      graphicsDisplay{nullptr}, 
+      highscore{0},
+      textOnly{false} 
+{}
+
+// when constructing a game
+Game::Game(const vector<string>& argv, const string& player1, const string& player2) : cmdCenter{}, 
+    p1{new Player(player1)}, p2{new Player(player2)}, currP{p1}, textDisplay{nullptr}, graphicsDisplay{nullptr}, 
+    highscore{0}, textOnly{true}, args{argv} {} 
+
 void Game::runGame() {
-    cout << "Starting Game!" << endl;
-
-    cout << "Please enter your name Player 1: ";
-    cin << p1;
-
-    cout << "Please enter your name Player 2: ";
-    cin << p2;
-
-    // Need to figure out how we will intialize a new board for each player
-    Player *p1 = new Player(nullptr, 0, 1, p1Name);
-    Player *p2 = new Player(nullptr, 0, 1, p1Name);
-    Player *currP = p1;
-
     while (true){
         Display display (); // Will add parameters later
+
         string command; 
-        cout << "Make a move " <<  << ": ";
+        cout << "Make a move " << currP->getName() << ": ";
 
         if (cin >> command) {
             processCommand(command);
         }
 
-        if (/* check for game over condition */) {
+        if (/* check for game over condition */) { // recieve state of game from board
             cout << "Game Over!" << endl;
             break;
         }
@@ -62,10 +68,6 @@ void Game::processCommand(string command) {
     cc.executeCmd(&cmd);
 }
 
-void Game::restart() {
-    // Reset game state to initial conditions
-    Player* p1 = new Player(/* initial params */);
-    Player* p2 = new Player(/* initial params */);
-    currP = p1;
-
+void Game::restart() { //
+   
 }

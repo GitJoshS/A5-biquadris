@@ -1,8 +1,8 @@
 /* 
 Filename: commandCenter-impl.cc 
 Author: Josh Stein
-Date: 2024-06-15
-Last Edited: 2024-06-15
+Date: 2024-11-25
+Last Edited: 2024-06-26
 
 Description:
 This file contains the implementation of the CommandCenter class, which serves as the central hub for 
@@ -10,17 +10,49 @@ command processing
 */
 
 module CommandCenter; 
+import <string>;
+import <vector>;
+import <fstream>;
+import <iostream>;
 
 using namespace std;
 
-Command CommandCenter::processCmd(string cmdStr) {
-    /*
-    check which command it is and create a Command object accordingly. Must be 
-    a substring match for minimal unique prefixes.
-    */
-    
+vector<string> CommandCenter::loadCommandsFromFile() {
+    vector<string> commands;
+    ifstream file("commands.txt");
+    if (!file) {
+        cerr << "Error: commands.txt could not be opened." << endl;
+        return commands;
+    }
+
+    string line;
+    while (getline(file, line)) {
+        if (!line.empty()) commands.push_back(line);
+    }
+    return commands;
+}
+
+string CommandCenter::findUniqueCommand(const string& input) {
+    string match = "";
+    for (const auto& cmd : commandList) {
+        if (cmd.find(input) == 0) {
+            if (!match.empty()) return ""; // multiple matches -> ambiguous
+            match = cmd;
+        }
+    }
+    return match;
+}
+
+Command CommandCenter::processCmd(const string& cmdStr) {
     Command cmd;
-    cmd.name = cmdStr; // Placeholder, will set actual name based on parsing
+    string result = findUniqueCommand(cmdStr);
+
+    if (!result.empty()) {
+        cmd.name = result;
+    } else {
+        cmd.name = "unknown";
+    }
+
     return cmd;
 }
 
@@ -46,9 +78,9 @@ void CommandCenter::executeCmd(Command* cmd) {
     } else if (cmd->name == "norandom") {
 
     } else if (cmd->name == "sequence") {
-
+        // take next work after sequence as the file name
     } else if (cmd->name == "restart") {
-
+        
     } else {
         // Handle unknown command
     }

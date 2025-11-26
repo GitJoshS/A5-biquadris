@@ -1,34 +1,41 @@
 /* 
 Filename: main.cc
-Author: Taim Alsaadi
-Date: 2024-06-15
-Last Edited: 2024-06-15
+Author: Taim Alsaadi and Josh Stein
+Date: 2024-11-25
+Last Edited: 2024-06-26
 
 Description:
 This is the main file that runs Biquardis.
 */
 
+import Game;
+
 import <iostream>;
 import <string>;
 import <sstream>;
-import Game;
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-
-    cout << "Start game? (y/n): ";
-    string input = '';
 
     vector<string> args;
     for (int i = 0; i < argc; ++i) {
         args.push_back(argv[i]);
     } 
 
-    if (cin >> input && input == "y") {
-        Game game = Game{args, /*INPUTS*/}; // Will add parameters later
-        game.startGame(/*INPUTS*/); // Will add parameters later
-    }
+    string p1, p2, start;
 
-    return 0;
+    cout << "Please enter your name Player 1: ";
+    cin >> p1;
+
+    cout << "Please enter your name Player 2: ";
+    cin >> p2;
+    
+    cout << "Start game? (y/n): ";
+    cin >> start;
+
+    if (start == "y" || start == "Y" || start == "yes" || start == "YES") {
+        Game game = Game(args, p1, p2);
+        game.runGame(); 
+    }
 }
