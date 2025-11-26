@@ -10,17 +10,24 @@ This file contains the player class definition that manages player state
 
 export module Player
 
+import Board;
+import <string>;
+
 export class Player {
     Board* board;
+    string name;
     int curScore;
     int playerId;
 
-    Player() = default;
+    // need a ctor, move ctor, copy ctor, copy asop, move asop and destructor later
+    Player();
+    Player(Board* b, string name, int curScore int playerId);
 
-    int getCurScore();
-    int getPlayerId();
+    public: 
+        int getCurScore();
+        int getPlayerId();
 
-    ___ applySpecialAction(); // will add parameters later
-    ___ calcualteLineScore(int linesCleared)
-    ___ calculateBlockScore(Block *b);
+        void applySpecialAction(); // will add parameters later
+        int calcualteLineScore(int linesCleared)
+        int calculateBlockScore(Block *b);
 };

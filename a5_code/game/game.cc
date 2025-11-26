@@ -11,9 +11,9 @@ including player turns, game initialization, and victory conditions.
 
 export module Game;
 
+import Player;
+import Display;
 import <string>;
-
-using namespace std;
 
 export class Game {
     Player* p1;

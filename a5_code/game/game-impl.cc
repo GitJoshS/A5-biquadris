@@ -13,13 +13,39 @@ module Game;
 import Display; 
 import commandCenter; 
 import Player; 
-
-using namespace std;
+import <string>;
+import <iostream>;
 
 void Game::runGame() {
-    while (true) {
+    cout << "Starting Game!" << endl;
 
-    }
+    cout << "Please enter your name Player 1: ";
+    cin << p1;
+
+    cout << "Please enter your name Player 2: ";
+    cin << p2;
+
+    // Need to figure out how we will intialize a new board for each player
+    Player *p1 = new Player(nullptr, 0, 1, p1Name);
+    Player *p2 = new Player(nullptr, 0, 1, p1Name);
+    Player *currP = p1;
+
+    while (true){
+        Display display (); // Will add parameters later
+        string command; 
+        cout << "Make a move " <<  << ": ";
+
+        if (cin >> command) {
+            processCommand(command);
+        }
+
+        if (/* check for game over condition */) {
+            cout << "Game Over!" << endl;
+            break;
+        }
+
+        currP = (currP == p1) ? p2 : p1;
+    }  
 }
 
 void Game::handleSpecialAction(string action) {
@@ -27,14 +53,19 @@ void Game::handleSpecialAction(string action) {
 }   
 
 void Game::triggerSpecialAction(string action) {
-
+    
 }   
 
 void Game::processCommand(string command) {
-
+    CommandCenter cc;
+    Command cmd = cc.processCmd(command);
+    cc.executeCmd(&cmd);
 }
 
 void Game::restart() {
+    // Reset game state to initial conditions
+    Player* p1 = new Player(/* initial params */);
+    Player* p2 = new Player(/* initial params */);
+    currP = p1;
 
 }
-

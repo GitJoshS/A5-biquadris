@@ -26,8 +26,8 @@ int main(int argc, char* argv[]) {
     } 
 
     if (cin >> input && input == "y") {
-        Game game = Game{args, /*INPUTS*/};
-        game.startGame(/*INPUTS*/);
+        Game game = Game{args, /*INPUTS*/}; // Will add parameters later
+        game.startGame(/*INPUTS*/); // Will add parameters later
     }
 
     return 0;
