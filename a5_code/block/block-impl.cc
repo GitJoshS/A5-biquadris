@@ -4,6 +4,8 @@ import string;
 import utility;
 import vector;
 
+using namespace std;
+
 vector<pair<int,int>> Block::getPosition() {
     return cells;
 }

@@ -10,7 +10,6 @@ export class Block {
     protected:
     char blockType;
     int levelGenerated;
-    int curRotation;
     int cellsLeft;
     vector<pair<int,int>> cells; //Position of the cells in the block on a board
 

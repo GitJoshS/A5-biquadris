@@ -5,5 +5,7 @@ import utility;
 import vector;
 import Block;
 
-TBlock::TBlock(int level) : cellsLeft{4}, blockType{'T'}, levelGenerated{level}, curRotation{0},
+using namespace std;
+
+TBlock::TBlock(int level) : cellsLeft{4}, blockType{'T'}, levelGenerated{level},
                             cells{{0,2}, {1,2}, {1,3}, {2,2}}{}

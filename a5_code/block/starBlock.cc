@@ -1,4 +1,4 @@
-export module ZBlock;
+export module starBlock;
 
 import <string>;
 import <utility>;
@@ -7,7 +7,7 @@ import Block;
 
 using namespace std;
 
-export class ZBlock : public Block{
+export class starBlock : public Block{
     public:
-    ZBlock(int level);
+    starBlock();
 }

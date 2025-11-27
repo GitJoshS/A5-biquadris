@@ -5,5 +5,7 @@ import utility;
 import vector;
 import Block;
 
-ZBlock::ZBlock(int level) : cellsLeft{4}, blockType{'Z'}, levelGenerated{level}, curRotation{0},
+using namespace std;
+
+ZBlock::ZBlock(int level) : cellsLeft{4}, blockType{'Z'}, levelGenerated{level},
                             cells{{0,2}, {1,2}, {1,3}, {2,3}}{}
