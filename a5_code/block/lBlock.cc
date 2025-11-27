@@ -11,4 +11,4 @@ export class LBlock : public Block{
 
     public:
     LBlock(int level);
-}
+};

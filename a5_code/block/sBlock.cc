@@ -10,4 +10,4 @@ using namespace std;
 export class SBlock : public Block{   
     public:
     SBlock(int level);
-}
+};

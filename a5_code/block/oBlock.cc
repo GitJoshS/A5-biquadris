@@ -10,4 +10,4 @@ using namespace std;
 export class OBlock : public Block{  
     public:
     OBlock(int level);
-}
+};

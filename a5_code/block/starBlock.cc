@@ -10,4 +10,4 @@ using namespace std;
 export class starBlock : public Block{
     public:
     starBlock();
-}
+};

@@ -22,5 +22,5 @@ export class Level {
     virtual int getHowHeavy();
     int getLevel();
     virtual ~Level();
-}
+};
 // int randomNum = rand() % 100;

@@ -10,4 +10,4 @@ using namespace std;
 export class JBlock : public Block{  
     public:
     JBlock(int level);
-}
+};

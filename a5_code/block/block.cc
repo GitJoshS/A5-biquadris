@@ -26,4 +26,4 @@ export class Block {
     virtual char getType();
     virtual vector<pair<int,int>> getPosition();
     virtual ~Block() = default;
-}
+};
