@@ -25,7 +25,7 @@ CommandCenter::CommandCenter(Game* g) : game{g}, commandList{loadCommandsFromFil
 // helper function to load commands from file
 vector<string> CommandCenter::loadCommandsFromFile() {
     vector<string> commands;
-    ifstream file("commands.txt");
+    ifstream file("command/commands.txt");
     if (!file) {
         cerr << "Error: commands.txt could not be opened." << endl;
         return commands;
@@ -73,10 +73,10 @@ bool CommandCenter::executeCmd(string cmd) {
         player->rotate(false);
         return false;
     } else if (cmd == "levelup") {
-        player->getBoard()->levelUp();
+        player->levelUp();
         return false;
     } else if (cmd == "leveldown") {
-        player->getBoard()->levelDown();
+        player->levelDown();
         return false;
     } else if (cmd == "random") {
         return false;

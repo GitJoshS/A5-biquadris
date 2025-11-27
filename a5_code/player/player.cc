@@ -21,11 +21,12 @@ export class Player {
     string name;
     int curScore;
     int playerId;
+    string sequenceFile;
 
     public: 
         // need a ctor, move ctor, copy ctor, copy asop, move asop and destructor later
         Player();
-        Player(Board* b, int curScore, int playerId, string name);
+        Player(int curScore, int playerId, string name, string sequenceFile);
         
         Board* getBoard() const;
         string getName() const;
@@ -38,4 +39,6 @@ export class Player {
         bool dropBlock();
         bool moveBlock(int x, int y);
         void rotate(bool clockwise);
+        void levelUp();
+        void levelDown();
 };

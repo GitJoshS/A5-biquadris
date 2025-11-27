@@ -3,34 +3,28 @@ module Board;
 import <utility>;
 import <vector>;
 import <memory>;
+import <fstream>;
 import Block;
 import Level;
 
 using namespace std;
 
-Board::Board(int width, int height) : width{width}, height{height}, gameOver{false} {
+Board::Board(int width, int height, int startLevel, string sequenceFile) 
+    : width{width}, height{height}, gameOver{false}, sequenceFile{sequenceFile} {
     // resize grid
     grid.resize(width, vector<shared_ptr<Block>>(height, nullptr));
-    // initialize level 0
-    level = unique_ptr<Level>(Level::create(0));
+    // initialize level
+    if (startLevel == 0 && !sequenceFile.empty()) {
+        ifstream file(sequenceFile);
+        level = unique_ptr<Level>(Level::create(0, file));
+    } else {
+        level = unique_ptr<Level>(Level::create(startLevel));
+    }
 
     int curLevel = level->getLevel();
     char blockType = level->getNextBlockType();
     activeBlock = generateNext(blockType);
-    blockType = level->generateNextBlockType();
-    nextBlock = generateNext(blockType);
-}
-
-Board::Board(int width, int height, int lev) : width{width}, height{height}, gameOver{false} {
-    // resize grid
-    grid.resize(width, vector<shared_ptr<Block>>(height, nullptr));
-    // initialize level 
-    level = unique_ptr<Level>(Level::create(lev));
-
-    int curLevel = level->getLevel();
-    char blockType = level->getNextBlockType();
-    activeBlock = generateNext(blockType);
-    blockType = level->generateNextBlockType();
+    blockType = level->getNextBlockType();
     nextBlock = generateNext(blockType);
 }
 
@@ -168,6 +162,10 @@ void Board::levelUp() {
 void Board::levelDown() {
     int curLevel = level->getLevel() - 1;
     level = unique_ptr<Level>(Level::create(curLevel));  
+}
+
+void Board::setLevel(unique_ptr<Level> newLevel) {
+    level = move(newLevel);
 }
 
 void Board::rotate(bool clockwise) {

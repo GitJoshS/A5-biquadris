@@ -16,12 +16,12 @@ export class Board {
     unique_ptr<Level> level;
     vector<vector<shared_ptr<Block>>> grid; // grid[col][row]
     bool gameOver;
+    string sequenceFile;
 
     shared_ptr<Block> generateNext(char type);
 
     public:
-        Board(int width = 11, int height = 18); //Linh changed height to 18`
-        Board(int width = 11, int height = 18, int lev); // In case user wants to provid initial level
+        Board(int width = 11, int height = 18, int startLevel = 0, string sequenceFile = "");
 
         int getWidth();
         int getHeight();
@@ -44,6 +44,7 @@ export class Board {
         void nextTurn(); //Linh added this
         void levelUp();
         void levelDown();
+        void setLevel(unique_ptr<Level> newLevel);
         void rotate(bool clockwise);
         void placeBlock(shared_ptr<Block> block);
         bool checkGameOver();

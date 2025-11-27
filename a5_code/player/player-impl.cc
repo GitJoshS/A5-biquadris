@@ -13,15 +13,18 @@ module Player;
 import <string>;
 import <memory>;
 import <vector>;
+import <fstream>;
 import Board;
 import Level;
 
 using namespace std;
 
-Player::Player() : board{make_unique<Board>()}, curScore{0}, playerId{0}, name{""} { }
+Player::Player() : board{make_unique<Board>(11, 18, 0, "")}, curScore{0}, playerId{0}, name{""}, sequenceFile{""} { }
 
-Player::Player(Board* b, int score, int id, const string name)
-    : board{make_unique<Board>()}, curScore{score}, playerId{id}, name{name} {}
+Player::Player(int score, int id, string name, string sequenceFile)
+    : curScore{score}, playerId{id}, name{name}, sequenceFile{sequenceFile} {
+    board = make_unique<Board>(11, 18, 0, sequenceFile);
+}
 
 Board* Player::getBoard() const {
     return board.get();
@@ -42,7 +45,7 @@ int Player::getPlayerId()const  {
 void Player::applySpecialAction() { } // will modify later
 
 void Player::reset() {
-    board = make_unique<Board>(); 
+    board = make_unique<Board>(11, 18, 0, sequenceFile);
     curScore = 0;
 }
 
@@ -78,4 +81,25 @@ bool Player::moveBlock(int x, int y) {
 
 void Player::rotate(bool clockwise) {
     board->rotate(clockwise);
+}
+
+void Player::levelUp() {
+    int newLevel = board->getLevel()->getLevel() + 1;
+    if (newLevel == 0) {
+        ifstream file(sequenceFile);
+        board->setLevel(unique_ptr<Level>(Level::create(0, file)));
+    } else {
+        board->setLevel(unique_ptr<Level>(Level::create(newLevel)));
+    }
+}
+
+void Player::levelDown() {
+    int newLevel = board->getLevel()->getLevel() - 1;
+    if (newLevel < 0) return; // Can't go below level 0
+    if (newLevel == 0) {
+        ifstream file(sequenceFile);
+        board->setLevel(unique_ptr<Level>(Level::create(0, file)));
+    } else {
+        board->setLevel(unique_ptr<Level>(Level::create(newLevel)));
+    }
 }

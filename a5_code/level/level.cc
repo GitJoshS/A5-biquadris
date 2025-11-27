@@ -16,7 +16,7 @@ export class Level {
     Level() {}
     // Create the correct level class according to the level
     static Level* create(int levelNum);
-    static Level* create(int levelNum, const ifstream f);
+    static Level* create(int levelNum, ifstream& f);
     // Returns the block type that should appears next ('I', 'J', 'L', 'O', 'S', 'Z', 'T')
     virtual char getNextBlockType() = 0;  
     virtual int getHowHeavy();

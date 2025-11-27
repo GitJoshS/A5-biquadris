@@ -21,7 +21,7 @@ Level* Level::create(int level) {
     }
 }
 
-Level* Level::create(int level, const ifstream f) {
+Level* Level::create(int level, ifstream& f) {
     switch(level) {
         case 0: return new Level0(f);
         case 1: return new Level1(f);
