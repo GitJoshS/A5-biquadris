@@ -1,7 +1,9 @@
 export module TextDisplay;
 
 import <vector>;
+import <string>;
 import Player;
+import Display;
 
 export class TextDisplay : public Display {
     string boardsSpace = "          ";
@@ -13,6 +15,6 @@ export class TextDisplay : public Display {
 
         // void render(vector<Board*> board, vector<int> score, vector<int> level, vector<Block*> next);
         void render();
-        string levelSpaceGen(int score);
+        string spaceGen(int score);
 };
 

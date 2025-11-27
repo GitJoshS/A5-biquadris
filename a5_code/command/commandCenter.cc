@@ -31,5 +31,5 @@ export class CommandCenter {
 
         string processCmd(string cmd);
         
-        void executeCmd(string cmd);
+        bool executeCmd(string cmd);
 };

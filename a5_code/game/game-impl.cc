@@ -14,6 +14,10 @@ import <iostream>;
 import <string>;
 import <vector>;
 import <memory>;
+import Player;
+import Display;
+import TextDisplay;
+import CommandCenter;
 
 // import Player;
 // import Display;
@@ -30,7 +34,7 @@ Game::Game()
 Game::Game(const vector<string>& argv, const string& player1, const string& player2)
     : p1{make_unique<Player>(nullptr, 0, 1, player1)},
       p2{make_unique<Player>(nullptr, 0, 2, player2)},
-      currP{p1.get()}, textDisplay{vector<Player*>{player1.get(), player2.get()}}, graphicsDisplay{nullptr}, highscore{0},
+      currP{p1.get()}, textDisplay{TextDisplay(vector<Player*>{p1.get(), p2.get()})}, graphicsDisplay{nullptr}, highscore{0},
       textOnly{true}, args{argv}, cmdCenter{CommandCenter(this)} { }
 
 Player* Game::getCurrentPlayer() { return currP; }
@@ -49,19 +53,22 @@ void Game::runGame() {
         cout << "Make a move " << currP->getName() << ": ";
 
         if (cin >> command) {
-            rerouteCommand(command);
+            bool turnEnded = rerouteCommand(command);
+            if (turnEnded) {
+                swapTurn();
+            }
         }
 
-        if (currP->getBoard().checkGameOver()) { // recieve state of game from board
+        if (currP->getBoard()->isGameOver()) { // recieve state of game from board
             cout << "Game Over!" << endl;
             restart(); 
         }
     }  
 }
 
-void Game::rerouteCommand(string command) {
+bool Game::rerouteCommand(string command) {
     string cmd = cmdCenter.processCmd(command);
-    cmdCenter->executeCmd(cmd);
+    return cmdCenter.executeCmd(cmd);
 }
 
 void Game::handleSpecialAction(string action) {}   

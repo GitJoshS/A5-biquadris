@@ -12,10 +12,13 @@ module Player;
 
 import <string>;
 import <memory>;
+import <vector>;
+import Board;
+import Level;
 
 using namespace std;
 
-Player::Player() : board{nullptr}, curScore{0}, playerId{0}, name{""} { }
+Player::Player() : board{make_unique<Board>()}, curScore{0}, playerId{0}, name{""} { }
 
 Player::Player(Board* b, int score, int id, const string name)
     : board{make_unique<Board>()}, curScore{score}, playerId{id}, name{name} {}

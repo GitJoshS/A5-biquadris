@@ -13,6 +13,7 @@ export module Game;
 
 import Player;
 import Display;
+import TextDisplay;
 import CommandCenter;
 
 import <string>;
@@ -26,7 +27,7 @@ export class Game {
     unique_ptr<Player> p2;
     Player* currP;
 
-    Display textDisplay;
+    TextDisplay textDisplay;
     Display graphicsDisplay;
 
     int highscore;
@@ -44,7 +45,7 @@ export class Game {
         void swapTurn();
 
         void runGame();
-        void rerouteCommand(string command);
+        bool rerouteCommand(string command);
 
         void handleSpecialAction(string action);
         void triggerSpecialAction(string action);

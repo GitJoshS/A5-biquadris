@@ -1,6 +1,9 @@
 export module Display;
 
+import <vector>;
 import Board;
+import Player;
+import Block;
 
 export class Display {
     protected:

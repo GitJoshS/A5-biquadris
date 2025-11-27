@@ -2,7 +2,7 @@ export module Board;
 
 import <utility>;
 import <vector>;
-import <memory>
+import <memory>;
 import Block;
 import Level;
 

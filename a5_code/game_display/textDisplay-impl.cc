@@ -42,12 +42,12 @@ void TextDisplay::render() {
         // for each player
         for (int player = 0; player < playerCount; ++player) {
             // fetch the players active board (the grid)
-            vector<vector<Block*>>& grid = players[player]->getBoard()->getGrid();
+            vector<vector<shared_ptr<Block>>>& grid = players[player]->getBoard()->getGrid();
             // for each column  
             for (int col = 0; col < width; ++col) {
                 // gives Block*->getChar()
-                if (grid[rows][col]) {
-                    cout << grid[rows][col]->getType();
+                if (grid[col][rows]) {
+                    cout << grid[col][rows]->getType();
                 } else {
                     cout << blank;
                 }
@@ -76,7 +76,7 @@ void TextDisplay::render() {
         // for each player
         for (int player = 0; player < playerCount; ++player) {
             // fetch default coords and type of next block
-            Block* nextBlock = players[player]->getBoard()->getNextBlock();
+            shared_ptr<Block> nextBlock = players[player]->getBoard()->getNextBlock();
             vector<pair<int,int>> nextDefPos = nextBlock->getPosition();
             char type = nextBlock->getType();
             // for each column
@@ -100,12 +100,10 @@ void TextDisplay::render() {
 
 
 string TextDisplay::spaceGen(int number) {
-    //! HARD CODING INVOLVED, CAN BE SOLVED IF WE SET A MINIMUM LIMIT TO BOARD WIDTH CUSTOMIZATION
-    charsAfterTitle = 5;
-    //! ////////////////
-    score = abs(score);
-    string strscore = to_string(score);
-    string space(charsAfterTitle - strscore.length(), ' ');
+    int charsAfterTitle = 5;
+    number = abs(number);
+    string strNumber = to_string(number);
+    string space(charsAfterTitle - strNumber.length(), ' ');
     return space;
 }
 

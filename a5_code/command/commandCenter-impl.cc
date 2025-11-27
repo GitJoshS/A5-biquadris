@@ -15,6 +15,9 @@ import <string>;
 import <vector>;
 import <fstream>;
 import <iostream>;
+import Game;
+import Board;
+import Command;
 
 using namespace std;
 
@@ -48,42 +51,44 @@ string CommandCenter::findUniqueCommand(const string input) {
     return match;
 }
 
-Command CommandCenter::processCmd(const string& cmdStr) {
+string CommandCenter::processCmd(const string& cmdStr) {
     string result = findUniqueCommand(cmdStr);
     if (!result.empty()) return result;
     return "unknown";
 }
 
-void CommandCenter::executeCmd(Command* cmd) {
-    shared_ptr<Board> board = game->getCurrentPlayer()->getBoard();
-    if (cmd->name == "left") {
-        board->move(1, 0);
-    } else if (cmd->name == "right") {
-        board->move(-1, 0);
-    } else if (cmd->name == "down") {
-        board->move(0, 1);
-    } else if (cmd->name == "drop") {
-        board->drop();
+bool CommandCenter::executeCmd(string cmd) {
+    Player* player = game->getCurrentPlayer();
+    if (cmd == "left") {
+        return player->moveBlock(-1, 0);
+    } else if (cmd == "right") {
+        return player->moveBlock(1, 0);
+    } else if (cmd == "down") {
+        return player->moveBlock(0, 1);
+    } else if (cmd == "drop") {
+        return player->dropBlock();
     } else if (cmd == "clockwise") {
-        board->rotate(true);
+        player->rotate(true);
+        return false;
     } else if (cmd == "counterclockwise") {
-        board->rotate(true);
-    } else if (cmd->name == "levelup") {
-        board->levelUp();
+        player->rotate(false);
+        return false;
+    } else if (cmd == "levelup") {
+        player->getBoard()->levelUp();
+        return false;
     } else if (cmd == "leveldown") {
-        board->levelDown();
-    } else if (cmd->name == "random") {
-        
-    } else if (cmd->name == "norandom") {
-        // set the block generation to non-random
-
-    } else if (cmd->name == "sequence") {
-        // take next work after sequence as the file name
-
-    } else if (cmd->name == "restart") {
-
+        player->getBoard()->levelDown();
+        return false;
+    } else if (cmd == "random") {
+        return false;
+    } else if (cmd == "norandom") {
+        return false;
+    } else if (cmd == "sequence") {
+        return false;
+    } else if (cmd == "restart") {
+        return false;
     } else {
-        // Handle unknown command
-        cout << "Unknown command: " << cmd->name << endl;
+        cout << "Unknown command: " << cmd << endl;
+        return false;
     }
 }

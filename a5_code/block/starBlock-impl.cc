@@ -7,5 +7,5 @@ import Block;
 
 using namespace std;
 
-starBlock::starBlock() : cellsLeft{4}, blockType{'*'}, levelGenerated{4},
+starBlock::starBlock() : Block{}, cellsLeft{1}, blockType{'*'}, levelGenerated{4},
                             cells{{0,0}}{}

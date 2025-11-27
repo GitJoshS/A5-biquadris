@@ -2,6 +2,11 @@ module Level;
 
 import <vector>;
 import <cstdlib>;
+import Level0;
+import Level1;
+import Level2;
+import Level3;
+import Level4;
 
 using namespace std;
 
@@ -36,8 +41,8 @@ int Level::getLevel() {
 }
 
 Level::~Level() {
-        if (inputFile.is_open()) {
-            inputFile.close();
+        if (file.is_open()) {
+            file.close();
         }
     }
     

@@ -2,41 +2,33 @@ module Board;
 
 import <utility>;
 import <vector>;
-import <memory>
+import <memory>;
 import Block;
 import Level;
 
 using namespace std;
 
-Board::Board(int width, int height) : width{width}, height{height} {
-    // fill grid with nullptr
-    for (int row = 0; row < height; ++row) {
-        for (int col = 0; col < width; ++col) {
-            grid[col][row] = nullptr;
-        }
-    }
+Board::Board(int width, int height) : width{width}, height{height}, gameOver{false} {
+    // resize grid
+    grid.resize(width, vector<shared_ptr<Block>>(height, nullptr));
     // initialize level 0
     level = unique_ptr<Level>(Level::create(0));
 
     int curLevel = level->getLevel();
-    char blockType = level->generateNextBlockType();
+    char blockType = level->getNextBlockType();
     activeBlock = generateNext(blockType);
     blockType = level->generateNextBlockType();
     nextBlock = generateNext(blockType);
 }
 
-Board::Board(int width, int height, int lev) : width{width}, height{height} {
-    // fill grid with nullptr
-    for (int row = 0; row < height; ++row) {
-        for (int col = 0; col < width; ++col) {
-            grid[col][row] = nullptr;
-        }
-    }
+Board::Board(int width, int height, int lev) : width{width}, height{height}, gameOver{false} {
+    // resize grid
+    grid.resize(width, vector<shared_ptr<Block>>(height, nullptr));
     // initialize level 
     level = unique_ptr<Level>(Level::create(lev));
 
     int curLevel = level->getLevel();
-    char blockType = level->generateNextBlockType();
+    char blockType = level->getNextBlockType();
     activeBlock = generateNext(blockType);
     blockType = level->generateNextBlockType();
     nextBlock = generateNext(blockType);

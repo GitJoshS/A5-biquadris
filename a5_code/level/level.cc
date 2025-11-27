@@ -1,4 +1,4 @@
-module export Level;
+export module Level;
 
 import <vector>;
 import <cstdlib>;

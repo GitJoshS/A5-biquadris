@@ -15,7 +15,7 @@ void Block::setPosition(vector<pair<int,int>>& newPos) {
     }
 }
 
-void Block::getType(){
+char Block::getType(){
     return blockType;
 }
 vector<pair<int,int>> Block::rotatePosition(bool clockwise) {
