@@ -26,7 +26,7 @@ export class Board {
         /*Need to call level to generate next block at some point*/
 
         bool isValidMove(vector<std::pair<int, int>> newPosn) const;
-        void drop(); //Linh added this
+        void drop(Block* block); //Linh added this
         // Check whether the move is valid, if it is then move, if not do nothing
         void move(int x, int y); //Linh added this
         void placeBlock(Block* block);
