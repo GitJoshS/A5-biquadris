@@ -16,7 +16,13 @@ Board::Board(int width, int height) : width{width}, height{height} {
         }
     }
     // initialize level 0
-    level = Level::create(0);
+    level = unique_ptr<Level>(Level::create(0));
+
+    int curLevel = level->getLevel();
+    char blockType = level->generateNextBlockType();
+    activeBlock = generateNext(blockType);
+    blockType = level->generateNextBlockType();
+    nextBlock = generateNext(blockType);
 }
 
 Board::Board(int width, int height, int lev) : width{width}, height{height} {
@@ -27,7 +33,13 @@ Board::Board(int width, int height, int lev) : width{width}, height{height} {
         }
     }
     // initialize level 
-    level = Level::create(lev);
+    level = unique_ptr<Level>(Level::create(lev));
+
+    int curLevel = level->getLevel();
+    char blockType = level->generateNextBlockType();
+    activeBlock = generateNext(blockType);
+    blockType = level->generateNextBlockType();
+    nextBlock = generateNext(blockType);
 }
 
 int Board::getWidth() {
@@ -47,7 +59,7 @@ shared_ptr<Block> Board::getActiveBlock() const {
 }
 
 Level* Board::getLevel() const {
-    return level;
+    return level.get();
 }
 
 vector<vector<shared_ptr<Block>>>& Board::getGrid() const {
@@ -60,12 +72,12 @@ bool Board::isGameOver() const {
 
 void Board::noRandomLevel(ifstream& file) {
     int curLevel = level->getLevel();
-    level = Level::create(curLevel, file);
+    level = unique_ptr<Level>(Level::create(curLevel, file));
 }
 
 void Board::restoreRandomLevel() {
     int curLevel = level->getLevel();
-    level = Level::create(curLevel);
+    level = unique_ptr<Level>(Level::create(curLevel));
 }
 
 bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This might have a problem, it might collide with itself. For instance, if an L shape moves down, the tip of the L moving would coincide with its own block, and this function would return false
@@ -158,12 +170,12 @@ void Board::nextTurn() {
 
 void Board::levelUp() {
     int curLevel = level->getLevel() + 1;
-    level = Level::create(curLevel);  
+    level = unique_ptr<Level>(Level::create(curLevel));  
 }
 
 void Board::levelDown() {
     int curLevel = level->getLevel() - 1;
-    level = Level::create(curLevel);  
+    level = unique_ptr<Level>(Level::create(curLevel));  
 }
 
 void Board::rotate(bool clockwise) {

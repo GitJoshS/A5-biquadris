@@ -13,7 +13,7 @@ export class Board {
     int height;
     shared_ptr<Block> nextBlock;
     shared_ptr<Block> activeBlock;
-    Level* level;
+    unique_ptr<Level> level;
     vector<vector<shared_ptr<Block>>> grid; // grid[col][row]
     bool gameOver;
 
