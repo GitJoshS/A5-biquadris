@@ -42,3 +42,37 @@ void Player::reset() {
     board = make_unique<Board>(); 
     curScore = 0;
 }
+
+void Player::addScore(int score) {
+    curScore += score;
+}
+
+bool Player::dropBlock() {
+    bool turnEnded = board->drop();
+    vector<int> completedRows = board->checkCompletedRows();
+    
+    int totalScore = 0;
+    int linesCleared = completedRows.size();
+    
+    if (linesCleared > 0) {
+        int currentLevel = board->getLevel()->getLevel();
+        int lineScore = (currentLevel + linesCleared) * (currentLevel + linesCleared);
+        totalScore += lineScore;
+        
+        for (int row : completedRows) {
+            totalScore += board->clearRow(row);
+        }
+        
+        addScore(totalScore);
+    }
+    
+    return turnEnded;
+}
+
+bool Player::moveBlock(int x, int y) {
+    return board->move(x, y);
+}
+
+void Player::rotate(bool clockwise) {
+    board->rotate(clockwise);
+}

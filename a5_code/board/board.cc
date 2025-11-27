@@ -37,9 +37,9 @@ export class Board {
         void restoreRandomLevel();
 
         bool isValidMove(vector<std::pair<int, int>> newPosn) const;
-        void drop(shared_ptr<Block> block = activeBlock); //Linh added this
+        bool drop(shared_ptr<Block> block = activeBlock); //Linh added this
         // Check whether the move is valid, if it is then move, if not do nothing
-        void move(int x, int y); //Linh added this
+        bool move(int x, int y); //Linh added this
         // Generate new nextBlock and make the old nextBlock the activeBlock after a block is dropped
         void nextTurn(); //Linh added this
         void levelUp();

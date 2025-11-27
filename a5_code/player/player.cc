@@ -34,4 +34,8 @@ export class Player {
         
         void applySpecialAction(); // will add parameters later
         void reset();
+        void addScore(int score);
+        bool dropBlock();
+        bool moveBlock(int x, int y);
+        void rotate(bool clockwise);
 };
