@@ -60,17 +60,17 @@ void Board::placeBlock(Block* block) {
 }
 
 
-void Board::drop() { //Added by Linh
+void Board::drop(Block* block) { //Added by Linh
     while (true) {
-        vector<pair<int, int>> tempPos = activeBlock->getPosition();
+        vector<pair<int, int>> tempPos = block->getPosition();
         for (auto& coord : tempPos) {
             coord.second += 1; 
         } 
         if (isValidMove(tempPos)) {
-            activeBlock->setPosition(tempPos);
+            block->setPosition(tempPos);
         }
         else {
-            placeBlock(activeBlock);
+            placeBlock(block);
             break;
         }
     }
