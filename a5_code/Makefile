@@ -2,96 +2,20 @@ CXX = g++-14 -std=c++20 -fmodules-ts
 CXXFLAGS = -Wall -g
 HEADERFLAGS = -c -x c++-system-header
 
+SOURCES = block/block.cc block/block-impl.cc block/iBlock.cc block/iBlock-impl.cc block/jBlock.cc block/jBlock-impl.cc block/lBlock.cc block/lBlock-impl.cc block/oBlock.cc block/oBlock-impl.cc block/sBlock.cc block/sBlock-impl.cc block/starBlock.cc block/starBlock-impl.cc block/tBlock.cc block/tBlock-impl.cc block/zBlock.cc block/zBlock-impl.cc board/board.cc board/board-impl.cc command/command.cc command/command-impl.cc command/commandCenter.cc command/commandCenter-impl.cc game/game.cc game/game-impl.cc game_display/display.cc game_display/display-impl.cc game_display/graphicDisplay.cc game_display/graphicDisplay-impl.cc game_display/textDisplay.cc game_display/textDisplay-impl.cc level/level.cc level/level-impl.cc level/level0.cc level/level0-impl.cc level/level1.cc level/level1-impl.cc level/level2.cc level/level2-impl.cc level/level3.cc level/level3-impl.cc level/level4.cc level/level4-impl.cc player/player.cc player/player-impl.cc main/main.cc
+
+OBJECTS = block/block.o block/block-impl.o block/iBlock.o block/iBlock-impl.o block/jBlock.o block/jBlock-impl.o block/lBlock.o block/lBlock-impl.o block/oBlock.o block/oBlock-impl.o block/sBlock.o block/sBlock-impl.o block/starBlock.o block/starBlock-impl.o block/tBlock.o block/tBlock-impl.o block/zBlock.o block/zBlock-impl.o board/board.o board/board-impl.o command/command.o command/command-impl.o command/commandCenter.o command/commandCenter-impl.o game/game.o game/game-impl.o game_display/display.o game_display/display-impl.o game_display/graphicDisplay.o game_display/graphicDisplay-impl.o game_display/textDisplay.o game_display/textDisplay-impl.o level/level.o level/level-impl.o level/level0.o level/level0-impl.o level/level1.o level/level1-impl.o level/level2.o level/level2-impl.o level/level3.o level/level3-impl.o level/level4.o level/level4-impl.o player/player.o player/player-impl.o main/main.o
+
+HEADERS = vector memory iostream fstream utility string
+
 EXEC = exec
 
-# Precompiled modules
-MODULES = vector memory iostream utility string
-
-# Source directories
-BLOCK_DIR = block
-BOARD_DIR = board
-COMMAND_DIR = command
-GAME_DIR = game
-DISPLAY_DIR = game_display
-LEVEL_DIR = level
-MAIN_DIR = main
-PLAYER_DIR = player
-
-# Interface files (non-impl .cc files, compiled first as modules)
-BLOCK_IFACE = $(filter-out $(BLOCK_DIR)/%impl.cc, $(wildcard $(BLOCK_DIR)/*.cc))
-BOARD_IFACE = $(filter-out $(BOARD_DIR)/%impl.cc, $(wildcard $(BOARD_DIR)/*.cc))
-COMMAND_IFACE = $(filter-out $(COMMAND_DIR)/%impl.cc, $(wildcard $(COMMAND_DIR)/*.cc))
-GAME_IFACE = $(filter-out $(GAME_DIR)/%impl.cc, $(wildcard $(GAME_DIR)/*.cc))
-DISPLAY_IFACE = $(filter-out $(DISPLAY_DIR)/%impl.cc, $(wildcard $(DISPLAY_DIR)/*.cc))
-LEVEL_IFACE = $(filter-out $(LEVEL_DIR)/%impl.cc, $(wildcard $(LEVEL_DIR)/*.cc))
-PLAYER_IFACE = $(filter-out $(PLAYER_DIR)/%impl.cc, $(wildcard $(PLAYER_DIR)/*.cc))
-
-# All interface files
-INTERFACES = $(BLOCK_IFACE) $(BOARD_IFACE) $(COMMAND_IFACE) $(GAME_IFACE) $(DISPLAY_IFACE) $(LEVEL_IFACE) $(PLAYER_IFACE)
-
-# Implementation files (must be compiled after interfaces)
-BLOCK_IMPL = $(wildcard $(BLOCK_DIR)/*-impl.cc)
-BOARD_IMPL = $(wildcard $(BOARD_DIR)/*-impl.cc)
-COMMAND_IMPL = $(wildcard $(COMMAND_DIR)/*-impl.cc)
-GAME_IMPL = $(wildcard $(GAME_DIR)/*-impl.cc)
-DISPLAY_IMPL = $(wildcard $(DISPLAY_DIR)/*-impl.cc)
-LEVEL_IMPL = $(wildcard $(LEVEL_DIR)/*-impl.cc)
-MAIN_IMPL = $(wildcard $(MAIN_DIR)/*.cc)
-PLAYER_IMPL = $(wildcard $(PLAYER_DIR)/*-impl.cc)
-
-# All implementation files
-IMPLEMENTATIONS = $(BLOCK_IMPL) $(BOARD_IMPL) $(COMMAND_IMPL) $(GAME_IMPL) $(DISPLAY_IMPL) $(LEVEL_IMPL) $(MAIN_IMPL) $(PLAYER_IMPL)
-
-# Object files from interface and implementation files
-IFACE_OBJECTS = $(INTERFACES:.cc=.o)
-IMPL_OBJECTS = $(IMPLEMENTATIONS:.cc=.o)
-OBJECTS = $(IFACE_OBJECTS) $(IMPL_OBJECTS)
-
-# Dependency files
-DEPENDS = $(OBJECTS:.o=.d)
-
-# Module cache files
-MODULE_CACHE = $(addsuffix .gcm, $(MODULES))
-IFACE_CACHE = $(INTERFACES:.cc=.gcm)
-
-# Default target
-.PHONY: all
-all: modules interfaces $(EXEC)
-
-# Precompile standard library modules
-.PHONY: modules
-modules:
-	@for module in $(MODULES); do \
-		if [ ! -f $$module.gcm ]; then \
-			echo "Precompiling module: $$module"; \
-			$(CXX) $(HEADERFLAGS) $$module; \
-		fi \
-	done
-
-# Compile interface files first (they become modules)
-.PHONY: interfaces
-interfaces: modules $(IFACE_OBJECTS)
-
-# Link object files to create executable
-$(EXEC): $(IMPL_OBJECTS)
+$(EXEC): $(SOURCES)
+	$(CXX) $(HEADERFLAGS) $(HEADERS)
+	$(CXX) $(CXXFLAGS) $(SOURCES) -c
 	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(EXEC)
 
-# Compile interface files to object files (and create module cache)
-$(IFACE_OBJECTS): %.o: %.cc
-	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
-
-# Compile implementation files to object files (after interfaces are built)
-$(IMPL_OBJECTS): %.o: %.cc $(IFACE_OBJECTS)
-	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
-
-# Include dependency files
--include $(DEPENDS)
-
-# Clean target
 .PHONY: clean
 clean:
-	rm -f $(OBJECTS) $(DEPENDS) $(EXEC) $(MODULE_CACHE) $(IFACE_CACHE)
-
-# Clean and rebuild
-.PHONY: rebuild
-rebuild: clean all
+	rm -f $(OBJECTS) $(EXEC)
+	rm -rf ./gcm.cache/
