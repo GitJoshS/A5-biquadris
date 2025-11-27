@@ -20,6 +20,7 @@ export class Board {
 
     public:
         Board(int width = 11, int height = 18); //Linh changed height to 18`
+        Board(int width = 11, int height = 18, int lev); // In case user wants to provid initial level
 
         int getWidth();
         int getHeight();
@@ -36,6 +37,8 @@ export class Board {
         void move(int x, int y); //Linh added this
         // Generate new nextBlock and make the old nextBlock the activeBlock after a block is dropped
         void nextTurn(); //Linh added this
+        void levelUp();
+        void levelDown();
         void placeBlock(shared_ptr<Block> block);
         bool checkGameOver();
         vector<int> checkCompletedRows();

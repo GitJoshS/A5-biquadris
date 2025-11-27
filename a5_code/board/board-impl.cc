@@ -15,6 +15,19 @@ Board::Board(int width, int height) : width{width}, height{height} {
             grid[col][row] = nullptr;
         }
     }
+    // initialize level 0
+    level = Level::create(0);
+}
+
+Board::Board(int width, int height, int lev) : width{width}, height{height} {
+    // fill grid with nullptr
+    for (int row = 0; row < height; ++row) {
+        for (int col = 0; col < width; ++col) {
+            grid[col][row] = nullptr;
+        }
+    }
+    // initialize level 
+    level = Level::create(lev);
 }
 
 int Board::getWidth() {
@@ -122,6 +135,16 @@ void Board::nextTurn() {
     }
     char blockType = level->getNextBlockType();
     nextBlock = generateNext(blockType);
+}
+
+void levelUp() {
+    currentLevelNum = level->getLevel() + 1;
+    level = Level::create(currentLevelNum);  
+}
+
+void levelDown() {
+    currentLevelNum = level->getLevel() - 1;
+    level = Level::create(currentLevelNum);  
 }
 
 bool Board::checkGameOver() {
