@@ -2,34 +2,41 @@ export module Board;
 
 import <utility>;
 import <vector>;
+import <memory>
 import Block;
 import Level;
+
+using namespace std;
 
 export class Board {
     int width;
     int height;
-    Block* nextBlock;
-    Block* activeBlock;
+    shared_ptr<Block> nextBlock;
+    shared_ptr<Block> activeBlock;
     Level* level;
-    vector<vector<Block*>> grid; // grid[col][row]
+    vector<vector<shared_ptr<Block>>> grid; // grid[col][row]
+
+    shared_ptr<Block> generateNext(char type);
 
     public:
         Board(int width = 11, int height = 18); //Linh changed height to 18`
 
         int getWidth();
         int getHeight();
-        Block* getNextBlock() const;
-        Block* getActiveBlock() const;
+        shared_ptr<Block> getNextBlock() const;
+        shared_ptr<Block> getActiveBlock() const;
         Level* getLevel() const;
-        vector<vector<Block*>>& getGrid() const;
+        vector<vector<shared_ptr<Block>>>& getGrid() const;
 
         /*Need to call level to generate next block at some point*/
 
         bool isValidMove(vector<std::pair<int, int>> newPosn) const;
-        void drop(Block* block); //Linh added this
+        void drop(shared_ptr<Block> block); //Linh added this
         // Check whether the move is valid, if it is then move, if not do nothing
         void move(int x, int y); //Linh added this
-        void placeBlock(Block* block);
+        // Generate new nextBlock and make the old nextBlock the activeBlock after a block is dropped
+        void nextTurn(); //Linh added this
+        void placeBlock(shared_ptr<Block> block);
         bool checkGameOver();
         vector<int> checkCompletedRows();
         void clearRow(int row);
