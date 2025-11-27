@@ -186,8 +186,9 @@ vector<int> Board::checkCompletedRows() {
 }
 
 
-void Board::clearRow(int row) {
+int Board::clearRow(int row) {
     // for each row from "row" to 0
+    int score = 0;
     for (; row >= 0; --row) {
         // each column in the row
         for (int col = 0; col < width; ++col) {
@@ -197,12 +198,13 @@ void Board::clearRow(int row) {
             } else {
                 //Linh added: minus cellsLeft from Block and check if cells are all cleared
                 if (grid[col][row]->decreaseCells()) {
-                    //score += grid[col][row]->getLevelGenerated() + 1
+                    score += grid[col][row]->getLevelGenerated() + 1;
                 }
                 grid[col][row] = nullptr;
             }
         }
     }
+    return score;
 }
 
 
