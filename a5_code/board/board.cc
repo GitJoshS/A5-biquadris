@@ -15,6 +15,7 @@ export class Board {
     shared_ptr<Block> activeBlock;
     Level* level;
     vector<vector<shared_ptr<Block>>> grid; // grid[col][row]
+    bool gameOver;
 
     shared_ptr<Block> generateNext(char type);
 
@@ -28,6 +29,7 @@ export class Board {
         shared_ptr<Block> getActiveBlock() const;
         Level* getLevel() const;
         vector<vector<shared_ptr<Block>>>& getGrid() const;
+        bool isGameOver() const;
 
         // Replace the current level with another level pointer that generate blocks in a non-random order
         void noRandomLevel(ifstream& file);

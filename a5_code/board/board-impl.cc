@@ -54,6 +54,10 @@ vector<vector<shared_ptr<Block>>>& Board::getGrid() const {
     return grid;
 }
 
+bool Board::isGameOver() const {
+    return gameOver;
+}
+
 void Board::noRandomLevel(ifstream& file) {
     int curLevel = level->getLevel();
     level = Level::create(curLevel, file);
