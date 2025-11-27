@@ -1,11 +1,18 @@
 export module TextDisplay;
 
-import Board;
+import <vector>;
+import Player;
 
 export class TextDisplay : public Display {
     string boardsSpace = "          ";
     public:
-        void render(vector<Board*> board, vector<int> score, vector<int> level, vector<Block*> next);
+
+        TextDisplay();
+
+        TextDisplay(vector<Player*> players);
+
+        // void render(vector<Board*> board, vector<int> score, vector<int> level, vector<Block*> next);
+        void render();
         string levelSpaceGen(int score);
 };
 

@@ -26,6 +26,7 @@ export class Player {
         Player();
         Player(Board* b, int curScore, int playerId, string name);
         
+        Board* getBoard() const;
         string getName() const;
         int getCurScore() const;
         int getPlayerId() const;

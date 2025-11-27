@@ -5,7 +5,7 @@ import <vector>;
 import Block;
 
 export Board {
-    // grid[row][column]
+    // grid[column][row]
     vector<vector<Block*>> grid;
     Block* nextBlock;
     Block* activeBlock;
@@ -13,13 +13,21 @@ export Board {
     int height;
     int width;
 
-    Board(int height, int width);
+    public:
+        Board(int height, int width);
 
-    bool isValidMove(Block*, vector<std::pair<int, int>> newPosn)
-    void placeBlock(Block* block);
-    void checkGameOver();
-    void checkCompletedRows();
-    void clearRow(int row);
+        vector<vector<Block*>>& getGrid() const;
+        Block* getNextBlock() const;
+        Block* getActiveBlock() const;
+        Level* getLevel() const;
+        int getWidth();
+        int getHeight();
 
-    ~Board();
+        bool isValidMove(Block*, vector<std::pair<int, int>> newPosn)
+        void placeBlock(Block* block);
+        void checkGameOver();
+        void checkCompletedRows();
+        void clearRow(int row);
+
+        ~Board();
 };

@@ -20,7 +20,7 @@ export class Level {
     // Returns the block type that should appears next ('I', 'J', 'L', 'O', 'S', 'Z', 'T')
     virtual char getNextBlockType() = 0;  
     virtual int getHowHeavy();
-    int getLevel{};
+    int getLevel();
     virtual ~Level();
 }
 // int randomNum = rand() % 100;

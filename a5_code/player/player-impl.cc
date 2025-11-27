@@ -17,6 +17,10 @@ Player::Player() : board{nullptr}, curScore{0}, playerId{0}, name{""} { }
 Player::Player(Board* b, int score, int id, const std::string& name)
     : board{b}, curScore{score}, playerId{id}, name{name} { }
 
+Board* Player::getBoard() const {
+    return board;
+}
+
 string Player::getName() const {
     return name;
 }
