@@ -56,10 +56,6 @@ void Game::runGame() {
             cout << "Game Over!" << endl;
             restart(); 
         }
-
-        if (/* logic for swapping turn from p1 to p2 */) { // need to swap turn when block droppped
-            swapTurn();
-        }
     }  
 }
 
