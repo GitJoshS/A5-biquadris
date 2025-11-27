@@ -137,16 +137,23 @@ void Board::nextTurn() {
     nextBlock = generateNext(blockType);
 }
 
-void levelUp() {
+void Board::levelUp() {
     currentLevelNum = level->getLevel() + 1;
     level = Level::create(currentLevelNum);  
 }
 
-void levelDown() {
+void Board::levelDown() {
     currentLevelNum = level->getLevel() - 1;
     level = Level::create(currentLevelNum);  
 }
 
+void Board::rotate(bool clockwise) {
+    vector<pair<int,int>> tempPos = activeBlock->rotatePosition(clockwise);
+    if (isValidMove(tempPos)) {
+        activeBlock->setPosition(tempPos);
+        placeBlock(activeBlock);
+    }
+}
 bool Board::checkGameOver() {
     vector<pair<int,int>> spawnPos = activeBlock->getPosition();
     return !isValidMove(spawnPos);
