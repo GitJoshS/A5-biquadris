@@ -1,6 +1,6 @@
 module Board;
 
-
+using namespace std;
 
 Board::Board(int width, int height) : width{width}, height{height} {
     // fill grid with nullptr
@@ -36,7 +36,7 @@ vector<vector<Block*>>& Board::getGrid() const {
 }
 
 
-bool Board::isValidMove(vector<std::pair<int, int>> newPosn) const {
+bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This might have a problem, it might collide with itself. For instance, if an L shape moves down, the tip of the L moving would coincide with its own block, and this function would return false
     // check each new coordinate of the block
     for (const std::pair<int, int>>& coord : newPosn) {
         int col = coord.first;
@@ -48,10 +48,44 @@ bool Board::isValidMove(vector<std::pair<int, int>> newPosn) const {
     }
 }
 
+//Linh: Is this assuming the position is valid and the block just have to "lock in place"?
 void Board::placeBlock(Block* block) {
     /*IMPLEMENT THIS*/
+     for (const std::pair<int, int>>& coord : block->getPosition()) {
+        int col = coord.first;
+        int row = coord.second;
+        grid[col][row] = block;
+     }
 }
 
+
+void Board::drop(Block* block) { //Added by Linh
+    while (true) {
+        vector<pair<int, int>> tempPos = block->getPosition();
+        for (auto& coord : tempPos) {
+            coord.second += 1; 
+        } 
+        if (isValidMove(tempPos)) {
+            block->setPosition(tempPos);
+        }
+        else {
+            placeBlock(block);
+            break;
+        }
+    }
+}
+
+void Board::move(int x, int y) { 
+    vector<pair<int, int>> tempPos = block->getPosition();
+    for (auto& coord : tempPos) {
+            coord.first += x;
+            coord.second += y; 
+        } 
+    if (isValidMove(tempPos)) {
+        block->setPosition(tempPos);
+        placeBlock(block);
+    }
+}
 
 bool Board::checkGameOver() {
     vector<pair<int,int>> spawnPos = activeBlock->getPosition();
@@ -78,13 +112,17 @@ vector<int> Board::checkCompletedRows() {
 
 void Board::clearRow(int row) {
     // for each row from "row" to 0
-    for (; row >= 0; --row) {
+    for (int row = 0; row >= 0; --row) {
         // each column in the row
         for (int col = 0; col < width; ++col) {
             // edge case at top row
             if (row >= 1) {
                 grid[col][row] = grid[col][row-1];
             } else {
+                //Linh added: minus cellsLeft from Block and check if cells are all cleared
+                if (grid[col][row]->decreaseCells()) {
+                    //score += grid[col][row]->getLevelGenerated() + 1
+                }
                 grid[col][row] = nullptr;
             }
         }
@@ -92,5 +130,5 @@ void Board::clearRow(int row) {
 }
 
 
-Board::~Board() {/*Does block own any ptrs?*/};
+Board::~Board() {/*Does block own any ptrs? -Linh: idk but we dont hv to do memory management*/};
 

@@ -14,7 +14,7 @@ export class Board {
     vector<vector<Block*>> grid; // grid[col][row]
 
     public:
-        Board(int width = 11, int height = 15);
+        Board(int width = 11, int height = 18); //Linh changed height to 18`
 
         int getWidth();
         int getHeight();
@@ -26,10 +26,15 @@ export class Board {
         /*Need to call level to generate next block at some point*/
 
         bool isValidMove(vector<std::pair<int, int>> newPosn) const;
+        void drop(Block* block); //Linh added this
+        // Check whether the move is valid, if it is then move, if not do nothing
+        void move(int x, int y); //Linh added this
         void placeBlock(Block* block);
         bool checkGameOver();
-        vecotor<int> checkCompletedRows();
+        vector<int> checkCompletedRows();
         void clearRow(int row);
 
         ~Board();
 };
+
+//Linh's note: After a block is considered "drop", what class call the next behaviours (replace activeBlock with nextBlock, generate nextBlock)

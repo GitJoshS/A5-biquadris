@@ -2,7 +2,7 @@ export module starBlock;
 
 import <string>;
 import <utility>;
-import <vector> ;
+import <vector>;
 import Block;
 
 using namespace std;

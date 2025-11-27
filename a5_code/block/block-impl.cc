@@ -1,8 +1,8 @@
 module Block;
 
-import string;
-import utility;
-import vector;
+import <string>;
+import <utility>;
+import <vector>;
 
 using namespace std;
 
@@ -85,4 +85,8 @@ bool Block::decreaseCells() {
         return true;
     }
     return false;
+}
+
+int Block::getLevelGenerated() {
+    return levelGenerated;
 }

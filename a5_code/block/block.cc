@@ -1,8 +1,8 @@
 export module Block;
 
-import string;
-import utility;
-import vector;
+import <string>;
+import <utility>;
+import <vector>;
 
 using namespace std; 
 
@@ -22,6 +22,7 @@ export class Block {
     //When a cell in a block is destroy, decrease the amount of cell that block has by 1. 
     // If it reaches 0, return true. Otherwise, return false
     bool decreaseCells();
+    int getLevelGenerated();
     virtual char getType();
     virtual vector<pair<int,int>> getPosition();
     virtual ~Block() = default;
