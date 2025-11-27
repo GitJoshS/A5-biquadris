@@ -3,30 +3,32 @@ export module Board;
 import <utility>;
 import <vector>;
 import Block;
+import Level;
 
-export Board {
-    // grid[column][row]
-    vector<vector<Block*>> grid;
+export class Board {
+    int width;
+    int height;
     Block* nextBlock;
     Block* activeBlock;
     Level* level;
-    int height;
-    int width;
+    vector<vector<Block*>> grid; // grid[col][row]
 
     public:
-        Board(int height, int width);
+        Board(int width = 11, int height = 15);
 
-        vector<vector<Block*>>& getGrid() const;
+        int getWidth();
+        int getHeight();
         Block* getNextBlock() const;
         Block* getActiveBlock() const;
         Level* getLevel() const;
-        int getWidth();
-        int getHeight();
+        vector<vector<Block*>>& getGrid() const;
 
-        bool isValidMove(Block*, vector<std::pair<int, int>> newPosn)
+        /*Need to call level to generate next block at some point*/
+
+        bool isValidMove(vector<std::pair<int, int>> newPosn) const;
         void placeBlock(Block* block);
-        void checkGameOver();
-        void checkCompletedRows();
+        bool checkGameOver();
+        vecotor<int> checkCompletedRows();
         void clearRow(int row);
 
         ~Board();
