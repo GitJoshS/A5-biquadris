@@ -4,24 +4,31 @@ import <vector>;
 import <cstdlib>;
 import <fstream>;
 import <iostream>;
+import <string>;
 
 using namespace std;
 
-Level0::Level0(ifstream f): level{0}, howHeavy{0}, file{f}{}
+Level0::Level0() : Level{}, currentIndex{0} {
+    level = 0;
+    howHeavy = 0;
+    sequence = {'I', 'J', 'L', 'O', 'S', 'T', 'Z'};
+}
+
+Level0::Level0(ifstream& f) : Level{}, currentIndex{0} {
+    level = 0;
+    howHeavy = 0;
+    char c;
+    while (f >> c) {
+        sequence.push_back(c);
+    }
+    if (sequence.empty()) {
+        sequence = {'I', 'J', 'L', 'O', 'S', 'T', 'Z'};
+    }
+}
 
 char Level0::getNextBlockType(){
-    char blockType;
-    
-    if (file >> blockType) { // Successfully read a character
-        return blockType;
-    } else { // Reached end of file, reset to beginning
-        file.clear();           
-        file.seekg(0, ios::beg);
-        
-        if (file >> blockType) {
-            return blockType;
-        } else {
-            return 'I'; // Default block type if any error occurs
-        }
-    }
+    if (sequence.empty()) return 'I';
+    char result = sequence[currentIndex];
+    currentIndex = (currentIndex + 1) % sequence.size();
+    return result;
 }
