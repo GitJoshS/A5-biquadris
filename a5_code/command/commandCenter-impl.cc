@@ -58,30 +58,31 @@ Command CommandCenter::processCmd(const string& cmdStr) {
 
 void CommandCenter::executeCmd(Command* cmd) {
     if (cmd->name == "left") {
-        
+        // shift horizontally 1 unit to the left
     } else if (cmd->name == "right") {
-
+        // shift horizontally 1 unit to the right
     } else if (cmd->name == "down") {
-        
+        // shift horizontally 1 unit to the down
     } else if (cmd->name == "clockwise") {
-
+        // rotate the block clockwise
     } else if (cmd->name == "counterclockwise") {
-
+        // rotate the block counterclockwise
     } else if (cmd->name == "drop") {
-        
+        // drop the block to the bottom
     } else if (cmd->name == "levelup") {
-
+        // increase the level by 1
     } else if (cmd->name == "leveldown") {
-        
+        // decrease the level by 1
     } else if (cmd->name == "random") {
-
+        // set the block generation to random
     } else if (cmd->name == "norandom") {
-
+        // set the block generation to non-random
     } else if (cmd->name == "sequence") {
         // take next work after sequence as the file name
     } else if (cmd->name == "restart") {
-        
+        // restart the game
     } else {
         // Handle unknown command
+        cout << "Unknown command: " << cmd->name << endl;
     }
 }

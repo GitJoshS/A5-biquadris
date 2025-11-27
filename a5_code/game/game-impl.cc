@@ -10,9 +10,6 @@ This file contains the implementation of the Game class, which manages the overa
 
 module Game; 
 
-import Display; 
-import commandCenter; 
-import Player; 
 import <string>;
 import <iostream>;
 
@@ -30,9 +27,17 @@ Game::Game()
 {}
 
 // when constructing a game
-Game::Game(const vector<string>& argv, const string& player1, const string& player2) : cmdCenter{}, 
-    p1{new Player(player1)}, p2{new Player(player2)}, currP{p1}, textDisplay{nullptr}, graphicsDisplay{nullptr}, 
-    highscore{0}, textOnly{true}, args{argv} {} 
+Game::Game(const vector<string>& argv, const string& player1, const string& player2)
+    : cmdCenter{},
+      p1{make_unique<Player>(nullptr, 0, 1, player1)}, 
+      p2{make_unique<Player>(nullptr, 0, 2, player2)},
+      currP{p1.get()},
+      textDisplay{nullptr},
+      graphicsDisplay{nullptr},
+      highscore{0},
+      textOnly{true},
+      args{argv}
+{}
 
 void Game::runGame() {
     while (true){
@@ -50,7 +55,7 @@ void Game::runGame() {
             break;
         }
 
-        currP = (currP == p1) ? p2 : p1;
+        currP = (currP == p1.get()) ? p2.get() : p1.get();
     }  
 }
 

@@ -23,6 +23,3 @@ export Board {
 
     ~Board();
 };
-
-
-
