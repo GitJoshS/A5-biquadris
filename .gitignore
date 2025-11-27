@@ -7,3 +7,6 @@ commandCenter.o
 commandCenter-impl.o
 test.o
 *.json
+gcm.cache/
+*.o
+*.d
