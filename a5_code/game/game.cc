@@ -20,18 +20,18 @@ import <memory>;
 import <vector>;
 
 export class Game {
-    unique_ptr<CommandCenter> cmdCenter;
+    CommandCenter cmdCenter;
 
     unique_ptr<Player> p1;
     unique_ptr<Player> p2;
     Player* currP;
 
-    unique_ptr<Display> textDisplay;
-    unique_ptr<Display> graphicsDisplay;
+    Display textDisplay;
+    Display graphicsDisplay;
 
     int highscore;
     bool textOnly;
-    vector<string> args;
+    // vector<string> args;
 
     public:
         Game();
@@ -44,9 +44,9 @@ export class Game {
         void swapTurn();
 
         void runGame();
-        void processCommand(string command);
+        void rerouteCommand(string command);
 
         void handleSpecialAction(string action);
         void triggerSpecialAction(string action);
-        void restart();
+        void reset();
 };

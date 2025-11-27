@@ -30,10 +30,8 @@ Game::Game()
 Game::Game(const vector<string>& argv, const string& player1, const string& player2)
     : p1{make_unique<Player>(nullptr, 0, 1, player1)},
       p2{make_unique<Player>(nullptr, 0, 2, player2)},
-      currP{p1.get()}, textDisplay{nullptr}, graphicsDisplay{nullptr}, highscore{0},
-      textOnly{true}, args{argv} {
-    cmdCenter = make_unique<CommandCenter>(this);
-}
+      currP{p1.get()}, textDisplay{vector<Player*>{player1.get(), player2.get()}}, graphicsDisplay{nullptr}, highscore{0},
+      textOnly{true}, args{argv}, cmdCenter{CommandCenter(this)} { }
 
 Player* Game::getCurrentPlayer() { return currP; }
 Player* Game::getPlayer1() { return p1.get(); }
@@ -45,18 +43,18 @@ void Game::swapTurn() {
 
 void Game::runGame() {
     while (true){
-        Display display{}; // Will add parameters later
-
+        textDisplay.render();
+    
         string command; 
         cout << "Make a move " << currP->getName() << ": ";
 
         if (cin >> command) {
-            processCommand(command);
+            rerouteCommand(command);
         }
 
-        if (/* check for game over condition */) { // recieve state of game from board
+        if (currP->getBoard().checkGameOver()) { // recieve state of game from board
             cout << "Game Over!" << endl;
-            break;
+            restart(); 
         }
 
         if (/* logic for swapping turn from p1 to p2 */) { // need to swap turn when block droppped
@@ -65,13 +63,15 @@ void Game::runGame() {
     }  
 }
 
-void Game::processCommand(string command) {
-    Command cmd = cmdCenter->processCmd(command);
-    cmdCenter->executeCmd(&cmd);
+void Game::rerouteCommand(string command) {
+    string cmd = cmdCenter.processCmd(command);
+    cmdCenter->executeCmd(cmd);
 }
 
 void Game::handleSpecialAction(string action) {}   
 void Game::triggerSpecialAction(string action) {}   
-void Game::restart() {
-    // Reset game state    
+
+void Game::restart() { 
+    p1->reset();
+    p2->reset();
 }

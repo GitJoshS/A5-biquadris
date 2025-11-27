@@ -22,8 +22,6 @@ export class CommandCenter {
     Game* game; 
 
     vector<string> commandList; 
-    // will probably change to:
-    // vector<sting> commandList;
 
     vector<string> loadCommandsFromFile();
     string findUniqueCommand(const string &input);
@@ -32,8 +30,6 @@ export class CommandCenter {
         CommandCenter(Game* g);
 
         string processCmd(string cmd);
-        // Command processCmd(const std::string& cmdStr);
         
         void executeCmd(string cmd);
-        // void executeCmd(Command* cmd);
 };

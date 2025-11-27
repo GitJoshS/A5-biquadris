@@ -31,8 +31,7 @@ export class Player {
         string getName() const;
         int getCurScore() const;
         int getPlayerId() const;
-
+        
         void applySpecialAction(); // will add parameters later
-        int calculateLineScore(int linesCleared);
-        int calculateBlockScore(Block *b);
+        void reset();
 };

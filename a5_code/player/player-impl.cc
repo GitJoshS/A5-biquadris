@@ -16,8 +16,8 @@ using namespace std;
 
 Player::Player() : board{nullptr}, curScore{0}, playerId{0}, name{""} { }
 
-Player::Player(Board* b, int score, int id, const string& name)
-    : board{b}, curScore{score}, playerId{id}, name{name} {}
+Player::Player(Board* b, int score, int id, const string name)
+    : board{_____________}, curScore{score}, playerId{id}, name{name} {}
 
 Board* Player::getBoard() const {
     return board.get();
@@ -38,3 +38,8 @@ int Player::getPlayerId()const  {
 void Player::applySpecialAction() { } // will modify later
 int Player::calculateLineScore(int linesCleared) { } // need to implement
 int Player::calculateBlockScore(Block *b) { } // need to implement
+
+void Player::reset() {
+    board = 
+    curScore = 0;
+}

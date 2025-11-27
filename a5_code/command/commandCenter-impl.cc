@@ -20,6 +20,7 @@ using namespace std;
 
 CommandCenter::CommandCenter(Game* g) : game{g}, commandList{loadCommandsFromFile()} {}
 
+// helper function to load commands from file
 vector<string> CommandCenter::loadCommandsFromFile() {
     vector<string> commands;
     ifstream file("commands.txt");
@@ -35,8 +36,8 @@ vector<string> CommandCenter::loadCommandsFromFile() {
     return commands;
 }
 
-/* need to fix*/
-string CommandCenter::findUniqueCommand(const string& input) {
+// helper function to find unique command
+string CommandCenter::findUniqueCommand(const string input) {
     string match = "";
     for (const auto& cmd : commandList) {
         if (cmd.find(input) == 0) {
@@ -54,82 +55,24 @@ Command CommandCenter::processCmd(const string& cmdStr) {
 }
 
 void CommandCenter::executeCmd(Command* cmd) {
-    Board* board = game->getCurrentPlayer()->getBoard();
-    Block* active = board->getActiveBlock();
-
+    shared_ptr<Board> board = game->getCurrentPlayer()->getBoard();
     if (cmd->name == "left") {
-        for (auto& cell : newPos) cell.first -= 1;
-        if (board->isValidMove(newPos)) {
-            active->setPosition(newPos);
-        }
+        board->move(1, 0);
     } else if (cmd->name == "right") {
-        for (auto& cell : newPos) cell.first += 1;
-        if (board->isValidMove(newPos)) {
-            active->setPosition(newPos);
-        }
+        board->move(-1, 0);
     } else if (cmd->name == "down") {
-        for (auto& cell : newPos) cell.second += 1;
-        if (board->isValidMove(newPos)) {
-            active->setPosition(newPos);
-        }
-    } 
-    else if (cmd->name == "drop") {
-        if (!active) return;
-
-        Board* board = game->getCurrentPlayer()->getBoard();
-        Player* player = game->getCurrentPlayer();
-
-        // Move block down until it can't move further
-        while (true) {
-            auto newPos = active->getPosition();
-            for (auto& cell : newPos) cell.second += 1;
-
-            if (board->isValidMove(newPos)) {
-                active->setPosition(newPos);
-            } else {
-                break;  // Block can't move further
-            }
-        }
-
-        // Place the block on the board
-        board->placeBlock(active);
-
-        // Check and clear completed rows
-        auto completedRows = board->checkCompletedRows();
-        int linesCleared = completedRows.size();
-        for (int row : completedRows) {
-            board->clearRow(row);
-        }
-
-        // Update player's score based on lines cleared
-        int points = player->calculateLineScore(linesCleared);
-        player->incrementScore(points);
-
-        // Update game's highscore
-        game->updateHighscore(player->getCurScore());
-
-        // Generate next block
-        Block* next = board->getLevel()->generateNextBlock();
-        board->setActiveBlock(next);
-    }
-    else if (cmd == "clockwise") {
-        auto rotated = active->rotatePosition(true);
-        if (board->isValidMove(rotated)) {
-            active->setPosition(rotated);
-        }
+        board->move(0, 1);
+    } else if (cmd->name == "drop") {
+        board->drop();
+    } else if (cmd == "clockwise") {
+        board->rotate(true);
     } else if (cmd == "counterclockwise") {
-        auto rotated = active->rotatePosition(false);
-        if (board->isValidMove(rotated)) {
-            active->setPosition(rotated);
-        }
+        board->rotate(true);
     } else if (cmd->name == "levelup") {
-        Level* lvl = board->getLevel();
-        lvl->increaseLevel();  // NEED TO IMPLEMENT FUNCTION IN BOARD
+        board->levelUp();
     } else if (cmd == "leveldown") {
-        Level* lvl = board->getLevel();
-        lvl->decreaseLevel(); // NEED TO IMPLEMENT FUNCTION IN BOARD
+        board->levelDown();
     } else if (cmd->name == "random") {
-        // set the block generation to random
         
     } else if (cmd->name == "norandom") {
         // set the block generation to non-random
@@ -138,7 +81,6 @@ void CommandCenter::executeCmd(Command* cmd) {
         // take next work after sequence as the file name
 
     } else if (cmd->name == "restart") {
-        // reset the game state, not the players, just the boards
 
     } else {
         // Handle unknown command
