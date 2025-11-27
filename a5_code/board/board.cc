@@ -29,7 +29,10 @@ export class Board {
         Level* getLevel() const;
         vector<vector<shared_ptr<Block>>>& getGrid() const;
 
-        /*Need to call level to generate next block at some point*/
+        // Replace the current level with another level pointer that generate blocks in a non-random order
+        void noRandomLevel(ifstream& file);
+        // Restore randomness
+        void restoreRandomLevel();
 
         bool isValidMove(vector<std::pair<int, int>> newPosn) const;
         void drop(shared_ptr<Block> block = activeBlock); //Linh added this

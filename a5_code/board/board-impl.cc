@@ -54,6 +54,15 @@ vector<vector<shared_ptr<Block>>>& Board::getGrid() const {
     return grid;
 }
 
+void Board::noRandomLevel(ifstream& file) {
+    int curLevel = level->getLevel();
+    level = Level::create(curLevel, file);
+}
+
+void Board::restoreRandomLevel() {
+    int curLevel = level->getLevel();
+    level = Level::create(curLevel);
+}
 
 bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This might have a problem, it might collide with itself. For instance, if an L shape moves down, the tip of the L moving would coincide with its own block, and this function would return false
     // check each new coordinate of the block
@@ -138,13 +147,13 @@ void Board::nextTurn() {
 }
 
 void Board::levelUp() {
-    currentLevelNum = level->getLevel() + 1;
-    level = Level::create(currentLevelNum);  
+    int curLevel = level->getLevel() + 1;
+    level = Level::create(curLevel);  
 }
 
 void Board::levelDown() {
-    currentLevelNum = level->getLevel() - 1;
-    level = Level::create(currentLevelNum);  
+    int curLevel = level->getLevel() - 1;
+    level = Level::create(curLevel);  
 }
 
 void Board::rotate(bool clockwise) {
