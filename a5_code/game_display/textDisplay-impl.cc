@@ -76,8 +76,9 @@ void TextDisplay::render() {
         // for each player
         for (int player = 0; player < playerCount; ++player) {
             // fetch default coords and type of next block
-            vector<pair<int,int>> nextDefPos = players[player]->getBoard()->getNextBlock()->getPosition();
-            char type = players[player]->getBoard()->getNextBlock()->getType();
+            Block* nextBlock = players[player]->getBoard()->getNextBlock();
+            vector<pair<int,int>> nextDefPos = nextBlock->getPosition();
+            char type = nextBlock->getType();
             // for each column
             for (int col = 0; col < width; ++col) {
                 // for each coordinate
