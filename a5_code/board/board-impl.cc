@@ -103,10 +103,10 @@ shared_ptr<Block> Board::generateNext(char type) {
         case 'I': return make_shared<IBlock>(lev);
         case 'J': return make_shared<JBlock>(lev);
         case 'L': return make_shared<LBlock>(lev);
-        case 'O': return std::make_shared<OBlock>(lev);
-        case 'S': return std::make_shared<SBlock>(lev);
-        case 'Z': return std::make_shared<ZBlock>(lev);
-        case 'T': return std::make_shared<TBlock>(lev);
+        case 'O': return make_shared<OBlock>(lev);
+        case 'S': return make_shared<SBlock>(lev);
+        case 'Z': return make_shared<ZBlock>(lev);
+        case 'T': return make_shared<TBlock>(lev);
     }
     return nullptr;
 }
