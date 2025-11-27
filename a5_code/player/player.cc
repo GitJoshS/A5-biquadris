@@ -12,11 +12,12 @@ export module Player
 
 import Board;
 import <string>;
+import <memory>;
 
 using namespace std;
 
 export class Player {
-    Board* board;
+    unique_ptr<Board> board;
     string name;
     int curScore;
     int playerId;

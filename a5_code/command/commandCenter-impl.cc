@@ -10,12 +10,15 @@ command processing
 */
 
 module CommandCenter; 
+
 import <string>;
 import <vector>;
 import <fstream>;
 import <iostream>;
 
 using namespace std;
+
+CommandCenter::CommandCenter(Game* g) : game{g}, commandList{loadCommandsFromFile()} {}
 
 vector<string> CommandCenter::loadCommandsFromFile() {
     vector<string> commands;
@@ -32,6 +35,7 @@ vector<string> CommandCenter::loadCommandsFromFile() {
     return commands;
 }
 
+/* need to fix*/
 string CommandCenter::findUniqueCommand(const string& input) {
     string match = "";
     for (const auto& cmd : commandList) {
@@ -44,43 +48,98 @@ string CommandCenter::findUniqueCommand(const string& input) {
 }
 
 Command CommandCenter::processCmd(const string& cmdStr) {
-    Command cmd;
     string result = findUniqueCommand(cmdStr);
-
-    if (!result.empty()) {
-        cmd.name = result;
-    } else {
-        cmd.name = "unknown";
-    }
-
-    return cmd;
+    if (!result.empty()) return result;
+    return "unknown";
 }
 
 void CommandCenter::executeCmd(Command* cmd) {
+    Board* board = game->getCurrentPlayer()->getBoard();
+    Block* active = board->getActiveBlock();
+
     if (cmd->name == "left") {
-        // shift horizontally 1 unit to the left
+        for (auto& cell : newPos) cell.first -= 1;
+        if (board->isValidMove(newPos)) {
+            active->setPosition(newPos);
+        }
     } else if (cmd->name == "right") {
-        // shift horizontally 1 unit to the right
+        for (auto& cell : newPos) cell.first += 1;
+        if (board->isValidMove(newPos)) {
+            active->setPosition(newPos);
+        }
     } else if (cmd->name == "down") {
-        // shift horizontally 1 unit to the down
-    } else if (cmd->name == "clockwise") {
-        // rotate the block clockwise
-    } else if (cmd->name == "counterclockwise") {
-        // rotate the block counterclockwise
-    } else if (cmd->name == "drop") {
-        // drop the block to the bottom
+        for (auto& cell : newPos) cell.second += 1;
+        if (board->isValidMove(newPos)) {
+            active->setPosition(newPos);
+        }
+    } 
+    else if (cmd->name == "drop") {
+        if (!active) return;
+
+        Board* board = game->getCurrentPlayer()->getBoard();
+        Player* player = game->getCurrentPlayer();
+
+        // Move block down until it can't move further
+        while (true) {
+            auto newPos = active->getPosition();
+            for (auto& cell : newPos) cell.second += 1;
+
+            if (board->isValidMove(newPos)) {
+                active->setPosition(newPos);
+            } else {
+                break;  // Block can't move further
+            }
+        }
+
+        // Place the block on the board
+        board->placeBlock(active);
+
+        // Check and clear completed rows
+        auto completedRows = board->checkCompletedRows();
+        int linesCleared = completedRows.size();
+        for (int row : completedRows) {
+            board->clearRow(row);
+        }
+
+        // Update player's score based on lines cleared
+        int points = player->calculateLineScore(linesCleared);
+        player->incrementScore(points);
+
+        // Update game's highscore
+        game->updateHighscore(player->getCurScore());
+
+        // Generate next block
+        Block* next = board->getLevel()->generateNextBlock();
+        board->setActiveBlock(next);
+    }
+    else if (cmd == "clockwise") {
+        auto rotated = active->rotatePosition(true);
+        if (board->isValidMove(rotated)) {
+            active->setPosition(rotated);
+        }
+    } else if (cmd == "counterclockwise") {
+        auto rotated = active->rotatePosition(false);
+        if (board->isValidMove(rotated)) {
+            active->setPosition(rotated);
+        }
     } else if (cmd->name == "levelup") {
-        // increase the level by 1
-    } else if (cmd->name == "leveldown") {
-        // decrease the level by 1
+        Level* lvl = board->getLevel();
+        lvl->increaseLevel();  // NEED TO IMPLEMENT FUNCTION IN BOARD
+    } else if (cmd == "leveldown") {
+        Level* lvl = board->getLevel();
+        lvl->decreaseLevel(); // NEED TO IMPLEMENT FUNCTION IN BOARD
     } else if (cmd->name == "random") {
         // set the block generation to random
+        
     } else if (cmd->name == "norandom") {
         // set the block generation to non-random
+
     } else if (cmd->name == "sequence") {
         // take next work after sequence as the file name
+
     } else if (cmd->name == "restart") {
-        // restart the game
+        // reset the game state, not the players, just the boards
+
     } else {
         // Handle unknown command
         cout << "Unknown command: " << cmd->name << endl;

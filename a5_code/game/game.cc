@@ -11,35 +11,42 @@ including player turns, game initialization, and victory conditions.
 
 export module Game;
 
-import Display; 
-import CommandCenter; 
-import Player; 
+import Player;
+import Display;
+import CommandCenter;
 
 import <string>;
-
-using namespace std;
+import <memory>;
+import <vector>;
 
 export class Game {
+    unique_ptr<CommandCenter> cmdCenter;
+
     unique_ptr<Player> p1;
     unique_ptr<Player> p2;
     Player* currP;
-    
+
     unique_ptr<Display> textDisplay;
     unique_ptr<Display> graphicsDisplay;
 
     int highscore;
     bool textOnly;
-
     vector<string> args;
-    CommandCenter cmdCenter; 
 
-    public: 
+    public:
         Game();
         Game(const vector<string>& argv, const string& player1, const string& player2);
 
-        void runGame(); // Will add more parameters later
+        Player* getCurrentPlayer();
+        Player* getPlayer1();
+        Player* getPlayer2();
+
+        void swapTurn();
+
+        void runGame();
+        void processCommand(string command);
+
         void handleSpecialAction(string action);
         void triggerSpecialAction(string action);
-        void processCommand(string command);
         void restart();
 };

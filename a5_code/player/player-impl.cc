@@ -10,15 +10,17 @@ This file contains the implementation of the Player class, which manages player 
 
 module Player;
 
+import <string>;
+
 using namespace std;
 
 Player::Player() : board{nullptr}, curScore{0}, playerId{0}, name{""} { }
 
-Player::Player(Board* b, int score, int id, const std::string& name)
-    : board{b}, curScore{score}, playerId{id}, name{name} { }
+Player::Player(Board* b, int score, int id, const string& name)
+    : board{b}, curScore{score}, playerId{id}, name{name} {}
 
 Board* Player::getBoard() const {
-    return board;
+    return board.get();
 }
 
 string Player::getName() const {
@@ -33,14 +35,6 @@ int Player::getPlayerId()const  {
     return playerId;
 }
 
-void Player::applySpecialAction() {
-    
-}
-
-int Player::calculateLineScore(int linesCleared) {
-    
-}
-
-int Player::calculateBlockScore(Block *b) {
-    
-}
+void Player::applySpecialAction() { } // will modify later
+int Player::calculateLineScore(int linesCleared) { } // need to implement
+int Player::calculateBlockScore(Block *b) { } // need to implement

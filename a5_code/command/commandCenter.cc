@@ -10,16 +10,17 @@ This file contains the implementation of the Game class, which manages the overa
 
 export module CommandCenter;    
 
-// import Display;
-// import Board;
-
-import Command;
-
+// import Command;
 import <string>;
+import <vector>;
+
+export class Game; // NEED TO DOUBLE CHECK, I THINK THIS MAKES IT OK????
 
 using namespace std;
 
 export class CommandCenter {
+    Game* game; 
+
     vector<string> commandList; 
     // will probably change to:
     // vector<sting> commandList;
@@ -28,10 +29,11 @@ export class CommandCenter {
     string findUniqueCommand(const string &input);
     
     public:
-        CommandCenter() {
-            commandList = loadCommandsFromFile();
-        }
+        CommandCenter(Game* g);
 
-        Command processCmd(string);
-        void executeCmd(Command*);
+        string processCmd(string cmd);
+        // Command processCmd(const std::string& cmdStr);
+        
+        void executeCmd(string cmd);
+        // void executeCmd(Command* cmd);
 };
