@@ -13,38 +13,41 @@ TextDisplay::TextDisplay(){}
 TextDisplay::TextDisplay(vector<Player*> players) : players{players} {}
 
 void TextDisplay::render() {
+    int width = players[0]->getBoard()->getWidth();
     int height = players[0]->getBoard()->getHeight();
-    int width = players[0]->getBoard()->getHeight();
     int playerCount = players.size();
     char blank = ' ';
     // Print out level indicator for all players
-    for (int player = 0; player < playerCount; ++i) {
+    for (int player = 0; player < playerCount; ++player) {
         int level = players[player]->getBoard()->getLevel()->getLevel();
         string space = spaceGen(level);
         cout << "Level:" << space << level << boardsSpace;
     }
+    cout << endl;
     // Print out score indicator for all players
-    for (int player = 0; player < playerCount; ++i) {
+    for (int player = 0; player < playerCount; ++player) {
         int score = players[player]->getCurScore();
         string space = spaceGen(score);
         cout << "Score:" << space << score << boardsSpace;
     }
+    cout << endl;
     // print out top of the board horizontal line
-    for (int player = 0; player < playerCount; ++i) {
+    for (int player = 0; player < playerCount; ++player) {
         cout << string(width, '-') << boardsSpace;
     }
+    cout << endl;
     // print the game board for all players row by row
     // for each row
     for (int rows = 0; rows < height; ++rows) { 
         // for each player
-        for (int player = 0; i < playerCount; ++i) {
+        for (int player = 0; player < playerCount; ++player) {
             // fetch the players active board (the grid)
             vector<vector<Block*>>& grid = players[player]->getBoard()->getGrid();
             // for each column  
-            for (int col = 0; col < width; ++i) {
+            for (int col = 0; col < width; ++col) {
                 // gives Block*->getChar()
-                if (grid[rows][column]) {
-                    cout << grid[rows][column]->getType();
+                if (grid[rows][col]) {
+                    cout << grid[rows][col]->getType();
                 } else {
                     cout << blank;
                 }
@@ -52,39 +55,45 @@ void TextDisplay::render() {
             // print space bewteen players boards
             cout << boardsSpace;
         }
+        cout << endl;
     }
     // print out bottom of the board horizontal line
-    for (int player = 0; player < playerCount; ++i) {
+    for (int player = 0; player < playerCount; ++player) {
         cout << string(width, '-') << boardsSpace;
     }
+    cout << endl;
     // print out next indicator for all players
-    for (int player = 0; player < playerCount; ++i) {
+    for (int player = 0; player < playerCount; ++player) {
         string next = "Next:";
         int spaceCount = width - next.length();
         cout << next << string(spaceCount, ' ') << boardsSpace;
     }
+    cout << endl;
     // print out next block
-    int defaultBlockRows = 2
+    int defaultBlockRows = 2;
     // for each row
     for (int row = 0; row < defaultBlockRows; ++row) {
         // for each player
-        for (int player = 0; player < playerCount; ++i) {
+        for (int player = 0; player < playerCount; ++player) {
             // fetch default coords and type of next block
             vector<pair<int,int>> nextDefPos = players[player]->getBoard()->getNextBlock()->getPosition();
             char type = players[player]->getBoard()->getNextBlock()->getType();
             // for each column
             for (int col = 0; col < width; ++col) {
                 // for each coordinate
-                for (int coord = 0; coord < nextDefPos.size(); ++coord) {
+                bool found = false;
+                for (const pair<int, int>& coord : nextDefPos) {
                     if (coord.first == col && coord.second == row) {
                         cout << type;
-                    } else {
-                        cout << blank;
+                        found = true;
+                        break;
                     }
                 }
+                if (!found) cout << blank;
             }
             cout << boardsSpace;
         }
+        cout << endl;
     }
 };
 
