@@ -6,6 +6,9 @@ import <vector>;
 
 using namespace std;
 
+Block::Block(char blockType, int levelGenerated, int cellsLeft, vector<pair<int,int>> cells) : 
+    blockType{blockType}, levelGenerated{levelGenerated}, cellsLeft{cellsLeft} {}
+
 vector<pair<int,int>> Block::getPosition() {
     return cells;
 }

@@ -7,5 +7,4 @@ import Block;
 
 using namespace std;
 
-JBlock::JBlock(int level) : Block{}, cellsLeft{4}, blockType{'J'}, levelGenerated{level},
-                            cells{{0,2}, {0,3}, {1,3}, {2,3}}{}
+JBlock::JBlock(int level) : Block{'J', level, 4, {{0,2}, {0,3}, {1,3}, {2,3}}} {}
