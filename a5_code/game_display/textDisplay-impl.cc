@@ -6,7 +6,9 @@ import <cmath>;
 using namespace std;
 
 //todo should it be vector<Board*>& board OR vector<Board&>& board
-void TextDisplay::render(vector<Board*>& board, vector<int> score, vector<int> level, vector<Block*> next, int width, int height) {
+void TextDisplay::render(vector<Board*>& board, vector<int> score, vector<int> level, vector<Block*> next) {
+    int height = board[0]->height;
+    int width = board[0]->width;
     //! Make sure that sizes are equal (they should be)
     if (!(board.size() == score.size() && score.size() == level.size() && level.size() == next.size())) return;
     int playerCount = board.size();
@@ -26,6 +28,8 @@ void TextDisplay::render(vector<Board*>& board, vector<int> score, vector<int> l
     }
     // print the game board for all players row by row
     // for each row
+    //todo HARD CODING NEED TO RESOLVE THIS AND MAKE MORE DYNAMIC
+    //todo ///////////////////////
     for (int rows = 0; rows < height; ++rows) { 
         // for each player
         for (int player = 0; i < playerCount; ++i) {
