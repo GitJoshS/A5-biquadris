@@ -46,6 +46,7 @@ bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This mig
             return false;
         }
     }
+    return true;
 }
 
 //Linh: Is this assuming the position is valid and the block just have to "lock in place"?
@@ -59,31 +60,31 @@ void Board::placeBlock(Block* block) {
 }
 
 
-void Board::drop(Block* block) { //Added by Linh
+void Board::drop() { //Added by Linh
     while (true) {
-        vector<pair<int, int>> tempPos = block->getPosition();
+        vector<pair<int, int>> tempPos = activeBlock->getPosition();
         for (auto& coord : tempPos) {
             coord.second += 1; 
         } 
         if (isValidMove(tempPos)) {
-            block->setPosition(tempPos);
+            activeBlock->setPosition(tempPos);
         }
         else {
-            placeBlock(block);
+            placeBlock(activeBlock);
             break;
         }
     }
 }
 
 void Board::move(int x, int y) { 
-    vector<pair<int, int>> tempPos = block->getPosition();
+    vector<pair<int, int>> tempPos = activeBlock->getPosition();
     for (auto& coord : tempPos) {
             coord.first += x;
             coord.second += y; 
         } 
     if (isValidMove(tempPos)) {
-        block->setPosition(tempPos);
-        placeBlock(block);
+        activeBlock->setPosition(tempPos);
+        placeBlock(activeBlock);
     }
 }
 
@@ -112,7 +113,7 @@ vector<int> Board::checkCompletedRows() {
 
 void Board::clearRow(int row) {
     // for each row from "row" to 0
-    for (int row = 0; row >= 0; --row) {
+    for (; row >= 0; --row) {
         // each column in the row
         for (int col = 0; col < width; ++col) {
             // edge case at top row
