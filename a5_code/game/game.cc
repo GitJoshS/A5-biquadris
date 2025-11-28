@@ -14,7 +14,7 @@ export module Game;
 import Player;
 import Display;
 import TextDisplay;
-import GraphicDisplay;
+// import GraphicDisplay;
 import CommandCenter;
 
 import <string>;
@@ -32,7 +32,7 @@ export class Game {
     Player* currP;
 
     unique_ptr<TextDisplay> textDisplay;
-    unique_ptr<GraphicDisplay> graphicsDisplay;
+    // unique_ptr<GraphicDisplay> graphicsDisplay;
 
     int highscore;
     bool textOnly;
