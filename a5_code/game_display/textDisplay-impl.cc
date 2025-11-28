@@ -12,6 +12,10 @@ using namespace std;
 
 TextDisplay::TextDisplay(vector<Player*> players) : Display{players} {}
 
+void TextDisplay::render() {
+    render("");
+}
+
 void TextDisplay::render(const string& effect) {
     int width = players[0]->getBoard()->getWidth();
     int height = players[0]->getBoard()->getHeight();
