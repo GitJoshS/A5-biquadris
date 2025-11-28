@@ -73,7 +73,8 @@ bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherP
     } else if (cmd == "down") {
         for(int i = 0; i < mult; ++i) currentPlayer->moveBlock(0, 1);
     } else if (cmd == "drop") {
-        return currentPlayer->dropBlock();
+        for(int i = 0; i < mult; ++i) currentPlayer->dropBlock();
+        return true;
     } else if (cmd == "clockwise") {
         for(int i = 0; i < mult; ++i) currentPlayer->rotate(true);
     } else if (cmd == "counterclockwise") {
