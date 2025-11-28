@@ -97,9 +97,16 @@ bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherP
         currentPlayer->getBoard()->restoreRandomLevel();
         return false;
     } else if (cmd == "norandom") {
-        // This would need a file parameter - for now just return false
-        // Implementation depends on how the file is provided
-        return false;
+        string name;
+        cin >> name;
+
+        ifstream file("files/" + name);
+        if (!file) {
+            cerr << "Error: Could not open "+name << endl;
+            return false;
+        }
+
+        currentPlayer->getBoard()->noRandomLevel(file);
     } else if (cmd == "sequence") {
         // This would need a sequence file parameter
         return false;
