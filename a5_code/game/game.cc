@@ -25,17 +25,16 @@ import <iostream>;
 using namespace std; 
 
 export class Game {
-    CommandCenter cmdCenter;
-
     unique_ptr<Player> p1;
     unique_ptr<Player> p2;
     Player* currP;
-
     unique_ptr<TextDisplay> textDisplay;
     // unique_ptr<GraphicDisplay> graphicsDisplay;
-
     int highscore;
     bool textOnly;
+    CommandCenter cmdCenter;
+
+
     // vector<string> args;
 
     public:
