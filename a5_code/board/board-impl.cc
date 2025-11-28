@@ -253,21 +253,23 @@ void Board::forceBlockType(char type) {
     placeBlock(activeBlock);
 }
 
-void Board::applyHeavy(int additionalHeavy) {
+bool Board::applyHeavy(int additionalHeavy) {
     int heaviness = additionalHeavy + level->getHowHeavy();
-    shared_ptr<Block> temp;
+    if (heaviness == 0) return false;
+    
     for (int i = 0; i < heaviness; i++) {
-        temp = activeBlock;
-        move(0,1);
-        if (temp->getPosition() == activeBlock->getPosition()) {
-            // Block can't move down anymore
-            if (heaviness > 0) {
-                // There is heaviness (either from level or additional), so drop the block
-                drop();
-            }
-            break;
+        vector<pair<int, int>> oldPos = activeBlock->getPosition();
+        move(0, 1);
+        vector<pair<int, int>> newPos = activeBlock->getPosition();
+        
+        // If block didn't move down, it's blocked
+        if (oldPos == newPos) {
+            // Block is blocked and has heaviness, so auto-drop
+            drop();
+            return true; // Turn ended due to auto-drop
         }
     }
+    return false; // No auto-drop occurred
 }
 
 bool Board::checkGameOver() {

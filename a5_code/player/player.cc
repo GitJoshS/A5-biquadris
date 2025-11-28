@@ -49,6 +49,6 @@ export class Player {
         void resetHeaviness();
         int getAdditionalHeaviness() const;
         
-        void applyEffects();
+        bool applyEffects();
         bool hasSpecialEffects() const;
 };

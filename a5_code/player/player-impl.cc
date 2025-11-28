@@ -117,10 +117,10 @@ int Player::getAdditionalHeaviness() const {
     return additionalHeaviness;
 }
 
-void Player::applyEffects() {
+bool Player::applyEffects() {
     // Apply heavy after every command
     int additionalHeavy = getAdditionalHeaviness();
-    board->applyHeavy(additionalHeavy);
+    return board->applyHeavy(additionalHeavy);
 }
 
 bool Player::hasSpecialEffects() const {
