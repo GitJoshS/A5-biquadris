@@ -112,8 +112,8 @@ bool Board::drop() { //Added by Linh
     while (true) {
         vector<pair<int, int>> tempPos = activeBlock->getPosition();
         for (auto& coord : tempPos) {
-            coord.second += 1; 
-        } 
+            coord.second += 1;  
+        }
         if (isValidMove(tempPos)) {
             activeBlock->setPosition(tempPos);
         }
@@ -127,6 +127,18 @@ bool Board::drop() { //Added by Linh
         return true;
     }
     return false;
+}
+
+void Board::clearBlock(shared_ptr<Block> block) {
+    if (!block) return;
+    for (const auto& coord : block->getPosition()) {
+        int col = coord.first;
+        int row = coord.second;
+        // Ensure coordinates are within bounds before accessing grid
+        if (col >= 0 && col < width && row >= 0 && row < height) {
+            grid[col][row] = nullptr; 
+        }
+    }
 }
 
 bool Board::dropBlock(shared_ptr<Block> block) { //Added by Linh
@@ -157,6 +169,7 @@ bool Board::move(int x, int y) {
             coord.second += y; 
         } 
     if (isValidMove(tempPos)) {
+        clearBlock(activeBlock);
         activeBlock->setPosition(tempPos);
         placeBlock(activeBlock);
         return false;
@@ -212,6 +225,7 @@ void Board::setLevel(unique_ptr<Level> newLevel) {
 void Board::rotate(bool clockwise) {
     vector<pair<int,int>> tempPos = activeBlock->rotatePosition(clockwise);
     if (isValidMove(tempPos)) {
+        clearBlock(activeBlock);
         activeBlock->setPosition(tempPos);
         placeBlock(activeBlock);
     }
@@ -251,7 +265,7 @@ int Board::clearRow(int row) {
             } else {
                 //Linh added: minus cellsLeft from Block and check if cells are all cleared
                 if (grid[col][row]->decreaseCells()) {
-                    score += grid[col][row]->getLevelGenerated() + 1;
+                    score += (grid[col][row]->getLevelGenerated() + 1)*(grid[col][row]->getLevelGenerated() + 1);
                 }
                 grid[col][row] = nullptr;
             }
