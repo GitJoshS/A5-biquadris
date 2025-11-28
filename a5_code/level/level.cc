@@ -14,7 +14,8 @@ export class Level {
         ifstream file;
 
     public:
-        Level(int level, ifstream& file = "");
+        Level(int level);
+        Level(int level, ifstream& file);
         //// // Create the correct level class according to the level
         //// static Level* create(int levelNum);
         //// static Level* create(int levelNum, ifstream& f);

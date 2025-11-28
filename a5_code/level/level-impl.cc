@@ -10,7 +10,11 @@ import <vector>;
 
 using namespace std;
 
-Level(int level, ifstream& file) : level{level}, file{file} {
+Level::Level(int level) : level{level}, howHeavy{0} {
+    
+}
+
+Level::Level(int level, ifstream& file) : level{level}, file{std::move(file)}, howHeavy{0} {
     
 }
 

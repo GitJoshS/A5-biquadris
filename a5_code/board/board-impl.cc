@@ -6,6 +6,7 @@ import <memory>;
 import <fstream>;
 import Block;
 import Level;
+import LevelFactory;
 
 using namespace std;
 
@@ -16,19 +17,9 @@ Board::Board(int width, int height, int startLevel, string sequenceFile)
     // initialize level
     if (startLevel == 0 && !sequenceFile.empty()) {
         ifstream file(sequenceFile);
-        if (level = 0) {
-            level = unique_ptr<Level>(Level0(0, file));
-        } else if (level = 1) {
-            level = unique_ptr<Level>(Level1(1, file));
-        } else if (level = 2) {
-            level = unique_ptr<Level>(Level2(2, file));
-        } else if (level = 3) {
-            level = unique_ptr<Level>(Level3(3, file));
-        } else if (level = 4) {
-            level = unique_ptr<Level>(Level4(4, file));
-        }
+        level = LevelFactory::create(startLevel, file);
     } else {
-        level = unique_ptr<Level>(Level(startLevel));
+        level = LevelFactory::create(startLevel);
     }
 
     int curLevel = level->getLevel();
@@ -68,12 +59,12 @@ bool Board::isGameOver() const {
 
 void Board::noRandomLevel(ifstream& file) {
     int curLevel = level->getLevel();
-    level = unique_ptr<Level>(Level::create(curLevel, file));
+    level = LevelFactory::create(curLevel, file);
 }
 
 void Board::restoreRandomLevel() {
     int curLevel = level->getLevel();
-    level = unique_ptr<Level>(Level::create(curLevel));
+    level = LevelFactory::create(curLevel);
 }
 
 bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This might have a problem, it might collide with itself. For instance, if an L shape moves down, the tip of the L moving would coincide with its own block, and this function would return false
@@ -186,12 +177,12 @@ void Board::nextTurn() {
 
 void Board::levelUp() {
     int curLevel = level->getLevel() + 1;
-    level = unique_ptr<Level>(Level::create(curLevel));  
+    level = LevelFactory::create(curLevel);
 }
 
 void Board::levelDown() {
     int curLevel = level->getLevel() - 1;
-    level = unique_ptr<Level>(Level::create(curLevel));  
+    level = LevelFactory::create(curLevel);
 }
 
 void Board::setLevel(unique_ptr<Level> newLevel) {
