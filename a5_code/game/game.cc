@@ -40,6 +40,8 @@ export class Game {
     public:
         Game();
         Game(const vector<string>& argv, const string& player1, const string& player2);
+        Game(const vector<string>& argv, const string& player1, const string& player2, 
+             const string& scriptFile1, const string& scriptFile2, int startLevel);
 
         Player* getCurrentPlayer();
         Player* getPlayer1();

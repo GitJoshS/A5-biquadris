@@ -42,6 +42,16 @@ Game::Game(const vector<string>& argv, const string& player1, const string& play
       highscore{0},
       textOnly{true}, cmdCenter{CommandCenter()} { }
 
+// constructor with command-line options
+Game::Game(const vector<string>& argv, const string& player1, const string& player2, 
+           const string& scriptFile1, const string& scriptFile2, int startLevel)
+    : p1{make_unique<Player>(0, 1, player1, scriptFile1, startLevel)},
+      p2{make_unique<Player>(0, 2, player2, scriptFile2, startLevel)},
+      currP{p1.get()}, textDisplay{make_unique<TextDisplay>(vector<Player*>{p1.get(), p2.get()})}, 
+      //graphicsDisplay{nullptr},
+      highscore{0},
+      textOnly{true}, cmdCenter{CommandCenter()} { }
+
 Player* Game::getCurrentPlayer() { return currP; }
 Player* Game::getPlayer1() { return p1.get(); }
 Player* Game::getPlayer2() { return p2.get(); }

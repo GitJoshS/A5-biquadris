@@ -27,6 +27,11 @@ Player::Player(int score, int id, string name, string sequenceFile)
     board = make_unique<Board>(11, 18, 0, sequenceFile);
 }
 
+Player::Player(int score, int id, string name, string sequenceFile, int startLevel)
+    : curScore{score}, playerId{id}, name{name}, sequenceFile{sequenceFile}, additionalHeaviness{0}, shouldTriggerSpecialEffects{false}, renderEffect{""} {
+    board = make_unique<Board>(11, 18, startLevel, sequenceFile);
+}
+
 Board* Player::getBoard() const {
     return board.get();
 }

@@ -32,6 +32,7 @@ export class Player {
         // need a ctor, move ctor, copy ctor, copy asop, move asop and destructor later
         Player();
         Player(int curScore, int playerId, string name, string sequenceFile);
+        Player(int curScore, int playerId, string name, string sequenceFile, int startLevel);
         
         Board* getBoard() const;
         string getName() const;
