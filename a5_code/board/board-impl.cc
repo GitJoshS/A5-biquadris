@@ -254,7 +254,7 @@ void Board::forceBlockType(char type) {
 }
 
 void Board::applyHeavy(int additionalHeavy) {
-    int heaviness = additionalHeavy + level->getHowHeavy;
+    int heaviness = additionalHeavy + level->getHowHeavy();
     shared_ptr<Block> temp;
     for (int i = 0; i < heaviness; i++) {
         temp = activeBlock;
