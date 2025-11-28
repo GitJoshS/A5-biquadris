@@ -13,9 +13,7 @@ vector<pair<int,int>> Block::getPosition() {
     return cells;
 }
 void Block::setPosition(vector<pair<int,int>>& newPos) {
-    if (newPos.size() == 4) {
-        cells = newPos;
-    }
+    cells = newPos;
 }
 
 char Block::getType(){

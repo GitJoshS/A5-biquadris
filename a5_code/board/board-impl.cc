@@ -126,6 +126,7 @@ bool Board::drop() { //Added by Linh
 
 bool Board::dropBlock(shared_ptr<Block> block) { //Added by Linh
     // Place block initially on the board
+    cout << "Dropping block: " << block->getType() << endl;
      vector<pair<int,int>> tempPos;
     while (true) {
         tempPos = block->getPosition();
@@ -135,10 +136,13 @@ bool Board::dropBlock(shared_ptr<Block> block) { //Added by Linh
         }
         if (isValidMove(tempPos)) {
             block->setPosition(tempPos);
+            cout << "Block: " << block->getType() << "is at" << block->getPosition()[0].first << " and " << block->getPosition()[0].second << endl;
+            placeBlock(block);
             continue;
         }
         else {
             placeBlock(block);
+            cout << "Done dropping block: " << block->getType() << endl;
             break;
         }
     }
