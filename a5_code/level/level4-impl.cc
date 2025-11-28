@@ -8,12 +8,12 @@ import <string>;
 
 using namespace std;
 
-Level4::Level4() : Level{}, currentIndex{0}, useSequence{false}, count{0} {
+Level4::Level4() : Level(4), currentIndex{0}, useSequence{false}, count{0} {
     level = 4;
     howHeavy = 1;
 }
 
-Level4::Level4(ifstream& f) : Level{}, currentIndex{0}, useSequence{true}, count{0} {
+Level4::Level4(ifstream& f) : Level(4), currentIndex{0}, useSequence{true}, count{0} {
     level = 4;
     howHeavy = 1;
     char c;

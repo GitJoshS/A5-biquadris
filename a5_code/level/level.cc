@@ -9,9 +9,9 @@ using namespace std;
 
 export class Level {
     protected:
-        int howHeavy;
         int level;
         ifstream file;
+        int howHeavy;
 
     public:
         Level(int level);

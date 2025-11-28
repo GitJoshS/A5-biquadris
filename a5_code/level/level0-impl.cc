@@ -8,13 +8,13 @@ import <string>;
 
 using namespace std;
 
-Level0::Level0() : Level{}, currentIndex{0} {
+Level0::Level0() : Level(0), currentIndex{0} {
     level = 0;
     howHeavy = 0;
     sequence = {'I', 'J', 'L', 'O', 'S', 'T', 'Z'};
 }
 
-Level0::Level0(ifstream& f) : Level{}, currentIndex{0} {
+Level0::Level0(ifstream& f) : Level(0), currentIndex{0} {
     level = 0;
     howHeavy = 0;
     char c;
