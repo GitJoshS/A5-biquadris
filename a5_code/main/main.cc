@@ -1,8 +1,8 @@
 /* 
 Filename: main.cc
-Author: Taim Alsaadi and Josh Stein
+Author: Taim Alsaadi, Josh Stein and Linh
 Date: 2024-11-25
-Last Edited: 2024-06-26
+Last Edited: 2024-11-28
 
 Description:
 This is the main file that runs Biquardis. Mains purpose is 
