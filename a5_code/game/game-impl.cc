@@ -29,7 +29,8 @@ using namespace std;
 // default constructor
 Game::Game()
     : p1{nullptr}, p2{nullptr}, currP{nullptr}, textDisplay{nullptr}, 
-    graphicsDisplay{nullptr}, highscore{0}, textOnly{false} {}
+   // graphicsDisplay{nullptr}, 
+    highscore{0}, textOnly{false} {}
 
 // when constructing a game
 Game::Game(const vector<string>& argv, const string& player1, const string& player2)
