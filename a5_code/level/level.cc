@@ -14,10 +14,10 @@ export class Level {
         ifstream file;
 
     public:
-        Level() {}
-        // Create the correct level class according to the level
-        static Level* create(int levelNum);
-        static Level* create(int levelNum, ifstream& f);
+        Level(int level, ifstream& file = "");
+        //// // Create the correct level class according to the level
+        //// static Level* create(int levelNum);
+        //// static Level* create(int levelNum, ifstream& f);
         // Returns the block type that should appears next ('I', 'J', 'L', 'O', 'S', 'Z', 'T')
         virtual char getNextBlockType() = 0;  
         virtual int getHowHeavy();

@@ -16,9 +16,19 @@ Board::Board(int width, int height, int startLevel, string sequenceFile)
     // initialize level
     if (startLevel == 0 && !sequenceFile.empty()) {
         ifstream file(sequenceFile);
-        level = unique_ptr<Level>(Level::create(0, file));
+        if (level = 0) {
+            level = unique_ptr<Level>(Level0(0, file));
+        } else if (level = 1) {
+            level = unique_ptr<Level>(Level1(1, file));
+        } else if (level = 2) {
+            level = unique_ptr<Level>(Level2(2, file));
+        } else if (level = 3) {
+            level = unique_ptr<Level>(Level3(3, file));
+        } else if (level = 4) {
+            level = unique_ptr<Level>(Level4(4, file));
+        }
     } else {
-        level = unique_ptr<Level>(Level::create(startLevel));
+        level = unique_ptr<Level>(Level(startLevel));
     }
 
     int curLevel = level->getLevel();
