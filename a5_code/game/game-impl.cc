@@ -90,8 +90,10 @@ bool Game::rerouteCommand(string command) {
         string name;
         cin >> name;
         for (int i = 0; i < mult; ++i) {
-            return runSeq(name);
+            runSeq(name);
+            cout << "RunSeq ran" << endl;
         }
+        return false;
         //! ///////////////////////////////////////////////////////////////////////
     }
     
