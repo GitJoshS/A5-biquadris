@@ -56,7 +56,7 @@ Game::Game(const vector<string>& argv, const string& player1, const string& play
              const string& scriptFile, bool script1) 
     : p1{script1 ? make_unique<Player>(0, 1, player1, scriptFile) 
                  : make_unique<Player>(0, 1, player1, "../biquadris/biquadris_sequence1.txt")},
-      p2{script1 ? make_unique<Player>(0, 2, player2, scriptFile) 
+      p2{!script1 ? make_unique<Player>(0, 2, player2, scriptFile) 
                  : make_unique<Player>(0, 2, player2, "../biquadris/biquadris_sequence2.txt")},
       currP{p1.get()}, textDisplay{make_unique<TextDisplay>(vector<Player*>{p1.get(), p2.get()})}, 
       //graphicsDisplay{nullptr},
