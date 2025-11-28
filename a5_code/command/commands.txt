@@ -10,3 +10,11 @@ random
 norandom
 sequence
 restart
+I
+J
+L
+O
+S
+T
+Z
+force
