@@ -143,7 +143,7 @@ bool Board::move(int x, int y) {
         placeBlock(activeBlock);
         return false;
     } else if (y > 0) {
-        return drop(activeBlock);
+        return drop();
     }
     return false;
 }
