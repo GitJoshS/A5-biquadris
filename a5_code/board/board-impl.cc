@@ -126,24 +126,18 @@ bool Board::drop() { //Added by Linh
 
 bool Board::dropBlock(shared_ptr<Block> block) { //Added by Linh
     // Place block initially on the board
-    placeBlock(block);
-    
+     vector<pair<int,int>> tempPos;
     while (true) {
-        vector<pair<int, int>> tempPos = block->getPosition();
-        clearBlock(block);  // Clear current position
+        tempPos = block->getPosition();
+        clearBlock(block);
         for (auto& coord : tempPos) {
-            coord.second += 1; 
-        } 
+            coord.second += 1;  
+        }
         if (isValidMove(tempPos)) {
             block->setPosition(tempPos);
-            placeBlock(block);  // Place at new position
+            continue;
         }
         else {
-            // Can't move down anymore, place at final position
-            for (auto& coord : tempPos) {
-                coord.second -= 1;  // Go back to last valid position
-            }
-            block->setPosition(tempPos);
             placeBlock(block);
             break;
         }
