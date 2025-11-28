@@ -190,6 +190,7 @@ shared_ptr<Block> Board::generateNext(char type) {
         case 'S': return make_shared<SBlock>(lev);
         case 'Z': return make_shared<ZBlock>(lev);
         case 'T': return make_shared<TBlock>(lev);
+        case '*': return make_shared<starBlock>();
     }
     return nullptr;
 }
@@ -204,12 +205,14 @@ void Board::nextTurn() {
         return;
     }
     char blockType = level->getNextBlockType();
-    if (blockType == '*') {
-        shared_ptr<Block> temp = make_shared<starBlock>();
-        dropBlock(temp);
-        blockType = level->getNextBlockType();
-    }
     nextBlock = generateNext(blockType);
+    
+    // If next block is a star block, auto-drop it and get a new next block
+    if (nextBlock && nextBlock->getType() == '*') {
+        dropBlock(nextBlock);
+        blockType = level->getNextBlockType();
+        nextBlock = generateNext(blockType);
+    }
 }
 
 void Board::levelUp() {
