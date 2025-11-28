@@ -18,12 +18,12 @@ import LevelFactory;
 using namespace std;
 
 export class Player {
-    unique_ptr<Board> board;
-    string name;
-    int curScore;
-    int playerId;
+    unique_ptr<Board> board;   
+    int playerId;          
+    string name;     
+    int curScore;              
     string sequenceFile;
-    LevelFactory levelFactory;
+    LevelFactory levelFactory; 
 
     public: 
         // need a ctor, move ctor, copy ctor, copy asop, move asop and destructor later
