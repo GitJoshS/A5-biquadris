@@ -30,7 +30,7 @@ export class CommandCenter {
     public:
         CommandCenter();
 
-        string processCmd(string cmd);
+        string processCmd(string cmd, int* multiplier);
         
         bool executeCmd(string cmd, Player* currentPlayer, Player* otherPlayer);
 };

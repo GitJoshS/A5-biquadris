@@ -15,6 +15,7 @@ import <string>;
 import <vector>;
 import <fstream>;
 import <iostream>;
+import <sstream>;
 import Board;
 import Player;
 
@@ -51,11 +52,19 @@ string CommandCenter::findUniqueCommand(const string& input) {
     return match;
 }
 
-string CommandCenter::processCmd(string cmd) {
+//! ///////////////////////////////////////////////////////////////////////
+string CommandCenter::processCmd(string cmd, int* multiplier) {
+    istringstream iss{cmd};
+    if (!(iss >> *multiplier)) {
+        iss.clear();
+        iss.seekg(0);
+    }
+    iss >> cmd;
     string result = findUniqueCommand(cmd);
     if (!result.empty()) return result;
     return "unknown";
 }
+//! ///////////////////////////////////////////////////////////////////////
 
 bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherPlayer) {
     if (cmd == "left") {

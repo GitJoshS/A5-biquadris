@@ -74,7 +74,11 @@ void Game::runGame() {
 
 
 bool Game::rerouteCommand(string command) {
-    string cmd = cmdCenter.processCmd(command);
+    //! ///////////////////////////////////////////////////////////////////////
+    int mult = 0;
+    string cmd = cmdCenter.processCmd(command, &mult);
+    cout << mult << cmd << endl;
+    //! ///////////////////////////////////////////////////////////////////////
     
     // Handle game-level commands that need access to Game state
     if (cmd == "restart") {
@@ -82,9 +86,13 @@ bool Game::rerouteCommand(string command) {
         return false; // Don't end turn
     }
     if (cmd == "sequence") {
+        //! ///////////////////////////////////////////////////////////////////////
         string name;
         cin >> name;
-        return runSeq(name);
+        for (int i = 0; i < mult; ++i) {
+            return runSeq(name);
+        }
+        //! ///////////////////////////////////////////////////////////////////////
     }
     
     Player* otherPlayer = (currP == p1.get()) ? p2.get() : p1.get();
@@ -103,13 +111,11 @@ bool Game::runSeq(string name) {
     // Read and execute commands from file one at a time
     string fileCmd;
     while (file >> fileCmd) {
-        // cout << "Executing from sequence: " << fileCmd << endl;
         bool turnEnded = rerouteCommand(fileCmd);  // Recursive, but controlled
         
         if (currP->getBoard()->isGameOver()) {
             cout << "Game Over!" << endl;
             reset();
-            // break;
         }
         
         if (turnEnded) {
