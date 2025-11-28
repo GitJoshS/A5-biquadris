@@ -61,6 +61,7 @@ export class Board {
         void rotate(bool clockwise);
         
         void forceBlockType(char type);
+        void applyHeavy(int additionalHeavy);
         vector<int> checkCompletedRows();
         int clearRow(int row);
 

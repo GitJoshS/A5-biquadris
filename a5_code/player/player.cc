@@ -23,7 +23,8 @@ export class Player {
     int playerId;         
     string name;                  
     string sequenceFile;
-    LevelFactory levelFactory; 
+    LevelFactory levelFactory;
+    int additionalHeaviness; 
 
     public: 
         // need a ctor, move ctor, copy ctor, copy asop, move asop and destructor later
@@ -43,4 +44,11 @@ export class Player {
         void rotate(bool clockwise);
         void levelUp();
         void levelDown();
+        
+        void addHeaviness(int amount);
+        void resetHeaviness();
+        int getAdditionalHeaviness() const;
+        
+        void applyEffects();
+        void handleSpecialEffects(Player* otherPlayer);
 };

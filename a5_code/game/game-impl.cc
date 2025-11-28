@@ -60,12 +60,19 @@ void Game::runGame() {
         if (cin >> command) {
             bool turnEnded = rerouteCommand(command);
             
+            // Player applies its own effects after every command
+            currP->applyEffects();
+            
             if (currP->getBoard()->isGameOver()) { // Check game over BEFORE swapping
                 cout << "Game Over!" << endl;
                 reset(); 
             }
             
             if (turnEnded) {
+                // Handle special effects for 2+ row clears
+                currP->handleSpecialEffects((currP == p1.get()) ? p2.get() : p1.get());
+                // Reset heaviness when turn ends
+                currP->resetHeaviness();
                 swapTurn();
             }
         }
@@ -110,12 +117,19 @@ bool Game::runSeq(string name) {
     while (file >> fileCmd) {
         bool turnEnded = rerouteCommand(fileCmd);  // Recursive, but controlled
         
+        // Player applies its own effects after every command
+        currP->applyEffects();
+        
         if (currP->getBoard()->isGameOver()) {
             cout << "Game Over!" << endl;
             reset();
         }
         
         if (turnEnded) {
+            // Handle special effects for 2+ row clears
+            currP->handleSpecialEffects((currP == p1.get()) ? p2.get() : p1.get());
+            // Reset heaviness when turn ends
+            currP->resetHeaviness();
             swapTurn();
             textDisplay->render();  // Show board after each turn-ending move
         }

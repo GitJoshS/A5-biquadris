@@ -18,3 +18,4 @@ S
 T
 Z
 force
+heavy

@@ -17,13 +17,14 @@ import <fstream>;
 import Board;
 import Level;
 import LevelFactory;
+import CommandCenter;
 
 using namespace std;
 
-Player::Player() : board{make_unique<Board>(11, 18, 0, "")}, curScore{0}, playerId{0}, name{""}, sequenceFile{""} { }
+Player::Player() : board{make_unique<Board>(11, 18, 0, "")}, curScore{0}, playerId{0}, name{""}, sequenceFile{""}, additionalHeaviness{0} { }
 
 Player::Player(int score, int id, string name, string sequenceFile)
-    : curScore{score}, playerId{id}, name{name}, sequenceFile{sequenceFile} {
+    : curScore{score}, playerId{id}, name{name}, sequenceFile{sequenceFile}, additionalHeaviness{0} {
     board = make_unique<Board>(11, 18, 0, sequenceFile);
 }
 
@@ -102,5 +103,37 @@ void Player::levelDown() {
         board->setLevel(levelFactory.create(0, file));
     } else {
         board->setLevel(levelFactory.create(newLevel));
+    }
+}
+
+void Player::addHeaviness(int amount) {
+    additionalHeaviness += amount;
+}
+
+void Player::resetHeaviness() {
+    additionalHeaviness = 0;
+}
+
+int Player::getAdditionalHeaviness() const {
+    return additionalHeaviness;
+}
+
+void Player::applyEffects() {
+    // Apply heavy after every command
+    int additionalHeavy = getAdditionalHeaviness();
+    board->applyHeavy(additionalHeavy);
+}
+
+void Player::handleSpecialEffects(Player* otherPlayer) {
+    // Check if 2 or more rows were cleared in the last drop
+    vector<int> completedRows = board->checkCompletedRows();
+    if (completedRows.size() >= 2) {
+        cout << "Apply special effects: ";
+        string command;
+        cin >> command;
+        
+        // Use CommandCenter to handle special effects commands
+        CommandCenter cmdCenter;
+        cmdCenter.executeSpecialEffectsCmd(command, this, otherPlayer);
     }
 }

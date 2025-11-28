@@ -116,9 +116,41 @@ bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherP
             cout << "Force command requires a block type (I, J, L, O, S, T, Z)" << endl;
         }
         return false;
+    } else if (cmd == "heavy") {
+        // Add heaviness to opponent
+        if (otherPlayer) {
+            otherPlayer->addHeaviness(2);
+        }
+        return false;
     } else {
         cout << "Unknown command: " << cmd << endl;
         return false;
     }
     return false;
+}
+
+bool CommandCenter::executeSpecialEffectsCmd(string cmd, Player* currentPlayer, Player* otherPlayer) {
+    if (cmd == "force") {
+        string blockType;
+        if (cin >> blockType && blockType.length() == 1) {
+            char type = blockType[0];
+            if (type == 'I' || type == 'J' || type == 'L' || type == 'O' || 
+                type == 'S' || type == 'T' || type == 'Z') {
+                if (otherPlayer) {
+                    otherPlayer->getBoard()->forceBlockType(type);
+                }
+            } else {
+                cout << "Invalid block type for special effects: " << type << endl;
+            }
+        } else {
+            cout << "Force command requires a block type (I, J, L, O, S, T, Z)" << endl;
+        }
+    } else if (cmd == "heavy") {
+        if (otherPlayer) {
+            otherPlayer->addHeaviness(2);
+        }
+    } else {
+        cout << "Invalid special effects command. Use 'force' or 'heavy'." << endl;
+    }
+    return true; // Special effects commands always succeed
 }
