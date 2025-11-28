@@ -123,35 +123,39 @@ bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherP
 }
 
 bool CommandCenter::executeSpecialEffectsCmd(string cmd, Player* currentPlayer, Player* otherPlayer) {
-    cout << "Apply special effects: ";
-    string command;
-    cin >> command;
-    
-    if (command == "force") {
-        string blockType;
-        if (cin >> blockType && blockType.length() == 1) {
-            char type = blockType[0];
-            if (type == 'I' || type == 'J' || type == 'L' || type == 'O' || 
-                type == 'S' || type == 'T' || type == 'Z') {
-                if (otherPlayer) {
-                    otherPlayer->getBoard()->forceBlockType(type);
+    while (true) {
+        cout << "Apply special effects: ";
+        string command;
+        cin >> command;
+        if (command == "force") {
+            string blockType;
+            if (cin >> blockType && blockType.length() == 1) {
+                char type = blockType[0];
+                if (type == 'I' || type == 'J' || type == 'L' || type == 'O' || 
+                    type == 'S' || type == 'T' || type == 'Z') {
+                    if (otherPlayer) {
+                        otherPlayer->getBoard()->forceBlockType(type);
+                    }
+                } else {
+                    cout << "Invalid block type for special effects: " << type << endl;
                 }
             } else {
-                cout << "Invalid block type for special effects: " << type << endl;
+                cout << "Force command requires a block type (I, J, L, O, S, T, Z)" << endl;
             }
+            break;
+        } else if (command == "heavy") {
+            if (otherPlayer) {
+                otherPlayer->addHeaviness(2);
+            }
+            break;
+        } else if (command == "blind") {
+            if (otherPlayer) {
+                otherPlayer->setRenderEffect("blind");
+            }
+            break;
         } else {
-            cout << "Force command requires a block type (I, J, L, O, S, T, Z)" << endl;
+            cout << "Invalid special effects command. Use 'force', 'heavy', or 'blind'." << endl;
         }
-    } else if (command == "heavy") {
-        if (otherPlayer) {
-            otherPlayer->addHeaviness(2);
-        }
-    } else if (command == "blind") {
-        if (otherPlayer) {
-            otherPlayer->setRenderEffect("blind");
-        }
-    } else {
-        cout << "Invalid special effects command. Use 'force', 'heavy', or 'blind'." << endl;
     }
-    return true; // Special effects commands always succeed
+    return true; 
 }
