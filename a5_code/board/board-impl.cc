@@ -13,6 +13,7 @@ import OBlock;
 import SBlock;
 import TBlock;
 import ZBlock;
+import starBlock;
 import Level;
 import LevelFactory;
 
@@ -123,21 +124,12 @@ bool Board::drop() { //Added by Linh
     return false;
 }
 
-void Board::clearBlock(shared_ptr<Block> block) {
-    if (!block) return;
-    for (const auto& coord : block->getPosition()) {
-        int col = coord.first;
-        int row = coord.second;
-        // Ensure coordinates are within bounds before accessing grid
-        if (col >= 0 && col < width && row >= 0 && row < height) {
-            grid[col][row] = nullptr; 
-        }
-    }
-}
-
 bool Board::dropBlock(shared_ptr<Block> block) { //Added by Linh
+    vector<pair<int, int>> tempPos;
+    placeBlock(block);
     while (true) {
-        vector<pair<int, int>> tempPos = block->getPosition();
+        tempPos = block->getPosition();
+        clearBlock(block);
         for (auto& coord : tempPos) {
             coord.second += 1; 
         } 
@@ -154,6 +146,18 @@ bool Board::dropBlock(shared_ptr<Block> block) { //Added by Linh
         return true;
     }
     return false;
+}
+
+void Board::clearBlock(shared_ptr<Block> block) {
+    if (!block) return;
+    for (const auto& coord : block->getPosition()) {
+        int col = coord.first;
+        int row = coord.second;
+        // Ensure coordinates are within bounds before accessing grid
+        if (col >= 0 && col < width && row >= 0 && row < height) {
+            grid[col][row] = nullptr; 
+        }
+    }
 }
 
 bool Board::move(int x, int y) { 
@@ -200,6 +204,11 @@ void Board::nextTurn() {
         return;
     }
     char blockType = level->getNextBlockType();
+    if (blockType == '*') {
+        shared_ptr<Block> temp = make_shared<starBlock>();
+        dropBlock(temp);
+        blockType = level->getNextBlockType();
+    }
     nextBlock = generateNext(blockType);
 }
 

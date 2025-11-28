@@ -7,4 +7,4 @@ import Block;
 
 using namespace std;
 
-starBlock::starBlock() : Block{'*', 4, 1, {{0,5}}}{}
+starBlock::starBlock() : Block{'*', 4, 1, {{5,0}}}{}
