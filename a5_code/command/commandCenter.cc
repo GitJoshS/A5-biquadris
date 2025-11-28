@@ -20,22 +20,18 @@ import Command;
 import Player;
 
 
-export class Game; // NEED TO DOUBLE CHECK, I THINK THIS MAKES IT OK????
-
 using namespace std;
 
 export class CommandCenter {
-    Game* game; 
-
     vector<string> commandList; 
 
     vector<string> loadCommandsFromFile();
     string findUniqueCommand(const string &input);
     
     public:
-        CommandCenter(Game* g);
+        CommandCenter();
 
         string processCmd(string cmd);
         
-        bool executeCmd(string cmd);
+        bool executeCmd(string cmd, Player* currentPlayer, Player* otherPlayer);
 };

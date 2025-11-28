@@ -22,7 +22,7 @@ import Player;
 
 using namespace std;
 
-CommandCenter::CommandCenter(Game* g) : game{g}, commandList{loadCommandsFromFile()} {}
+CommandCenter::CommandCenter() : commandList{loadCommandsFromFile()} {}
 
 // helper function to load commands from file
 vector<string> CommandCenter::loadCommandsFromFile() {
@@ -58,35 +58,36 @@ string CommandCenter::processCmd(string cmd) {
     return "unknown";
 }
 
-bool CommandCenter::executeCmd(string cmd) {
-    Player* player = game->getCurrentPlayer();
+bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherPlayer) {
     if (cmd == "left") {
-        return player->moveBlock(-1, 0);
+        return currentPlayer->moveBlock(-1, 0);
     } else if (cmd == "right") {
-        return player->moveBlock(1, 0);
+        return currentPlayer->moveBlock(1, 0);
     } else if (cmd == "down") {
-        return player->moveBlock(0, 1);
+        return currentPlayer->moveBlock(0, 1);
     } else if (cmd == "drop") {
-        return player->dropBlock();
+        return currentPlayer->dropBlock();
     } else if (cmd == "clockwise") {
-        player->rotate(true);
+        currentPlayer->rotate(true);
         return false;
     } else if (cmd == "counterclockwise") {
-        player->rotate(false);
+        currentPlayer->rotate(false);
         return false;
     } else if (cmd == "levelup") {
-        player->levelUp();
+        currentPlayer->levelUp();
         return false;
     } else if (cmd == "leveldown") {
-        player->levelDown();
+        currentPlayer->levelDown();
         return false;
     } else if (cmd == "random") {
+        currentPlayer->getBoard()->restoreRandomLevel();
         return false;
     } else if (cmd == "norandom") {
+        // This would need a file parameter - for now just return false
+        // Implementation depends on how the file is provided
         return false;
     } else if (cmd == "sequence") {
-        return false;
-    } else if (cmd == "restart") {
+        // This would need a sequence file parameter
         return false;
     } else {
         cout << "Unknown command: " << cmd << endl;

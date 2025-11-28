@@ -35,7 +35,7 @@ Game::Game(const vector<string>& argv, const string& player1, const string& play
     : p1{make_unique<Player>(0, 1, player1, "../biquadris/biquadris_sequence1.txt")},
       p2{make_unique<Player>(0, 2, player2, "../biquadris/biquadris_sequence2.txt")},
       currP{p1.get()}, textDisplay{TextDisplay(vector<Player*>{p1.get(), p2.get()})}, graphicsDisplay{nullptr}, highscore{0},
-      textOnly{true}, args{argv}, cmdCenter{CommandCenter(this)} { }
+      textOnly{true}, cmdCenter{CommandCenter()} { }
 
 Player* Game::getCurrentPlayer() { return currP; }
 Player* Game::getPlayer1() { return p1.get(); }
@@ -61,20 +61,28 @@ void Game::runGame() {
 
         if (currP->getBoard()->isGameOver()) { // recieve state of game from board
             cout << "Game Over!" << endl;
-            restart(); 
+            reset(); 
         }
     }  
 }
 
 bool Game::rerouteCommand(string command) {
     string cmd = cmdCenter.processCmd(command);
-    return cmdCenter.executeCmd(cmd);
+    
+    // Handle game-level commands that need access to Game state
+    if (cmd == "restart") {
+        reset();
+        return false; // Don't end turn
+    }
+    
+    Player* otherPlayer = (currP == p1.get()) ? p2.get() : p1.get();
+    return cmdCenter.executeCmd(cmd, currP, otherPlayer);
 }
 
 void Game::handleSpecialAction(string action) {}   
 void Game::triggerSpecialAction(string action) {}   
 
-void Game::restart() { 
+void Game::reset() { 
     p1->reset();
     p2->reset();
 }
