@@ -52,7 +52,7 @@ void Game::swapTurn() {
 
 void Game::runGame() {
         while (true){
-        textDisplay->render(currP->getRenderEffect());
+        textDisplay->render();
     
         string command; 
         cout << "Make a move " << currP->getName() << ": ";
@@ -135,7 +135,7 @@ bool Game::runSeq(string name) {
             currP->resetHeaviness();
             currP->resetRenderEffect();
             swapTurn();
-            textDisplay->render(currP->getRenderEffect());  // Show board after each turn-ending move
+            textDisplay->render();  // Show board after each turn-ending move
         }
     }
     return false;  // The sequence command itself doesn't end the turn

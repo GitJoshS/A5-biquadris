@@ -13,10 +13,6 @@ using namespace std;
 TextDisplay::TextDisplay(vector<Player*> players) : Display{players} {}
 
 void TextDisplay::render() {
-    render("");
-}
-
-void TextDisplay::render(const string& effect) {
     int width = players[0]->getBoard()->getWidth();
     int height = players[0]->getBoard()->getHeight();
     int playerCount = players.size();
@@ -57,7 +53,7 @@ void TextDisplay::render(const string& effect) {
             const vector<vector<shared_ptr<Block>>>& grid = players[player]->getBoard()->getGrid();
             // for each column  
             for (int col = 0; col < width; ++col) {
-                if (effect == "blind" && (rows <= 11 && rows >= 2) && (col <= 8 && col >= 2)) {
+                if (players[player]->getRenderEffect() == "blind" && (rows <= 11 && rows >= 2) && (col <= 8 && col >= 2)) {
                     cout << '?';
                     continue;
                 }
