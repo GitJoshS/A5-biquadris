@@ -219,12 +219,13 @@ void Board::setLevel(unique_ptr<Level> newLevel) {
 
 void Board::rotate(bool clockwise) {
     vector<pair<int,int>> tempPos = activeBlock->rotatePosition(clockwise);
+    clearBlock(activeBlock);
     if (isValidMove(tempPos)) {
-        clearBlock(activeBlock);
         activeBlock->setPosition(tempPos);
-        placeBlock(activeBlock);
     }
+    placeBlock(activeBlock);
 }
+
 bool Board::checkGameOver() {
     vector<pair<int,int>> spawnPos = activeBlock->getPosition();
     return !isValidMove(spawnPos);
