@@ -70,6 +70,7 @@ void Game::runGame() {
                 if (currP->hasSpecialEffects()) {
                     Player* otherPlayer = (currP == p1.get()) ? p2.get() : p1.get();
                     cmdCenter.executeSpecialEffectsCmd("", currP, otherPlayer);
+                    currP->resetSpecialEffects();
                 }
                 // Reset heaviness when turn ends
                 currP->resetHeaviness();
@@ -127,6 +128,7 @@ bool Game::runSeq(string name) {
             if (currP->hasSpecialEffects()) {
                 Player* otherPlayer = (currP == p1.get()) ? p2.get() : p1.get();
                 cmdCenter.executeSpecialEffectsCmd("", currP, otherPlayer);
+                currP->resetSpecialEffects();
             }
             // Reset heaviness when turn ends
             currP->resetHeaviness();

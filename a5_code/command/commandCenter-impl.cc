@@ -108,30 +108,6 @@ bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherP
         // Force current player's block
         currentPlayer->getBoard()->forceBlockType(cmd[0]);
         return false;
-    } else if (cmd == "force") {
-        // Handle "force I", "force J", etc. - need to read the next token
-        string blockType;
-        if (cin >> blockType && blockType.length() == 1) {
-            char type = blockType[0];
-            if (type == 'I' || type == 'J' || type == 'L' || type == 'O' || 
-                type == 'S' || type == 'T' || type == 'Z') {
-                // Force opponent's block
-                if (otherPlayer) {
-                    otherPlayer->getBoard()->forceBlockType(type);
-                }
-            } else {
-                cout << "Invalid block type: " << type << endl;
-            }
-        } else {
-            cout << "Force command requires a block type (I, J, L, O, S, T, Z)" << endl;
-        }
-        return false;
-    } else if (cmd == "heavy") {
-        // Add heaviness to opponent
-        if (otherPlayer) {
-            otherPlayer->addHeaviness(2);
-        }
-        return false;
     } else {
         cout << "Unknown command: " << cmd << endl;
         return false;

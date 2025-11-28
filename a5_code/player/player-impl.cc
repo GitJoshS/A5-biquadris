@@ -20,10 +20,10 @@ import LevelFactory;
 
 using namespace std;
 
-Player::Player() : board{make_unique<Board>(11, 18, 0, "")}, curScore{0}, playerId{0}, name{""}, sequenceFile{""}, additionalHeaviness{0} { }
+Player::Player() : board{make_unique<Board>(11, 18, 0, "")}, curScore{0}, playerId{0}, name{""}, sequenceFile{""}, additionalHeaviness{0}, shouldTriggerSpecialEffects{false} { }
 
 Player::Player(int score, int id, string name, string sequenceFile)
-    : curScore{score}, playerId{id}, name{name}, sequenceFile{sequenceFile}, additionalHeaviness{0} {
+    : curScore{score}, playerId{id}, name{name}, sequenceFile{sequenceFile}, additionalHeaviness{0}, shouldTriggerSpecialEffects{false} {
     board = make_unique<Board>(11, 18, 0, sequenceFile);
 }
 
@@ -60,6 +60,9 @@ bool Player::dropBlock() {
     
     int totalScore = 0;
     int linesCleared = completedRows.size();
+    
+    // Set special effects flag if 2+ lines cleared
+    shouldTriggerSpecialEffects = (linesCleared >= 2);
     
     if (linesCleared > 0) {
         int currentLevel = board->getLevel()->getLevel();
@@ -124,7 +127,9 @@ bool Player::applyEffects() {
 }
 
 bool Player::hasSpecialEffects() const {
-    // Check if 2 or more rows were cleared in the last drop
-    vector<int> completedRows = board->checkCompletedRows();
-    return completedRows.size() >= 2;
+    return shouldTriggerSpecialEffects;
+}
+
+void Player::resetSpecialEffects() {
+    shouldTriggerSpecialEffects = false;
 }

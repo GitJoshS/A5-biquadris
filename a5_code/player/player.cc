@@ -24,7 +24,8 @@ export class Player {
     string name;                  
     string sequenceFile;
     LevelFactory levelFactory;
-    int additionalHeaviness; 
+    int additionalHeaviness;
+    bool shouldTriggerSpecialEffects; 
 
     public: 
         // need a ctor, move ctor, copy ctor, copy asop, move asop and destructor later
@@ -51,4 +52,5 @@ export class Player {
         
         bool applyEffects();
         bool hasSpecialEffects() const;
+        void resetSpecialEffects();
 };
