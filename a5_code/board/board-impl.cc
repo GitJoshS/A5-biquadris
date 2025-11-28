@@ -248,25 +248,33 @@ vector<int> Board::checkCompletedRows() {
 
 
 int Board::clearRow(int row) {
-    // for each row from "row" to 0
     int score = 0;
-    for (; row >= 0; --row) {
-        // each column in the row
-        for (int col = 0; col < width; ++col) {
-            // edge case at top row
-            if (row >= 1) {
-                grid[col][row] = grid[col][row-1];
-            } else {
-                //Linh added: minus cellsLeft from Block and check if cells are all cleared
-                if (grid[col][row]->decreaseCells()) {
-                    score += (grid[col][row]->getLevelGenerated() + 1)*(grid[col][row]->getLevelGenerated() + 1);
-                }
-                grid[col][row] = nullptr;
+    
+    // First, clear the completed row and calculate score
+    for (int col = 0; col < width; ++col) {
+        if (grid[col][row]) {
+            if (grid[col][row]->decreaseCells()) {
+                score += grid[col][row]->getLevelGenerated() + 1;
             }
+            grid[col][row] = nullptr;
         }
     }
+    
+    // Then shift rows down
+    for (; row > 0; --row) {
+        for (int col = 0; col < width; ++col) {
+            grid[col][row] = std::move(grid[col][row-1]);
+        }
+    }
+    
+    // Clear top row
+    for (int col = 0; col < width; ++col) {
+        grid[col][0] = nullptr;
+    }
+    
     return score;
 }
+
 
 
 Board::~Board() {/*Does block own any ptrs? -Linh: idk but we dont hv to do memory management*/};
