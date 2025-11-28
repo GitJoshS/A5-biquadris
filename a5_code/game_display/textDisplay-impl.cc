@@ -42,7 +42,7 @@ void TextDisplay::render() {
         // for each player
         for (int player = 0; player < playerCount; ++player) {
             // fetch the players active board (the grid)
-            vector<vector<shared_ptr<Block>>>& grid = players[player]->getBoard()->getGrid();
+            const vector<vector<shared_ptr<Block>>>& grid = players[player]->getBoard()->getGrid();
             // for each column  
             for (int col = 0; col < width; ++col) {
                 // gives Block*->getChar()

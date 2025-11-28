@@ -19,6 +19,9 @@ import CommandCenter;
 import <string>;
 import <memory>;
 import <vector>;
+import <iostream>;
+
+using namespace std; 
 
 export class Game {
     CommandCenter cmdCenter;
@@ -27,8 +30,8 @@ export class Game {
     unique_ptr<Player> p2;
     Player* currP;
 
-    TextDisplay textDisplay;
-    Display graphicsDisplay;
+    unique_ptr<Display> textDisplay;
+    unique_ptr<Display> graphicsDisplay;
 
     int highscore;
     bool textOnly;
