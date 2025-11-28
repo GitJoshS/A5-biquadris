@@ -8,7 +8,7 @@ OBJECTS = level.o level-impl.o level0.o level0-impl.o level1.o level1-impl.o lev
 
 HEADERS = vector memory iostream sstream cmath fstream utility cstdlib string
 
-EXEC = exec
+EXEC = biquadris
 
 $(EXEC): $(SOURCES)
 	$(CXX) $(HEADERFLAGS) $(HEADERS)

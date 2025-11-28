@@ -11,3 +11,4 @@ gcm.cache/
 *.o
 *.d
 a5_code/exec
+a5_code/biquadris.zip
