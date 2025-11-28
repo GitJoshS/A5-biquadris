@@ -4,6 +4,7 @@ import <utility>;
 import <vector>;
 import <memory>;
 import <fstream>;
+import <iostream>;
 import Block;
 import IBlock;  
 import JBlock;
@@ -32,6 +33,7 @@ Board::Board(int width, int height, int startLevel, string sequenceFile)
     // int curLevel = level->getLevel();
     char blockType = level->getNextBlockType();
     activeBlock = generateNext(blockType);
+    placeBlock(activeBlock);
     blockType = level->getNextBlockType();
     nextBlock = generateNext(blockType);
 }
@@ -90,10 +92,19 @@ bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This mig
 //Linh: Is this assuming the position is valid and the block just have to "lock in place"?
 void Board::placeBlock(shared_ptr<Block> block) {
     /*IMPLEMENT THIS*/
+    if (block == nullptr) {
+        cout << "THIS IS NULL PTR???" << endl;
+        return;
+    }
+    cout << "RUNNING..." << endl;
+    cout << block->getPosition()[0].first << "AND" << block->getPosition()[0].second << endl;
      for (const std::pair<int, int>& coord : block->getPosition()) {
         int col = coord.first;
         int row = coord.second;
         grid[col][row] = block;
+        std::cout << "DEBUG: Placing block '" << block->getType() 
+                  << "' at grid[" << col << "][" << row << "]" << std::endl;
+        cout<< "PLACEBLOcK WORKING" << endl;
      }
 }
 
@@ -172,11 +183,12 @@ shared_ptr<Block> Board::generateNext(char type) {
 
 void Board::nextTurn() {
     activeBlock = nextBlock;
+    placeBlock(activeBlock);
     if (!checkGameOver()) {
         placeBlock(activeBlock);
     }
     else {
-        //Condition if game is over? Maybe a bool field member?
+        gameOver = true;
         return;
     }
     char blockType = level->getNextBlockType();
