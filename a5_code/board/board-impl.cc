@@ -183,7 +183,7 @@ bool Board::move(int x, int y) {
     }
 }
 
-//! GET THIS SHIT OUTTA HERE
+//! Shouldnt this be in a BlockFactory class?
 shared_ptr<Block> Board::generateBlock(char type) {
     int lev = level->getLevel();
     switch(type) {
@@ -236,7 +236,7 @@ void Board::setLevel(unique_ptr<Level> newLevel) {
 }
 
 void Board::rotate(bool clockwise) {
-    vector<pair<int,int>> tempPos = activeBlock->rotatePosition(clockwise);
+    vector<pair<int,int>> tempPos = activeBlock->rotatePosition(!clockwise);
     clearBlock(activeBlock);
     if (isValidMove(tempPos)) {
         activeBlock->setPosition(tempPos);

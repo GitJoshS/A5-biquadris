@@ -15,6 +15,7 @@ import <vector>;
 import <string>;
 import <sstream>;
 import <cstdlib>;
+import <iostream>;
 
 using namespace std;
 
@@ -64,20 +65,17 @@ int main(int argc, char* argv[]) {
     
     cout << "Start game? (y/n): ";
     cin >> start;
-    
-    Game game;
+
+    Game game = Game(args, p1, p2);
     if (start == "y" || start == "yes") {
         if (startLevel != 0) {
-            Game game = Game(args, p1, p2, startLevel);
+            game = Game(args, p1, p2, startLevel);
         }
         else if (scriptFile1 != "../biquadris/biquadris_sequence1.txt"){
-            Game game = Game(args, p1, p2, scriptFile1, true);
+            game = Game(args, p1, p2, scriptFile1, true);
         }
          else if (scriptFile2 != "../biquadris/biquadris_sequence2.txt"){
-            Game game = Game(args, p1, p2, scriptFile2, false);
-        }
-        else {
-            Game game = Game(args, p1, p2);
+            game = Game(args, p1, p2, scriptFile2, false);
         }
         game.runGame(); 
     }
