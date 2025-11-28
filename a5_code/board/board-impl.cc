@@ -17,9 +17,9 @@ Board::Board(int width, int height, int startLevel, string sequenceFile)
     // initialize level
     if (startLevel == 0 && !sequenceFile.empty()) {
         ifstream file(sequenceFile);
-        level = LevelFactory::create(startLevel, file);
+        level = levelFactory.create(startLevel, file);
     } else {
-        level = LevelFactory::create(startLevel);
+        level = levelFactory.create(startLevel);
     }
 
     int curLevel = level->getLevel();
@@ -59,12 +59,12 @@ bool Board::isGameOver() const {
 
 void Board::noRandomLevel(ifstream& file) {
     int curLevel = level->getLevel();
-    level = LevelFactory::create(curLevel, file);
+    level = levelFactory.create(curLevel, file);
 }
 
 void Board::restoreRandomLevel() {
     int curLevel = level->getLevel();
-    level = LevelFactory::create(curLevel);
+    level = levelFactory.create(curLevel);
 }
 
 bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This might have a problem, it might collide with itself. For instance, if an L shape moves down, the tip of the L moving would coincide with its own block, and this function would return false
@@ -177,12 +177,12 @@ void Board::nextTurn() {
 
 void Board::levelUp() {
     int curLevel = level->getLevel() + 1;
-    level = LevelFactory::create(curLevel);
+    level = levelFactory.create(curLevel);
 }
 
 void Board::levelDown() {
     int curLevel = level->getLevel() - 1;
-    level = LevelFactory::create(curLevel);
+    level = levelFactory.create(curLevel);
 }
 
 void Board::setLevel(unique_ptr<Level> newLevel) {

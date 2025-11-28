@@ -8,6 +8,6 @@ using namespace std;
 
 export class LevelFactory {
     public:
-        static unique_ptr<Level> create(int levelNum);
-        static unique_ptr<Level> create(int levelNum, ifstream& f);
+        unique_ptr<Level> create(int levelNum);
+        unique_ptr<Level> create(int levelNum, ifstream& f);
 };

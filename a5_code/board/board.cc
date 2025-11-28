@@ -5,6 +5,7 @@ import <vector>;
 import <memory>;
 import Block;
 import Level;
+import LevelFactory;
 
 using namespace std;
 
@@ -17,6 +18,7 @@ export class Board {
     vector<vector<shared_ptr<Block>>> grid; // grid[col][row]
     bool gameOver;
     string sequenceFile;
+    LevelFactory levelFactory;
 
     shared_ptr<Block> generateNext(char type);
 
