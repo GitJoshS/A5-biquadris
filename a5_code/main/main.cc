@@ -5,7 +5,9 @@ Date: 2024-11-25
 Last Edited: 2024-06-26
 
 Description:
-This is the main file that runs Biquardis.
+This is the main file that runs Biquardis. Mains purpose is 
+to parse command-line arguments, set up the game environment,
+and initiate the game loop.
 */
 
 import Game;
@@ -21,9 +23,9 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     // Default values
-    int seed = -1;  // -1 means no seed set (use default random)
     string scriptFile1 = "../biquadris/biquadris_sequence1.txt";
     string scriptFile2 = "../biquadris/biquadris_sequence2.txt";
+    int seed = -1;  // -1 means no seed set (use default random)
     int startLevel = 0;
 
     // Parse command-line arguments
@@ -50,22 +52,28 @@ int main(int argc, char* argv[]) {
         srand(seed);
     }
 
+    // Convert argv to vector<string>
     vector<string> args;
     for (int i = 0; i < argc; ++i) {
         args.push_back(argv[i]);
     } 
-
+    
+    // Get player names and start prompt
     string p1, p2, start;
 
+    // p1 name
     cout << "Please enter your name Player 1: ";
     cin >> p1;
 
+    // p2 name
     cout << "Please enter your name Player 2: ";
     cin >> p2;
     
+    // Start game prompt
     cout << "Start game? (y/n): ";
     cin >> start;
 
+    // Initialize and run the game: note if startLevel is 0, default behavior is used
     Game game = Game(args, p1, p2);
     if (start == "y" || start == "yes") {
         if (startLevel != 0) {
@@ -78,5 +86,8 @@ int main(int argc, char* argv[]) {
             game = Game(args, p1, p2, scriptFile2, false);
         }
         game.runGame(); 
+    }
+    else {
+        cout << "Okay, goodbye!." << endl;
     }
 }
