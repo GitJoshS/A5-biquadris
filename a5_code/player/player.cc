@@ -18,10 +18,10 @@ import LevelFactory;
 using namespace std;
 
 export class Player {
-    unique_ptr<Board> board;   
-    int playerId;          
-    string name;     
-    int curScore;              
+    unique_ptr<Board> board; 
+    int curScore;    
+    int playerId;         
+    string name;                  
     string sequenceFile;
     LevelFactory levelFactory; 
 
