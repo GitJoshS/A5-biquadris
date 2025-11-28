@@ -82,7 +82,7 @@ bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This mig
         int col = coord.first;
         int row = coord.second;
         // if block exists there or out of bounds, not valid
-        if (grid[col][row] || (col > width || col < 0) || (row > height || row < 0)) {
+        if (grid[col][row] || (col >= width || col < 0) || (row >= height || row < 0)) {
             return false;
         }
     }
@@ -109,13 +109,16 @@ void Board::placeBlock(shared_ptr<Block> block) {
 }
 
 bool Board::drop() { //Added by Linh
+    vector<pair<int,int>> tempPos;
     while (true) {
-        vector<pair<int, int>> tempPos = activeBlock->getPosition();
+        tempPos = activeBlock->getPosition();
+        clearBlock(activeBlock);
         for (auto& coord : tempPos) {
             coord.second += 1;  
         }
         if (isValidMove(tempPos)) {
             activeBlock->setPosition(tempPos);
+            continue;
         }
         else {
             placeBlock(activeBlock);
