@@ -82,34 +82,42 @@ bool Game::rerouteCommand(string command) {
         return false; // Don't end turn
     }
     if (cmd == "sequence") {
-        ifstream file("game/sequence.txt");
-        if (!file) {
-            cerr << "Error: Could not open sequence.txt" << endl;
-            return false;
-        }
-        
-        // Read and execute commands from file one at a time
-        string fileCmd;
-        while (file >> fileCmd) {
-            // cout << "Executing from sequence: " << fileCmd << endl;
-            bool turnEnded = rerouteCommand(fileCmd);  // Recursive, but controlled
-            
-            if (currP->getBoard()->isGameOver()) {
-                cout << "Game Over!" << endl;
-                reset();
-                break;
-            }
-            
-            if (turnEnded) {
-                swapTurn();
-                textDisplay->render();  // Show board after each turn-ending move
-            }
-        }
-        return false;  // The sequence command itself doesn't end the turn
+        string name;
+        cin >> name;
+        return runSeq(name);
     }
     
     Player* otherPlayer = (currP == p1.get()) ? p2.get() : p1.get();
     return cmdCenter.executeCmd(cmd, currP, otherPlayer);
+}
+
+
+bool Game::runSeq(string name) {
+
+    ifstream file("files/" + name);
+    if (!file) {
+        cerr << "Error: Could not open sequence.txt" << endl;
+        return false;
+    }
+    
+    // Read and execute commands from file one at a time
+    string fileCmd;
+    while (file >> fileCmd) {
+        // cout << "Executing from sequence: " << fileCmd << endl;
+        bool turnEnded = rerouteCommand(fileCmd);  // Recursive, but controlled
+        
+        if (currP->getBoard()->isGameOver()) {
+            cout << "Game Over!" << endl;
+            reset();
+            // break;
+        }
+        
+        if (turnEnded) {
+            swapTurn();
+            textDisplay->render();  // Show board after each turn-ending move
+        }
+    }
+    return false;  // The sequence command itself doesn't end the turn
 }
 
 void Game::handleSpecialAction(string action) {}   

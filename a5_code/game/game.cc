@@ -49,6 +49,7 @@ export class Game {
 
         void runGame();
         bool rerouteCommand(string command);
+        bool runSeq(string name);
 
         void handleSpecialAction(string action);
         void triggerSpecialAction(string action);
