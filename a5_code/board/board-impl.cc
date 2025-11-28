@@ -260,7 +260,12 @@ void Board::applyHeavy(int additionalHeavy) {
         temp = activeBlock;
         move(0,1);
         if (temp->getPosition() == activeBlock->getPosition()) {
-            drop();
+            // Block can't move down anymore
+            if (heaviness > 0) {
+                // There is heaviness (either from level or additional), so drop the block
+                drop();
+            }
+            break;
         }
     }
 }
