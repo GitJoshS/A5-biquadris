@@ -2,9 +2,11 @@ module TextDisplay;
 
 import <iostream>;
 import <cmath>;
+import <memory>;
 import Player;
 import Board;
 import Level;
+import Block;
 
 using namespace std;
 
