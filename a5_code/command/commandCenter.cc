@@ -32,5 +32,5 @@ export class CommandCenter {
 
         string processCmd(string cmd, int* multiplier);
         
-        bool executeCmd(string cmd, Player* currentPlayer, Player* otherPlayer);
+        bool executeCmd(string cmd, Player* currentPlayer, Player* otherPlayer, int mult);
 };

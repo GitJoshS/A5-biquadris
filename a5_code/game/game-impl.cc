@@ -74,11 +74,8 @@ void Game::runGame() {
 
 
 bool Game::rerouteCommand(string command) {
-    //! ///////////////////////////////////////////////////////////////////////
     int mult = 0;
     string cmd = cmdCenter.processCmd(command, &mult);
-    cout << mult << cmd << endl;
-    //! ///////////////////////////////////////////////////////////////////////
     
     // Handle game-level commands that need access to Game state
     if (cmd == "restart") {
@@ -86,7 +83,6 @@ bool Game::rerouteCommand(string command) {
         return false; // Don't end turn
     }
     if (cmd == "sequence") {
-        //! ///////////////////////////////////////////////////////////////////////
         string name;
         cin >> name;
         for (int i = 0; i < mult; ++i) {
@@ -94,11 +90,10 @@ bool Game::rerouteCommand(string command) {
             cout << "RunSeq ran" << endl;
         }
         return false;
-        //! ///////////////////////////////////////////////////////////////////////
     }
     
     Player* otherPlayer = (currP == p1.get()) ? p2.get() : p1.get();
-    return cmdCenter.executeCmd(cmd, currP, otherPlayer);
+    return cmdCenter.executeCmd(cmd, currP, otherPlayer, mult);
 }
 
 

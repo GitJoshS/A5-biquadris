@@ -52,41 +52,36 @@ string CommandCenter::findUniqueCommand(const string& input) {
     return match;
 }
 
-//! ///////////////////////////////////////////////////////////////////////
 string CommandCenter::processCmd(string cmd, int* multiplier) {
     istringstream iss{cmd};
     if (!(iss >> *multiplier)) {
         iss.clear();
         iss.seekg(0);
+        *multiplier = 1;
     }
     iss >> cmd;
     string result = findUniqueCommand(cmd);
     if (!result.empty()) return result;
     return "unknown";
 }
-//! ///////////////////////////////////////////////////////////////////////
 
-bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherPlayer) {
-    if (cmd == "left") {
-        return currentPlayer->moveBlock(-1, 0);
+bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherPlayer, int mult) {
+    if (cmd == "left") {    
+        for(int i = 0; i < mult; ++i) currentPlayer->moveBlock(-1, 0);
     } else if (cmd == "right") {
-        return currentPlayer->moveBlock(1, 0);
+        for(int i = 0; i < mult; ++i) currentPlayer->moveBlock(1, 0);
     } else if (cmd == "down") {
-        return currentPlayer->moveBlock(0, 1);
+        for(int i = 0; i < mult; ++i) currentPlayer->moveBlock(0, 1);
     } else if (cmd == "drop") {
         return currentPlayer->dropBlock();
     } else if (cmd == "clockwise") {
-        currentPlayer->rotate(true);
-        return false;
+        for(int i = 0; i < mult; ++i) currentPlayer->rotate(true);
     } else if (cmd == "counterclockwise") {
-        currentPlayer->rotate(false);
-        return false;
+        for(int i = 0; i < mult; ++i) currentPlayer->rotate(false);
     } else if (cmd == "levelup") {
-        currentPlayer->levelUp();
-        return false;
+        for(int i = 0; i < mult; ++i) currentPlayer->levelUp();
     } else if (cmd == "leveldown") {
-        currentPlayer->levelDown();
-        return false;
+        for(int i = 0; i < mult; ++i) currentPlayer->levelDown();
     } else if (cmd == "random") {
         currentPlayer->getBoard()->restoreRandomLevel();
         return false;
@@ -101,4 +96,5 @@ bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherP
         cout << "Unknown command: " << cmd << endl;
         return false;
     }
+    return false;
 }
