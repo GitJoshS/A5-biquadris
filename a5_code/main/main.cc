@@ -11,7 +11,7 @@ This is the main file that runs Biquardis.
 import Game;
 
 import <iostream>;
-import <vector>
+import <vector>;
 import <string>;
 import <sstream>;
 
