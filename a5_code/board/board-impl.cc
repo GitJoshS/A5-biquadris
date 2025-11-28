@@ -33,10 +33,10 @@ Board::Board(int width, int height, int startLevel, string sequenceFile)
 
     // int curLevel = level->getLevel();
     char blockType = level->getNextBlockType();
-    activeBlock = generateNext(blockType);
+    activeBlock = generateBlock(blockType);
     placeBlock(activeBlock);
     blockType = level->getNextBlockType();
-    nextBlock = generateNext(blockType);
+    nextBlock = generateBlock(blockType);
 }
 
 int Board::getWidth() {
@@ -185,7 +185,7 @@ bool Board::move(int x, int y) {
 }
 
 //! GET THIS SHIT OUTTA HERE
-shared_ptr<Block> Board::generateNext(char type) {
+shared_ptr<Block> Board::generateBlock(char type) {
     int lev = level->getLevel();
     switch(type) {
         case 'I': return make_shared<IBlock>(lev);
@@ -214,12 +214,12 @@ void Board::nextTurn() {
     char blockType = level->getNextBlockType();
     if (blockType == '*') {
         // Create and immediately drop the star block
-        shared_ptr<Block> starBlock = generateNext(blockType);
+        shared_ptr<Block> starBlock = generateBlock(blockType);
         dropBlock(starBlock);
         // Get the actual next block after star block
         blockType = level->getNextBlockType();
     }
-    nextBlock = generateNext(blockType);
+    nextBlock = generateBlock(blockType);
 }
 
 void Board::levelUp() {
@@ -243,6 +243,11 @@ void Board::rotate(bool clockwise) {
         activeBlock->setPosition(tempPos);
     }
     placeBlock(activeBlock);
+}
+
+void Board::forceBlockType(char type) {
+    shared_ptr<Block> force = generateBlock(type);
+    activeBlock = force;
 }
 
 bool Board::checkGameOver() {

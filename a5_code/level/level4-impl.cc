@@ -29,7 +29,7 @@ char Level4::getNextBlockType(){
     count++;
     // Once 5 blocks have been placed, it should return a * block. 
     // At this point, board should recall the function to get a letter block for "next"
-    if (count == 7) {
+    if (count == 5) {
         count = 0;
         return '*';
     }

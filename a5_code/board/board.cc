@@ -27,7 +27,7 @@ export class Board {
     string sequenceFile;
     LevelFactory levelFactory;
 
-    shared_ptr<Block> generateNext(char type);
+    shared_ptr<Block> generateBlock(char type);
 
     public:
         Board(int width = 11, int height = 18, int startLevel = 0, string sequenceFile = "");
@@ -57,6 +57,8 @@ export class Board {
         void levelDown();
         void setLevel(unique_ptr<Level> newLevel);
         void rotate(bool clockwise);
+        
+        void forceBlockType(char type);
         void placeBlock(shared_ptr<Block> block);
         bool checkGameOver();
         vector<int> checkCompletedRows();
