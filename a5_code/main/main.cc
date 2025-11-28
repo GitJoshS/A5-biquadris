@@ -64,9 +64,21 @@ int main(int argc, char* argv[]) {
     
     cout << "Start game? (y/n): ";
     cin >> start;
-
-    if (start == "y" || start == "Y" || start == "yes" || start == "YES") {
-        Game game = Game(args, p1, p2, scriptFile1, scriptFile2, startLevel);
+    
+    Game game;
+    if (start == "y" || start == "yes") {
+        if (startLevel != 0) {
+            Game game = Game(args, p1, p2, startLevel);
+        }
+        else if (scriptFile1 != "../biquadris/biquadris_sequence1.txt"){
+            Game game = Game(args, p1, p2, scriptFile1, true);
+        }
+         else if (scriptFile2 != "../biquadris/biquadris_sequence2.txt"){
+            Game game = Game(args, p1, p2, scriptFile2, false);
+        }
+        else {
+            Game game = Game(args, p1, p2);
+        }
         game.runGame(); 
     }
 }

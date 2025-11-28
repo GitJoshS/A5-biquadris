@@ -40,17 +40,28 @@ Game::Game(const vector<string>& argv, const string& player1, const string& play
       currP{p1.get()}, textDisplay{make_unique<TextDisplay>(vector<Player*>{p1.get(), p2.get()})}, 
       //graphicsDisplay{nullptr},
       highscore{0},
-      textOnly{true}, cmdCenter{CommandCenter()} { }
+      textOnly{true}, cmdCenter{CommandCenter()} {}
 
-// constructor with command-line options
-Game::Game(const vector<string>& argv, const string& player1, const string& player2, 
-           const string& scriptFile1, const string& scriptFile2, int startLevel)
-    : p1{make_unique<Player>(0, 1, player1, scriptFile1, startLevel)},
-      p2{make_unique<Player>(0, 2, player2, scriptFile2, startLevel)},
+// constructor with command-line options - startLevel
+Game::Game(const vector<string>& argv, const string& player1, const string& player2, int startLevel)
+    : p1{make_unique<Player>(0, 1, player1, "../biquadris/biquadris_sequence1.txt", startLevel)},
+      p2{make_unique<Player>(0, 2, player2, "../biquadris/biquadris_sequence2.txt", startLevel)},
       currP{p1.get()}, textDisplay{make_unique<TextDisplay>(vector<Player*>{p1.get(), p2.get()})}, 
       //graphicsDisplay{nullptr},
       highscore{0},
-      textOnly{true}, cmdCenter{CommandCenter()} { }
+      textOnly{true}, cmdCenter{CommandCenter()} {}
+
+// constructor with command-line options - file
+Game::Game(const vector<string>& argv, const string& player1, const string& player2, 
+             const string& scriptFile, bool script1) 
+    : p1{script1 ? make_unique<Player>(0, 1, player1, scriptFile) 
+                 : make_unique<Player>(0, 1, player1, "../biquadris/biquadris_sequence1.txt")},
+      p2{script1 ? make_unique<Player>(0, 2, player2, scriptFile) 
+                 : make_unique<Player>(0, 2, player2, "../biquadris/biquadris_sequence2.txt")},
+      currP{p1.get()}, textDisplay{make_unique<TextDisplay>(vector<Player*>{p1.get(), p2.get()})}, 
+      //graphicsDisplay{nullptr},
+      highscore{0},
+      textOnly{true}, cmdCenter{CommandCenter()} {}
 
 Player* Game::getCurrentPlayer() { return currP; }
 Player* Game::getPlayer1() { return p1.get(); }
