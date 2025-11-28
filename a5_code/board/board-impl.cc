@@ -247,7 +247,9 @@ void Board::rotate(bool clockwise) {
 
 void Board::forceBlockType(char type) {
     shared_ptr<Block> force = generateBlock(type);
+    clearBlock(activeBlock);
     activeBlock = force;
+    placeBlock(activeBlock);
 }
 
 bool Board::checkGameOver() {
