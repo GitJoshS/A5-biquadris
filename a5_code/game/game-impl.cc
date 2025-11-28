@@ -58,14 +58,15 @@ void Game::runGame() {
 
         if (cin >> command) {
             bool turnEnded = rerouteCommand(command);
+            
+            if (currP->getBoard()->isGameOver()) { // Check game over BEFORE swapping
+                cout << "Game Over!" << endl;
+                reset(); 
+            }
+            
             if (turnEnded) {
                 swapTurn();
             }
-        }
-
-        if (currP->getBoard()->isGameOver()) { // recieve state of game from board
-            cout << "Game Over!" << endl;
-            reset(); 
         }
     }  
 }
