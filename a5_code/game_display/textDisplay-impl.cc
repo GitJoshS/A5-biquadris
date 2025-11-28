@@ -78,7 +78,7 @@ void TextDisplay::render() {
     }
     cout << endl;
     // print out next block
-    int defaultBlockRows = 2;
+    int defaultBlockRows = 4;
     // for each row
     for (int row = 0; row < defaultBlockRows; ++row) {
         // for each player
@@ -87,17 +87,23 @@ void TextDisplay::render() {
             shared_ptr<Block> nextBlock = players[player]->getBoard()->getNextBlock();
             vector<pair<int,int>> nextDefPos = nextBlock->getPosition();
             char type = nextBlock->getType();
-            // for each column
+            
+            // Find minimum row to normalize coordinates
+            int minRow = INT_MAX;
+            for (const auto& coord : nextDefPos) {
+                minRow = min(minRow, coord.second);
+            }
+
             for (int col = 0; col < width; ++col) {
                 // for each coordinate
                 bool found = false;
                 for (const pair<int, int>& coord : nextDefPos) {
-                    if (coord.first == col && coord.second == row) {
+                    if (coord.first == col && (coord.second - minRow) == row) {
                         cout << type;
                         found = true;
                         break;
                     }
-                }
+                } 
                 if (!found) cout << blank;
             }
             cout << boardsSpace;
