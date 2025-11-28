@@ -17,7 +17,6 @@ import <fstream>;
 import Board;
 import Level;
 import LevelFactory;
-import CommandCenter;
 
 using namespace std;
 
@@ -124,16 +123,8 @@ void Player::applyEffects() {
     board->applyHeavy(additionalHeavy);
 }
 
-void Player::handleSpecialEffects(Player* otherPlayer) {
+bool Player::hasSpecialEffects() const {
     // Check if 2 or more rows were cleared in the last drop
     vector<int> completedRows = board->checkCompletedRows();
-    if (completedRows.size() >= 2) {
-        cout << "Apply special effects: ";
-        string command;
-        cin >> command;
-        
-        // Use CommandCenter to handle special effects commands
-        CommandCenter cmdCenter;
-        cmdCenter.executeSpecialEffectsCmd(command, this, otherPlayer);
-    }
+    return completedRows.size() >= 2;
 }

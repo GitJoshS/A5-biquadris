@@ -50,5 +50,5 @@ export class Player {
         int getAdditionalHeaviness() const;
         
         void applyEffects();
-        void handleSpecialEffects(Player* otherPlayer);
+        bool hasSpecialEffects() const;
 };

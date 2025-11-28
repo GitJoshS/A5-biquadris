@@ -130,7 +130,11 @@ bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherP
 }
 
 bool CommandCenter::executeSpecialEffectsCmd(string cmd, Player* currentPlayer, Player* otherPlayer) {
-    if (cmd == "force") {
+    cout << "Apply special effects: ";
+    string command;
+    cin >> command;
+    
+    if (command == "force") {
         string blockType;
         if (cin >> blockType && blockType.length() == 1) {
             char type = blockType[0];
@@ -145,7 +149,7 @@ bool CommandCenter::executeSpecialEffectsCmd(string cmd, Player* currentPlayer, 
         } else {
             cout << "Force command requires a block type (I, J, L, O, S, T, Z)" << endl;
         }
-    } else if (cmd == "heavy") {
+    } else if (command == "heavy") {
         if (otherPlayer) {
             otherPlayer->addHeaviness(2);
         }
