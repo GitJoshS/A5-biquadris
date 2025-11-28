@@ -14,6 +14,7 @@ import <iostream>;
 import <string>;
 import <vector>;
 import <memory>;
+import <fstream>;
 import Player;
 import Display;
 import TextDisplay;
@@ -50,13 +51,17 @@ void Game::swapTurn() {
 }
 
 void Game::runGame() {
+    runLoop(cin);
+}
+
+void Game::runLoop(istream &is) {
     while (true){
         textDisplay->render();
     
         string command; 
         cout << "Make a move " << currP->getName() << ": ";
 
-        if (cin >> command) {
+        if (is >> command) {
             bool turnEnded = rerouteCommand(command);
             
             if (currP->getBoard()->isGameOver()) { // Check game over BEFORE swapping
@@ -77,6 +82,10 @@ bool Game::rerouteCommand(string command) {
     // Handle game-level commands that need access to Game state
     if (cmd == "restart") {
         reset();
+        return false; // Don't end turn
+    }
+    if (cmd == "sequence") {
+        runLoop(ifstream("sequence.txt"));
         return false; // Don't end turn
     }
     
