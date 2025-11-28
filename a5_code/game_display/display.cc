@@ -5,6 +5,8 @@ import Board;
 import Player;
 import Block;
 
+using namespace std;
+
 export class Display {
     protected:
         vector<Player*> players;
