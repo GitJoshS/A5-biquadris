@@ -89,8 +89,28 @@ void Board::placeBlock(shared_ptr<Block> block) {
      }
 }
 
+bool Board::drop() { //Added by Linh
+    while (true) {
+        vector<pair<int, int>> tempPos = activeBlock->getPosition();
+        for (auto& coord : tempPos) {
+            coord.second += 1; 
+        } 
+        if (isValidMove(tempPos)) {
+            activeBlock->setPosition(tempPos);
+        }
+        else {
+            placeBlock(activeBlock);
+            break;
+        }
+    }
+    if (activeBlock->getType() != '*') {
+        nextTurn();
+        return true;
+    }
+    return false;
+}
 
-bool Board::drop(shared_ptr<Block> block) { //Added by Linh
+bool Board::dropBlock(shared_ptr<Block> block) { //Added by Linh
     while (true) {
         vector<pair<int, int>> tempPos = block->getPosition();
         for (auto& coord : tempPos) {
