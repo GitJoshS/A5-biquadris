@@ -5,6 +5,13 @@ import <vector>;
 import <memory>;
 import <fstream>;
 import Block;
+import IBlock;  
+import JBlock;
+import LBlock;
+import OBlock;
+import SBlock;
+import TBlock;
+import ZBlock;
 import Level;
 import LevelFactory;
 
@@ -186,7 +193,7 @@ void Board::levelDown() {
 }
 
 void Board::setLevel(unique_ptr<Level> newLevel) {
-    level = move(newLevel);
+    level = std::move(newLevel);
 }
 
 void Board::rotate(bool clockwise) {

@@ -4,6 +4,13 @@ import <utility>;
 import <vector>;
 import <memory>;
 import Block;
+import IBlock; 
+import JBlock;
+import LBlock;
+import OBlock;
+import SBlock;
+import TBlock;
+import ZBlock;
 import Level;
 import LevelFactory;
 
@@ -52,7 +59,7 @@ export class Board {
         void placeBlock(shared_ptr<Block> block);
         bool checkGameOver();
         vector<int> checkCompletedRows();
-        void clearRow(int row);
+        int clearRow(int row);
 
         ~Board();
 };
