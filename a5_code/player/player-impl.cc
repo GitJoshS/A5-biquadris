@@ -20,10 +20,10 @@ import LevelFactory;
 
 using namespace std;
 
-Player::Player() : board{make_unique<Board>(11, 18, 0, "")}, curScore{0}, playerId{0}, name{""}, sequenceFile{""}, additionalHeaviness{0}, shouldTriggerSpecialEffects{false} { }
+Player::Player() : board{make_unique<Board>(11, 18, 0, "")}, curScore{0}, playerId{0}, name{""}, sequenceFile{""}, additionalHeaviness{0}, shouldTriggerSpecialEffects{false}, renderEffect{""} { }
 
 Player::Player(int score, int id, string name, string sequenceFile)
-    : curScore{score}, playerId{id}, name{name}, sequenceFile{sequenceFile}, additionalHeaviness{0}, shouldTriggerSpecialEffects{false} {
+    : curScore{score}, playerId{id}, name{name}, sequenceFile{sequenceFile}, additionalHeaviness{0}, shouldTriggerSpecialEffects{false}, renderEffect{""} {
     board = make_unique<Board>(11, 18, 0, sequenceFile);
 }
 
@@ -48,6 +48,7 @@ void Player::applySpecialAction() { } // will modify later
 void Player::reset() {
     board = make_unique<Board>(11, 18, 0, sequenceFile);
     curScore = 0;
+    renderEffect = "";
 }
 
 void Player::addScore(int score) {
@@ -139,4 +140,16 @@ bool Player::hasSpecialEffects() const {
 
 void Player::resetSpecialEffects() {
     shouldTriggerSpecialEffects = false;
+}
+
+void Player::setRenderEffect(const string& effect) {
+    renderEffect = effect;
+}
+
+string Player::getRenderEffect() const {
+    return renderEffect;
+}
+
+void Player::resetRenderEffect() {
+    renderEffect = "";
 }

@@ -139,8 +139,12 @@ bool CommandCenter::executeSpecialEffectsCmd(string cmd, Player* currentPlayer, 
         if (otherPlayer) {
             otherPlayer->addHeaviness(2);
         }
+    } else if (command == "blind") {
+        if (otherPlayer) {
+            otherPlayer->setRenderEffect("blind");
+        }
     } else {
-        cout << "Invalid special effects command. Use 'force' or 'heavy'." << endl;
+        cout << "Invalid special effects command. Use 'force', 'heavy', or 'blind'." << endl;
     }
     return true; // Special effects commands always succeed
 }

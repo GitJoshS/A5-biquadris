@@ -52,7 +52,7 @@ void Game::swapTurn() {
 
 void Game::runGame() {
         while (true){
-        textDisplay->render();
+        textDisplay->render(currP->getRenderEffect());
     
         string command; 
         cout << "Make a move " << currP->getName() << ": ";
@@ -72,8 +72,9 @@ void Game::runGame() {
                     cmdCenter.executeSpecialEffectsCmd("", currP, otherPlayer);
                     currP->resetSpecialEffects();
                 }
-                // Reset heaviness when turn ends
+                // Reset heaviness and render effect when turn ends
                 currP->resetHeaviness();
+                currP->resetRenderEffect();
                 swapTurn();
             }
         }
@@ -130,10 +131,11 @@ bool Game::runSeq(string name) {
                 cmdCenter.executeSpecialEffectsCmd("", currP, otherPlayer);
                 currP->resetSpecialEffects();
             }
-            // Reset heaviness when turn ends
+            // Reset heaviness and render effect when turn ends
             currP->resetHeaviness();
+            currP->resetRenderEffect();
             swapTurn();
-            textDisplay->render();  // Show board after each turn-ending move
+            textDisplay->render(currP->getRenderEffect());  // Show board after each turn-ending move
         }
     }
     return false;  // The sequence command itself doesn't end the turn
