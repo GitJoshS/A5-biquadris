@@ -5,12 +5,11 @@ import <string>;
 import Player;
 import Display;
 
+using namespace std;
+
 export class TextDisplay : public Display {
     string boardsSpace = "          ";
     public:
-
-        TextDisplay();
-
         TextDisplay(vector<Player*> players);
 
         // void render(vector<Board*> board, vector<int> score, vector<int> level, vector<Block*> next);

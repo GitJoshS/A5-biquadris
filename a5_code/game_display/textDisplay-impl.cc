@@ -8,9 +8,7 @@ import Level;
 
 using namespace std;
 
-TextDisplay::TextDisplay(){}
-
-TextDisplay::TextDisplay(vector<Player*> players) : players{players} {}
+TextDisplay::TextDisplay(vector<Player*> players) : Display{players} {}
 
 void TextDisplay::render() {
     int width = players[0]->getBoard()->getWidth();
