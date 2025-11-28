@@ -236,7 +236,7 @@ void Board::setLevel(unique_ptr<Level> newLevel) {
 }
 
 void Board::rotate(bool clockwise) {
-    vector<pair<int,int>> tempPos = activeBlock->rotatePosition(clockwise);
+    vector<pair<int,int>> tempPos = activeBlock->rotatePosition(!clockwise);
     clearBlock(activeBlock);
     if (isValidMove(tempPos)) {
         activeBlock->setPosition(tempPos);
