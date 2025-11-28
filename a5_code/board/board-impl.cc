@@ -245,11 +245,24 @@ void Board::rotate(bool clockwise) {
     placeBlock(activeBlock);
 }
 
+// For special effects
 void Board::forceBlockType(char type) {
     shared_ptr<Block> force = generateBlock(type);
     clearBlock(activeBlock);
     activeBlock = force;
     placeBlock(activeBlock);
+}
+
+void Board::applyHeavy(int additionalHeavy) {
+    int heaviness = additionalHeavy + level->getHowHeavy;
+    shared_ptr<Block> temp;
+    for (int i = 0; i < heaviness; i++) {
+        temp = activeBlock;
+        move(0,1);
+        if (temp->getPosition() == activeBlock->getPosition()) {
+            drop();
+        }
+    }
 }
 
 bool Board::checkGameOver() {

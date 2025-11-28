@@ -28,6 +28,10 @@ export class Board {
     LevelFactory levelFactory;
 
     shared_ptr<Block> generateBlock(char type);
+    bool isValidMove(vector<std::pair<int, int>> newPosn) const;
+    void clearBlock(shared_ptr<Block> block);
+    void placeBlock(shared_ptr<Block> block);
+    bool checkGameOver();
 
     public:
         Board(int width = 11, int height = 18, int startLevel = 0, string sequenceFile = "");
@@ -44,10 +48,8 @@ export class Board {
         void noRandomLevel(ifstream& file);
         // Restore randomness
         void restoreRandomLevel();
-
-        bool isValidMove(vector<std::pair<int, int>> newPosn) const;
+       
         bool drop();
-        void clearBlock(shared_ptr<Block> block);
         bool dropBlock(shared_ptr<Block> block); //Drops block from its own initial position
         // Check whether the move is valid, if it is then move, if not do nothing
         bool move(int x, int y); //Linh added this
@@ -59,8 +61,6 @@ export class Board {
         void rotate(bool clockwise);
         
         void forceBlockType(char type);
-        void placeBlock(shared_ptr<Block> block);
-        bool checkGameOver();
         vector<int> checkCompletedRows();
         int clearRow(int row);
 
