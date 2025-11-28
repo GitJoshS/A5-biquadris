@@ -204,15 +204,17 @@ void Board::nextTurn() {
         gameOver = true;
         return;
     }
-    char blockType = level->getNextBlockType();
-    nextBlock = generateNext(blockType);
     
-    // If next block is a star block, auto-drop it and get a new next block
-    if (nextBlock && nextBlock->getType() == '*') {
-        dropBlock(nextBlock);
+    // Check if we need to generate a star block
+    char blockType = level->getNextBlockType();
+    if (blockType == '*') {
+        // Create and immediately drop the star block
+        shared_ptr<Block> starBlock = generateNext(blockType);
+        dropBlock(starBlock);
+        // Get the actual next block after star block
         blockType = level->getNextBlockType();
-        nextBlock = generateNext(blockType);
     }
+    nextBlock = generateNext(blockType);
 }
 
 void Board::levelUp() {
