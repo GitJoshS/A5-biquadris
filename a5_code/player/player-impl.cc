@@ -16,6 +16,7 @@ import <vector>;
 import <fstream>;
 import Board;
 import Level;
+import LevelFactory;
 
 using namespace std;
 
@@ -87,9 +88,9 @@ void Player::levelUp() {
     int newLevel = board->getLevel()->getLevel() + 1;
     if (newLevel == 0) {
         ifstream file(sequenceFile);
-        board->setLevel(unique_ptr<Level>(Level::create(0, file)));
+        board->setLevel(levelFactory.create(0, file));
     } else {
-        board->setLevel(unique_ptr<Level>(Level::create(newLevel)));
+        board->setLevel(levelFactory.create(newLevel));
     }
 }
 
@@ -98,8 +99,8 @@ void Player::levelDown() {
     if (newLevel < 0) return; // Can't go below level 0
     if (newLevel == 0) {
         ifstream file(sequenceFile);
-        board->setLevel(unique_ptr<Level>(Level::create(0, file)));
+        board->setLevel(levelFactory.create(0, file));
     } else {
-        board->setLevel(unique_ptr<Level>(Level::create(newLevel)));
+        board->setLevel(levelFactory.create(newLevel));
     }
 }

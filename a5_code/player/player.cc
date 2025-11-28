@@ -13,6 +13,7 @@ export module Player;
 import Board;
 import <string>;
 import <memory>;
+import LevelFactory;
 
 using namespace std;
 
@@ -22,6 +23,7 @@ export class Player {
     int curScore;
     int playerId;
     string sequenceFile;
+    LevelFactory levelFactory;
 
     public: 
         // need a ctor, move ctor, copy ctor, copy asop, move asop and destructor later
