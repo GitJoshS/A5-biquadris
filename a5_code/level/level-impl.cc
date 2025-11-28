@@ -14,7 +14,7 @@ Level::Level(int level) : level{level}, howHeavy{0} {
     
 }
 
-Level::Level(int level, ifstream& file) : level{level}, file{std::move(file)}, howHeavy{0} {
+Level::Level(int level, ifstream& file) :  level{level}, file{std::move(file)}, howHeavy{0} {
     
 }
 

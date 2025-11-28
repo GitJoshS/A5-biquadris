@@ -6,6 +6,8 @@ import Level2;
 import Level3;
 import Level4;
 
+using namespace std;
+
 unique_ptr<Level> LevelFactory::create(int level) {
     switch(level) {
         case 0: return make_unique<Level0>();
