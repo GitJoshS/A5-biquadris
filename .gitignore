@@ -10,3 +10,4 @@ test.o
 gcm.cache/
 *.o
 *.d
+a5_code/exec

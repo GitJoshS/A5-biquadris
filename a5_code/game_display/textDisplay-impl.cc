@@ -17,6 +17,14 @@ void TextDisplay::render() {
     int height = players[0]->getBoard()->getHeight();
     int playerCount = players.size();
     char blank = ' ';
+    //Print out Names
+    for (int player = 0; player < playerCount; ++player) {
+        string name = players[player]->getName();
+        cout << name;
+        string space = string(width - name.length(), ' ');
+        cout << space << boardsSpace;
+    }
+    cout << endl;
     // Print out level indicator for all players
     for (int player = 0; player < playerCount; ++player) {
         int level = players[player]->getBoard()->getLevel()->getLevel();
