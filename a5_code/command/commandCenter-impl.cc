@@ -17,6 +17,8 @@ import <fstream>;
 import <iostream>;
 import Board;
 import Command;
+import Player;
+
 
 using namespace std;
 
@@ -39,7 +41,7 @@ vector<string> CommandCenter::loadCommandsFromFile() {
 }
 
 // helper function to find unique command
-string CommandCenter::findUniqueCommand(const string input) {
+string CommandCenter::findUniqueCommand(const string& input) {
     string match = "";
     for (const auto& cmd : commandList) {
         if (cmd.find(input) == 0) {
@@ -50,8 +52,8 @@ string CommandCenter::findUniqueCommand(const string input) {
     return match;
 }
 
-string CommandCenter::processCmd(const string& cmdStr) {
-    string result = findUniqueCommand(cmdStr);
+string CommandCenter::processCmd(string cmd) {
+    string result = findUniqueCommand(cmd);
     if (!result.empty()) return result;
     return "unknown";
 }

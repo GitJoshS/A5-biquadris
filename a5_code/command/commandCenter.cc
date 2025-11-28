@@ -13,6 +13,12 @@ export module CommandCenter;
 // import Command;
 import <string>;
 import <vector>;
+import <fstream>;
+import <iostream>;
+import Board;
+import Command;
+import Player;
+
 
 export class Game; // NEED TO DOUBLE CHECK, I THINK THIS MAKES IT OK????
 

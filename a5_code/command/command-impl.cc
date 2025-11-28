@@ -9,6 +9,6 @@ This file contains the implementation of the Command class, which handles player
 */
 
 module Command; 
-
+import <string>; 
 using namespace std;
 

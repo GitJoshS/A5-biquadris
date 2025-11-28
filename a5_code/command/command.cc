@@ -10,6 +10,8 @@ This file handles the command parsing and execution for the game.
 
 export module Command;    
 
+import <string>;
+
 using namespace std;
 
 export struct Command {
