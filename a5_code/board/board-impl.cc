@@ -192,7 +192,6 @@ shared_ptr<Block> Board::generateNext(char type) {
 
 void Board::nextTurn() {
     activeBlock = nextBlock;
-    placeBlock(activeBlock);
     if (!checkGameOver()) {
         placeBlock(activeBlock);
     }
