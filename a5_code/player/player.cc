@@ -8,7 +8,7 @@ Description:
 This file contains the player class definition that manages player state
 */
 
-export module Player
+export module Player;
 
 import Board;
 import <string>;
