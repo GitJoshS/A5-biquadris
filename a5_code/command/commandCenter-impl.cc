@@ -67,32 +67,32 @@ string CommandCenter::processCmd(string cmd, int* multiplier) {
 
 bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherPlayer, int mult) {
     if (cmd == "left") {    
-        for(int i = 0; i < mult; ++i) currentPlayer->moveBlock(-1, 0);
+        for (int i = 0; i < mult; ++i) currentPlayer->moveBlock(-1, 0);
         bool turnEnded = currentPlayer->applyEffects();
         if (turnEnded) return true;
     } else if (cmd == "right") {
-        for(int i = 0; i < mult; ++i) currentPlayer->moveBlock(1, 0);
+        for (int i = 0; i < mult; ++i) currentPlayer->moveBlock(1, 0);
         bool turnEnded = currentPlayer->applyEffects();
         if (turnEnded) return true;
     } else if (cmd == "down") {
-        for(int i = 0; i < mult; ++i) currentPlayer->moveBlock(0, 1);
+        for (int i = 0; i < mult; ++i) currentPlayer->moveBlock(0, 1);
         bool turnEnded = currentPlayer->applyEffects();
         if (turnEnded) return true;
     } else if (cmd == "drop") {
-        for(int i = 0; i < mult; ++i) currentPlayer->dropBlock();
+        for (int i = 0; i < mult; ++i) currentPlayer->dropBlock();
         return true;
     } else if (cmd == "clockwise") {
-        for(int i = 0; i < mult; ++i) currentPlayer->rotate(true);
+        for (int i = 0; i < mult; ++i) currentPlayer->rotate(true);
         bool turnEnded = currentPlayer->applyEffects();
         if (turnEnded) return true;
     } else if (cmd == "counterclockwise") {
-        for(int i = 0; i < mult; ++i) currentPlayer->rotate(false);
+        for (int i = 0; i < mult; ++i) currentPlayer->rotate(false);
         bool turnEnded = currentPlayer->applyEffects();
         if (turnEnded) return true;
     } else if (cmd == "levelup") {
-        for(int i = 0; i < mult; ++i) currentPlayer->levelUp();
+        for (int i = 0; i < mult; ++i) currentPlayer->levelUp();
     } else if (cmd == "leveldown") {
-        for(int i = 0; i < mult; ++i) currentPlayer->levelDown();
+        for (int i = 0; i < mult; ++i) currentPlayer->levelDown();
     } else if (cmd == "random") {
         currentPlayer->getBoard()->restoreRandomLevel();
         return false;
