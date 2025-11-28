@@ -68,17 +68,22 @@ string CommandCenter::processCmd(string cmd, int* multiplier) {
 bool CommandCenter::executeCmd(string cmd, Player* currentPlayer, Player* otherPlayer, int mult) {
     if (cmd == "left") {    
         for(int i = 0; i < mult; ++i) currentPlayer->moveBlock(-1, 0);
+        currentPlayer->applyEffects();
     } else if (cmd == "right") {
         for(int i = 0; i < mult; ++i) currentPlayer->moveBlock(1, 0);
+        currentPlayer->applyEffects();
     } else if (cmd == "down") {
         for(int i = 0; i < mult; ++i) currentPlayer->moveBlock(0, 1);
+        currentPlayer->applyEffects();
     } else if (cmd == "drop") {
         for(int i = 0; i < mult; ++i) currentPlayer->dropBlock();
         return true;
     } else if (cmd == "clockwise") {
         for(int i = 0; i < mult; ++i) currentPlayer->rotate(true);
+        currentPlayer->applyEffects();
     } else if (cmd == "counterclockwise") {
         for(int i = 0; i < mult; ++i) currentPlayer->rotate(false);
+        currentPlayer->applyEffects();
     } else if (cmd == "levelup") {
         for(int i = 0; i < mult; ++i) currentPlayer->levelUp();
     } else if (cmd == "leveldown") {

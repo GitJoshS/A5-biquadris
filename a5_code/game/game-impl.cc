@@ -60,9 +60,6 @@ void Game::runGame() {
         if (cin >> command) {
             bool turnEnded = rerouteCommand(command);
             
-            // Player applies its own effects after every command
-            currP->applyEffects();
-            
             if (currP->getBoard()->isGameOver()) { // Check game over BEFORE swapping
                 cout << "Game Over!" << endl;
                 reset(); 
@@ -119,9 +116,6 @@ bool Game::runSeq(string name) {
     string fileCmd;
     while (file >> fileCmd) {
         bool turnEnded = rerouteCommand(fileCmd);  // Recursive, but controlled
-        
-        // Player applies its own effects after every command
-        currP->applyEffects();
         
         if (currP->getBoard()->isGameOver()) {
             cout << "Game Over!" << endl;
