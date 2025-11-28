@@ -30,7 +30,7 @@ export class Board {
         shared_ptr<Block> getNextBlock() const;
         shared_ptr<Block> getActiveBlock() const;
         Level* getLevel() const;
-        vector<vector<shared_ptr<Block>>>& getGrid() const;
+        const vector<vector<shared_ptr<Block>>>& getGrid() const;
         bool isGameOver() const;
 
         // Replace the current level with another level pointer that generate blocks in a non-random order

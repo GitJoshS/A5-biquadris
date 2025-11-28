@@ -22,7 +22,7 @@ Board::Board(int width, int height, int startLevel, string sequenceFile)
         level = levelFactory.create(startLevel);
     }
 
-    int curLevel = level->getLevel();
+    // int curLevel = level->getLevel();
     char blockType = level->getNextBlockType();
     activeBlock = generateNext(blockType);
     blockType = level->getNextBlockType();
@@ -49,7 +49,7 @@ Level* Board::getLevel() const {
     return level.get();
 }
 
-vector<vector<shared_ptr<Block>>>& Board::getGrid() const {
+const vector<vector<shared_ptr<Block>>>& Board::getGrid() const {
     return grid;
 }
 
@@ -69,7 +69,7 @@ void Board::restoreRandomLevel() {
 
 bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This might have a problem, it might collide with itself. For instance, if an L shape moves down, the tip of the L moving would coincide with its own block, and this function would return false
     // check each new coordinate of the block
-    for (const std::pair<int, int>>& coord : newPosn) {
+    for (const pair<int, int>& coord : newPosn) {
         int col = coord.first;
         int row = coord.second;
         // if block exists there or out of bounds, not valid
@@ -83,7 +83,7 @@ bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This mig
 //Linh: Is this assuming the position is valid and the block just have to "lock in place"?
 void Board::placeBlock(shared_ptr<Block> block) {
     /*IMPLEMENT THIS*/
-     for (const std::pair<int, int>>& coord : block->getPosition()) {
+     for (const std::pair<int, int>& coord : block->getPosition()) {
         int col = coord.first;
         int row = coord.second;
         grid[col][row] = block;
