@@ -176,12 +176,11 @@ bool Board::move(int x, int y) {
         activeBlock->setPosition(tempPos);
         placeBlock(activeBlock);
         return false;
-    } 
-    // else if (y > 0) {
-    //     return drop();
-    // }
-    placeBlock(activeBlock);
-    return false;
+    } else {
+        // Move invalid, put block back at original position
+        placeBlock(activeBlock);
+        return false;
+    }
 }
 
 //! GET THIS SHIT OUTTA HERE
