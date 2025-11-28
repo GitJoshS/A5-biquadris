@@ -51,17 +51,13 @@ void Game::swapTurn() {
 }
 
 void Game::runGame() {
-    runLoop(cin);
-}
-
-void Game::runLoop(istream &is) {
-    while (true){
+        while (true){
         textDisplay->render();
     
         string command; 
         cout << "Make a move " << currP->getName() << ": ";
 
-        if (is >> command) {
+        if (cin >> command) {
             bool turnEnded = rerouteCommand(command);
             
             if (currP->getBoard()->isGameOver()) { // Check game over BEFORE swapping
@@ -76,6 +72,7 @@ void Game::runLoop(istream &is) {
     }  
 }
 
+
 bool Game::rerouteCommand(string command) {
     string cmd = cmdCenter.processCmd(command);
     
@@ -85,8 +82,30 @@ bool Game::rerouteCommand(string command) {
         return false; // Don't end turn
     }
     if (cmd == "sequence") {
-        runLoop(ifstream("sequence.txt"));
-        return false; // Don't end turn
+        ifstream file("game/sequence.txt");
+        if (!file) {
+            cerr << "Error: Could not open sequence.txt" << endl;
+            return false;
+        }
+        
+        // Read and execute commands from file one at a time
+        string fileCmd;
+        while (file >> fileCmd) {
+            // cout << "Executing from sequence: " << fileCmd << endl;
+            bool turnEnded = rerouteCommand(fileCmd);  // Recursive, but controlled
+            
+            if (currP->getBoard()->isGameOver()) {
+                cout << "Game Over!" << endl;
+                reset();
+                break;
+            }
+            
+            if (turnEnded) {
+                swapTurn();
+                textDisplay->render();  // Show board after each turn-ending move
+            }
+        }
+        return false;  // The sequence command itself doesn't end the turn
     }
     
     Player* otherPlayer = (currP == p1.get()) ? p2.get() : p1.get();
