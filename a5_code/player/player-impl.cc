@@ -73,6 +73,13 @@ bool Player::dropBlock() {
             totalScore += board->clearRow(row);
         }
         
+        // Update active block position after grid shift
+        vector<pair<int, int>> currentPos = board->getActiveBlock()->getPosition();
+        for (auto& coord : currentPos) {
+            coord.second += linesCleared; // Shift down by number of cleared lines
+        }
+        board->getActiveBlock()->setPosition(currentPos);
+        
         addScore(totalScore);
     }
     
