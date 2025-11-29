@@ -8,11 +8,17 @@ import <string>;
 
 using namespace std;
 
+/*
+Constructor for Level3 class.
+*/
 Level3::Level3() : Level(3), currentIndex{0}, useSequence{false} {
     level = 3;
     howHeavy = 1;
 }
 
+/*
+Constructor for Level3 class that takes in a file stream. File stream contains the sequence
+*/
 Level3::Level3(ifstream& f) : Level(3), currentIndex{0}, useSequence{true} {
     level = 3;
     howHeavy = 1;
@@ -25,6 +31,11 @@ Level3::Level3(ifstream& f) : Level(3), currentIndex{0}, useSequence{true} {
     }
 }
 
+/*
+getNextBlockType works by first checking if a sequence is being used. If so, it returns the next block type
+in the sequence, cycling through it as needed. If no sequence is used, it generates a random number
+and maps it to a block type according to Level 3 rules for probabilities. It additionally sets howHeavy to 1.
+*/
 char Level3::getNextBlockType(){
     // If file sequence is being used, read from sequence
     if (useSequence && !sequence.empty()) {
