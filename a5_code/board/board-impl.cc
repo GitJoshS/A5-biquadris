@@ -1,3 +1,14 @@
+/* 
+Filename: board-impl.cc
+Author: Taim, Josh and Linh
+Date: 2024-11-25
+Last Edited: 2024-11-28
+
+Description:
+This file contains the implementation of the Board class, which manages the game board state,
+including block placement, movement, level management, and game over conditions. 
+*/
+
 module Board;
 
 import <utility>;
@@ -19,10 +30,17 @@ import LevelFactory;
 
 using namespace std;
 
+/*
+For Board, we use grid.resize so when calling a Game Instance, we automatically have a grid of width x height
+We also need to check startLevel and sequenceFile to initialize the Level pointer correctly as 
+if startLevel is 0 and sequenceFile is not empty, we need to create a Level0 with the file but if 
+startLevel is not 0, we create a random level without the file.
+*/
 Board::Board(int width, int height, int startLevel, string sequenceFile) 
     : width{width}, height{height}, gameOver{false}, sequenceFile{sequenceFile} {
     // resize grid
     grid.resize(width, vector<shared_ptr<Block>>(height, nullptr));
+
     // initialize level
     if (startLevel == 0 && !sequenceFile.empty()) {
         ifstream file(sequenceFile);
@@ -30,7 +48,6 @@ Board::Board(int width, int height, int startLevel, string sequenceFile)
     } else {
         level = levelFactory.create(startLevel);
     }
-
     // int curLevel = level->getLevel();
     char blockType = level->getNextBlockType();
     activeBlock = generateBlock(blockType);
@@ -39,45 +56,68 @@ Board::Board(int width, int height, int startLevel, string sequenceFile)
     nextBlock = generateBlock(blockType);
 }
 
+// Gets board Width
 int Board::getWidth() {
     return width;
 }
 
+// Gets board Height
 int Board::getHeight() {
     return height;
 }
 
+// Gets next block
 shared_ptr<Block> Board::getNextBlock() const {
     return nextBlock;
 }
 
+// Gets active block
 shared_ptr<Block> Board::getActiveBlock() const {
     return activeBlock;
 }
 
+/*
+Gets current level, note that we return a raw pointer since Board does not own Level
+*/
 Level* Board::getLevel() const {
     return level.get();
 }
 
+// Gets grid
 const vector<vector<shared_ptr<Block>>>& Board::getGrid() const {
     return grid;
 }
 
+/*
+Checks if game is over, returns bool indicating status. Used by Game class
+to check if current player has lost.
+*/
 bool Board::isGameOver() const {
     return gameOver;
 }
 
+/*
+noRandomLevel sets the board to use a non-random level based on the provided file.
+Replaces the current level with another level pointer that generate blocks in a non-random order.
+*/
 void Board::noRandomLevel(ifstream& file) {
     int curLevel = level->getLevel();
     level = levelFactory.create(curLevel, file);
 }
 
+/*
+restoreRandomLevel restores the board to use a random level, replacing the current level
+with another level pointer that generates blocks randomly.
+*/
 void Board::restoreRandomLevel() {
     int curLevel = level->getLevel();
     level = levelFactory.create(curLevel);
 }
 
-bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This might have a problem, it might collide with itself. For instance, if an L shape moves down, the tip of the L moving would coincide with its own block, and this function would return false
+/*
+Checks if the proposed new positions for a block are valid (within bounds and unoccupied).
+*/
+bool Board::isValidMove(vector<pair<int, int>> newPosn) const { 
     // check each new coordinate of the block
     for (const pair<int, int>& coord : newPosn) {
         int col = coord.first;
@@ -90,9 +130,11 @@ bool Board::isValidMove(vector<pair<int, int>> newPosn) const { //Linh: This mig
     return true;
 }
 
-//Linh: Is this assuming the position is valid and the block just have to "lock in place"?
+/*
+placeBlock places the given block on the board grid at its current position.
+This allows us to visually represent the block on the board. 
+*/
 void Board::placeBlock(shared_ptr<Block> block) {
-    /*IMPLEMENT THIS*/
      for (const std::pair<int, int>& coord : block->getPosition()) {
         int col = coord.first;
         int row = coord.second;
@@ -100,7 +142,12 @@ void Board::placeBlock(shared_ptr<Block> block) {
      }
 }
 
-bool Board::drop() { //Added by Linh
+/*
+Drop the active block to the lowest valid position on the board.
+It does this by iteratively moving the block down until it can no longer move,
+then placing it at the last valid position. After dropping, it advances to the next turn. 
+*/
+bool Board::drop() { 
     vector<pair<int,int>> tempPos;
     while (true) {
         tempPos = activeBlock->getPosition();
@@ -124,7 +171,11 @@ bool Board::drop() { //Added by Linh
     return false;
 }
 
-bool Board::dropBlock(shared_ptr<Block> block) { //Added by Linh
+/*
+dropBlock handles the special case where we need to drop the special (*) block for level 4
+in the middle of the board, every 5 turns.
+*/
+bool Board::dropBlock(shared_ptr<Block> block) { 
     // Place block initially on the board
     cout << "Dropping block: " << block->getType() << endl;
      vector<pair<int,int>> tempPos;
@@ -153,6 +204,10 @@ bool Board::dropBlock(shared_ptr<Block> block) { //Added by Linh
     return false;
 }
 
+/*
+Clearboard clears the given block from the board grid at its current position. It does this
+by setting the grid cells occupied by the block to nullptr.
+*/
 void Board::clearBlock(shared_ptr<Block> block) {
     if (!block) return;
     for (const auto& coord : block->getPosition()) {
@@ -165,6 +220,11 @@ void Board::clearBlock(shared_ptr<Block> block) {
     }
 }
 
+/*
+Move works by first calculating the proposed new positions for the active block based on the given
+x and y offsets. It then checks if these new positions are valid using isValidMove.
+If the move is valid, it updates the block's position and places it on the board.
+*/
 bool Board::move(int x, int y) { 
     vector<pair<int, int>> tempPos = activeBlock->getPosition();
     for (auto& coord : tempPos) {
@@ -183,7 +243,9 @@ bool Board::move(int x, int y) {
     }
 }
 
-//! Shouldnt this be in a BlockFactory class?
+/*
+Generates blocks by checking the type character and creating the corresponding block object.
+*/
 shared_ptr<Block> Board::generateBlock(char type) {
     int lev = level->getLevel();
     switch(type) {
@@ -199,6 +261,11 @@ shared_ptr<Block> Board::generateBlock(char type) {
     return nullptr;
 }
 
+/*
+nextTurn works by setting the active block to the next block, checking for game over conditions,
+and generating a new next block based on the current level. If a star block is generated, it is 
+immediately dropped before generating the next block as per level 4 rules.
+*/
 void Board::nextTurn() {
     activeBlock = nextBlock;
     if (!checkGameOver()) {
@@ -221,20 +288,34 @@ void Board::nextTurn() {
     nextBlock = generateBlock(blockType);
 }
 
+/*
+levelUp increases the current level by 1 and updates the level pointer accordingly.
+*/
 void Board::levelUp() {
     int curLevel = level->getLevel() + 1;
     level = levelFactory.create(curLevel);
 }
 
+/*
+levelDown decreases the current level by 1 and updates the level pointer accordingly.
+*/
 void Board::levelDown() {
     int curLevel = level->getLevel() - 1;
     level = levelFactory.create(curLevel);
 }
 
+/*
+setLevel sets the current level to a new level provided as a unique pointer.
+*/
 void Board::setLevel(unique_ptr<Level> newLevel) {
     level = std::move(newLevel);
 }
 
+/*
+rotate works by calculating the proposed new positions for the active block after rotation.
+It then checks if these new positions are valid using isValidMove.
+If the rotation is valid, it updates the block's position and places it on the board.
+*/
 void Board::rotate(bool clockwise) {
     vector<pair<int,int>> tempPos = activeBlock->rotatePosition(!clockwise);
     clearBlock(activeBlock);
@@ -244,7 +325,11 @@ void Board::rotate(bool clockwise) {
     placeBlock(activeBlock);
 }
 
-// For special effects
+/*
+forceBlockType forces the next active block to be of the specified type. It is meant
+for special affects and testing purposes. It generates a new block of the given type,
+clears the current active block from the board, and places the new block as the active block.
+*/
 void Board::forceBlockType(char type) {
     shared_ptr<Block> force = generateBlock(type);
     clearBlock(activeBlock);
@@ -252,6 +337,11 @@ void Board::forceBlockType(char type) {
     placeBlock(activeBlock);
 }
 
+/*
+applyHeavy applies heaviness to the active block by attempting to move it down additional rows
+based on the level's heaviness factor plus any additional heaviness specified. 
+If the block cannot move down due to being blocked, it is auto-dropped and the turn ends.
+*/
 bool Board::applyHeavy(int additionalHeavy) {
     int heaviness = additionalHeavy + level->getHowHeavy();
     if (heaviness == 0) return false;
@@ -271,12 +361,19 @@ bool Board::applyHeavy(int additionalHeavy) {
     return false; // No auto-drop occurred
 }
 
+/*
+checkGameOver checks if the game is over by verifying if the active block can be placed
+and then returns true if the game is over, false otherwise.
+*/
 bool Board::checkGameOver() {
     vector<pair<int,int>> spawnPos = activeBlock->getPosition();
     return !isValidMove(spawnPos);
 }
 
-
+/*
+checkCompletedRows checks each row of the board to see if it is completely filled with blocks.
+If a row is complete, its index is added to the completedRows vector, which is returned at the end.
+*/
 vector<int> Board::checkCompletedRows() {
     vector<int> completedRows;
     for (int row = 0; row < height; ++row) {
@@ -293,7 +390,11 @@ vector<int> Board::checkCompletedRows() {
     return completedRows;
 }
 
-
+/*
+clearRow works by first clearing the specified row from the board grid,
+then shifting all rows above it down by one. It also calculates and returns the score
+obtained from clearing the row based on the blocks and levels of the blocks involved.
+*/
 int Board::clearRow(int row) {
     int score = 0;
     
@@ -322,7 +423,5 @@ int Board::clearRow(int row) {
     return score;
 }
 
-
-
-Board::~Board() {/*Does block own any ptrs? -Linh: idk but we dont hv to do memory management*/};
-
+// Destructor for Board class
+Board::~Board() {};

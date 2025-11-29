@@ -70,24 +70,31 @@ int main(int argc, char* argv[]) {
     cin >> p2;
     
     // Start game prompt
-    cout << "Start game? (y/n): ";
-    cin >> start;
 
-    // Initialize and run the game: note if startLevel is 0, default behavior is used
     Game game = Game(args, p1, p2);
-    if (start == "y" || start == "yes") {
-        if (startLevel != 0) {
-            game = Game(args, p1, p2, startLevel);
+    // Initialize and run the game: note if startLevel is 0, default behavior is used
+    while (true) {
+        cout << "Start game? (y/n): ";
+        cin >> start;
+
+        if (start == "y" || start == "yes") {
+            if (startLevel != 0) {
+                game = Game(args, p1, p2, startLevel);
+            }
+            else if (scriptFile1 != "../biquadris/biquadris_sequence1.txt"){
+                game = Game(args, p1, p2, scriptFile1, true);
+            }
+            else if (scriptFile2 != "../biquadris/biquadris_sequence2.txt"){
+                game = Game(args, p1, p2, scriptFile2, false);
+            }
+            game.runGame(); 
         }
-        else if (scriptFile1 != "../biquadris/biquadris_sequence1.txt"){
-            game = Game(args, p1, p2, scriptFile1, true);
+        else if (start == "n" || start == "no") {
+            cout << "Okay, goodbye!" << endl;
+            break;
         }
-         else if (scriptFile2 != "../biquadris/biquadris_sequence2.txt"){
-            game = Game(args, p1, p2, scriptFile2, false);
+        else {
+            cout << "Invalid input. Enter yes (y) or no (n)" << endl;
         }
-        game.runGame(); 
-    }
-    else {
-        cout << "Okay, goodbye!." << endl;
     }
 }
