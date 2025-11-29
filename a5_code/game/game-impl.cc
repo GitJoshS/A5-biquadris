@@ -211,16 +211,9 @@ bool Game::runSeq(string name) {
     return false;  // The sequence command itself doesn't end the turn
 }
 
-// /*
-
-// */
-// void Game::handleSpecialAction(string action) {}  
-
-// /*
-
-// */
-// void Game::triggerSpecialAction(string action) {}   
-
+/*
+reset resets the game state for both players by calling their reset methods.
+*/
 void Game::reset() { 
     p1->reset();
     p2->reset();
