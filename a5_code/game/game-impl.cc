@@ -1,6 +1,6 @@
 /* 
 Filename: game-impl.cc 
-Author: Josh Stein
+Author: Josh, Taim and Linh
 Date: 2024-11-25
 Last Edited: 2024-06-26
 

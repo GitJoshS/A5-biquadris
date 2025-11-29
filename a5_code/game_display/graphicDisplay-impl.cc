@@ -1,3 +1,13 @@
+/* 
+Filename: graphicDisplay-impl.cc 
+Author: Josh, Taim and Linh
+Date: 2024-11-28
+Last Edited: 2024-06-28
+
+Description:
+This file contains the implementation of the GraphicDisplay class, which provides a graphical display for the game.
+*/
+
 module GraphicDisplay;
 
 import <iostream>;
@@ -12,6 +22,10 @@ import xwindow;
 
 using namespace std;
 
+/*
+Constructor that initializes the GraphicDisplay with a list of players. Note, we need to 
+use static_cast to convert size_t to int for Xwindow dimensions.
+*/
 GraphicDisplay::GraphicDisplay(vector<Player*> players) 
     : Display{players},
        window{
@@ -19,7 +33,9 @@ GraphicDisplay::GraphicDisplay(vector<Player*> players)
          static_cast<int>(topMargin + players[0]->getBoard()->getHeight() * cellSize + bottomMargin) // length
         } {}
 
-
+/*
+render works by clearing the window, then rendering each player's info, board, and next block preview
+*/
 void GraphicDisplay::render(int highscore) {
     int width = players[0]->getBoard()->getWidth();
     int height = players[0]->getBoard()->getHeight();
@@ -50,6 +66,10 @@ void GraphicDisplay::render(int highscore) {
     window.flush();
 }
 
+/*
+renderPlayerInfo works by drawing the player's name, level, and score at specified offsets.
+Then it uses the Xwindow's drawString method to render the text.
+*/
 void GraphicDisplay::renderPlayerInfo(int playerIndex, int xOffset) {
     // Draw player name
     int vertical = 20;
@@ -67,6 +87,10 @@ void GraphicDisplay::renderPlayerInfo(int playerIndex, int xOffset) {
     window.drawString(xOffset, 4*vertical, scoreText);
 }
 
+/*
+renderBoard works by iterating through each cell in the player's board grid.
+Then it draws filled rectangles for blocks and empty cells, applying special effects like "blind" as needed.
+*/
 void GraphicDisplay::renderBoard(int playerIndex, int xOffset, int yOffset) {
     int width = players[playerIndex]->getBoard()->getWidth();
     int height = players[playerIndex]->getBoard()->getHeight();
@@ -107,6 +131,11 @@ void GraphicDisplay::renderBoard(int playerIndex, int xOffset, int yOffset) {
     }
 }
 
+/*
+renderNextBlock works by first drawing the "Next:" label.
+Then it retrieves the next block's default position and type, normalizes the coordinates,
+and draws the block preview in the designated area.
+*/
 void GraphicDisplay::renderNextBlock(int playerIndex, int xOffset, int yOffset) {
     
     // Draw "Next:" label
@@ -143,6 +172,9 @@ void GraphicDisplay::renderNextBlock(int playerIndex, int xOffset, int yOffset) 
     }
 }
 
+/*
+This method maps block types to specific X11 colors for rendering.
+*/
 int GraphicDisplay::getColorForBlock(char type) {
     // Map block types to X11 colors
     switch(type) {
@@ -157,4 +189,3 @@ int GraphicDisplay::getColorForBlock(char type) {
         default: return Xwindow::White;
     }
 }
-

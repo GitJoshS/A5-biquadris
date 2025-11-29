@@ -1,3 +1,13 @@
+/* 
+Filename: textDisplay-impl.cc 
+Author: Josh, Taim and Linh
+Date: 2024-11-25
+Last Edited: 2024-06-28
+
+Description:
+This file contains the implementation of the TextDisplay class, which provides a text-based display for the game.
+*/
+
 module TextDisplay;
 
 import <iostream>;
@@ -10,6 +20,9 @@ import Block;
 
 using namespace std;
 
+/*
+General constructor that initializes the TextDisplay with a list of players.
+*/
 TextDisplay::TextDisplay(vector<Player*> players) : Display{players} {}
 
 void TextDisplay::render(int highscore) {
@@ -23,7 +36,10 @@ void TextDisplay::render(int highscore) {
     renderNexts(width, height, playerCount, blank);
 };
 
-
+/* 
+renders the stats section of the text display. Works by iterating through each player and printing their
+name, level, and score with appropriate spacing.
+*/
 void TextDisplay::renderStats(int width, int height, int playerCount, char blank) {
     //Print out Names
     for (int player = 0; player < playerCount; ++player) {
@@ -50,7 +66,10 @@ void TextDisplay::renderStats(int width, int height, int playerCount, char blank
 };
 
 
-
+/*
+This renders the boards section of the text display. It prints the game board for each player row by row,
+taking into account any special rendering effects like "blind". 
+*/
 void TextDisplay::renderBoards(int width, int height, int playerCount, char blank) {
     // print out top of the board horizontal line
     for (int player = 0; player < playerCount; ++player) {
@@ -91,7 +110,10 @@ void TextDisplay::renderBoards(int width, int height, int playerCount, char blan
 
 
 
-
+/*
+renderNexts renders the "Next" blocks section of the text display. It prints the next block for each player
+row by row, normalizing the block's position to fit within a 4-row display area.
+*/
 void TextDisplay::renderNexts(int width, int height, int playerCount, char blank) {
     // print out next indicator for all players
     for (int player = 0; player < playerCount; ++player) {
@@ -135,7 +157,9 @@ void TextDisplay::renderNexts(int width, int height, int playerCount, char blank
     }
 };
 
-
+/*
+spaceGen generates a string of spaces for formatting based on the length of the given number.
+*/
 string TextDisplay::spaceGen(int number) {
     int charsAfterTitle = 5;
     number = abs(number);

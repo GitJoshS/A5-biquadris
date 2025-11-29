@@ -1,3 +1,13 @@
+/* 
+Filename: window-impl.cc 
+Author: Josh, Taim and Linh
+Date: 2024-11-28
+Last Edited: 2024-06-28
+
+Description:
+This file contains the implementation of the Xwindow class, which provides a simple interface
+*/
+
 module;
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
