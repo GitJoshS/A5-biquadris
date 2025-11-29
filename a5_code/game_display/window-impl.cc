@@ -22,12 +22,9 @@ Xwindow::Xwindow(int width, int height) {
   XSelectInput(d, w, ExposureMask | KeyPressMask);
   XMapRaised(d, w);
 
-  Pixmap pix = XCreatePixmap(d,w,width,
-        height,DefaultDepth(d,DefaultScreen(d)));
-  gc = XCreateGC(d, pix, 0,(XGCValues *)0);
-
-  XFlush(d);
-  XFlush(d);
+  // Pixmap pix = XCreatePixmap(d,w,width,
+  //       height,DefaultDepth(d,DefaultScreen(d)));
+  gc = XCreateGC(d, w, 0,(XGCValues *)0);
 
   // Set up colours.
   XColor xcolour;
@@ -35,13 +32,14 @@ Xwindow::Xwindow(int width, int height) {
   char color_vals[10][10]={"white", "black", "red", "green", "blue", "cyan", "yellow", "magenta", "orange", "brown"};
 
   cmap=DefaultColormap(d,DefaultScreen(d));
-  for(int i=0; i < 5; ++i) {
+  // changed from 5 to 10
+  for(int i=0; i < 10; ++i) {
       XParseColor(d,cmap,color_vals[i],&xcolour);
       XAllocColor(d,cmap,&xcolour);
       colours[i]=xcolour.pixel;
   }
 
-  XSetForeground(d,gc,colours[Black]);
+  XSetForeground(d,gc,colours[White]);
 
   // Make window non-resizeable.
   XSizeHints hints;
@@ -50,9 +48,7 @@ Xwindow::Xwindow(int width, int height) {
   hints.width = hints.base_width = hints.min_width = hints.max_width = width;
   XSetNormalHints(d, w, &hints);
 
-  XSynchronize(d,True);
-
-  usleep(1000);
+  // usleep(1000);
 }
 
 Xwindow::~Xwindow() {
@@ -70,3 +66,7 @@ void Xwindow::drawString(int x, int y, string msg) {
   XDrawString(d, w, DefaultGC(d, s), x, y, msg.c_str(), msg.length());
 }
 
+
+void Xwindow::flush() {
+  XFlush(d);
+}

@@ -45,6 +45,8 @@ void GraphicDisplay::render() {
         int boardBottomY = topMargin + height * cellSize + extraMargin;
         renderNextBlock(player, xOffset, boardBottomY);
     }
+
+    window.flush();
 }
 
 void GraphicDisplay::renderPlayerInfo(int playerIndex, int xOffset) {
