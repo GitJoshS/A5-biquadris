@@ -12,7 +12,7 @@ export class TextDisplay : public Display {
 
     public:
         TextDisplay(vector<Player*> players);
-        void render() override;
+        void render(int highscore) override;
         string spaceGen(int score);
     private:
         void renderStats(int width, int height, int playerCount, char blank);

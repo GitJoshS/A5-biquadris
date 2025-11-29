@@ -13,17 +13,14 @@ import xwindow;
 using namespace std;
 
 GraphicDisplay::GraphicDisplay(vector<Player*> players) 
-    : Display{players}, 
-    //   window{
-    //     static_cast<int>(players.size() * (players[0]->getBoard()->getWidth() * cellSize) + (players.size() - 1) * boardSpacing), // width
-    //     static_cast<int>(topMargin + players[0]->getBoard()->getHeight() * cellSize + bottomMargin) // length
-    //   } 
-    window{500, 500}
-    {cout << players.size() * (players[0]->getBoard()->getWidth() * cellSize) + (players.size() - 1) * boardSpacing << endl;
-     cout << topMargin + players[0]->getBoard()->getHeight() * cellSize + bottomMargin << endl;}
+    : Display{players},
+       window{
+         static_cast<int>(players.size() * (players[0]->getBoard()->getWidth() * cellSize) + (players.size() - 1) * boardSpacing) + 44, // width
+         static_cast<int>(topMargin + players[0]->getBoard()->getHeight() * cellSize + bottomMargin) // length
+        } {}
 
 
-void GraphicDisplay::render() {
+void GraphicDisplay::render(int highscore) {
     int width = players[0]->getBoard()->getWidth();
     int height = players[0]->getBoard()->getHeight();
     int playerCount = players.size();
@@ -31,10 +28,14 @@ void GraphicDisplay::render() {
     // Clear window by filling with white
     window.fillRectangle(0, 0, 2000, 2000, Xwindow::White);
     
+    string strHighscore = "Highscore: " + to_string(highscore);
+    int vertical = 20;
+    window.drawString(extraMargin, vertical, strHighscore);
+
     // Render each player's display
     for (int player = 0; player < playerCount; ++player) {
         int xOffset = player * (width * cellSize + boardSpacing) + extraMargin;
-        
+
         // Render player info (name, level, score)
         renderPlayerInfo(player, xOffset);
         
@@ -51,19 +52,19 @@ void GraphicDisplay::render() {
 
 void GraphicDisplay::renderPlayerInfo(int playerIndex, int xOffset) {
     // Draw player name
-    int lineNum = 20;
+    int vertical = 20;
     string name = players[playerIndex]->getName();
-    window.drawString(xOffset, 1*lineNum, name);
+    window.drawString(xOffset, 2*vertical, name);
     
     // Draw level
     int level = players[playerIndex]->getBoard()->getLevel()->getLevel();
     string levelText = "Level: " + to_string(level);
-    window.drawString(xOffset, 2*lineNum, levelText);
+    window.drawString(xOffset, 3*vertical, levelText);
     
     // Draw score
     int score = players[playerIndex]->getCurScore();
     string scoreText = "Score: " + to_string(score);
-    window.drawString(xOffset, 3*lineNum, scoreText);
+    window.drawString(xOffset, 4*vertical, scoreText);
 }
 
 void GraphicDisplay::renderBoard(int playerIndex, int xOffset, int yOffset) {

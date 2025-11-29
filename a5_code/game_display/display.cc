@@ -11,6 +11,6 @@ export class Display {
     public:
         Display(vector<Player*> players);
 
-        virtual void render() = 0;
+        virtual void render(int highscore) = 0;
 };
 

@@ -12,11 +12,12 @@ using namespace std;
 
 TextDisplay::TextDisplay(vector<Player*> players) : Display{players} {}
 
-void TextDisplay::render() {
+void TextDisplay::render(int highscore) {
     int width = players[0]->getBoard()->getWidth();
     int height = players[0]->getBoard()->getHeight();
     int playerCount = players.size();
     char blank = ' ';
+    cout << highscore << endl;
     renderStats(width, height, playerCount, blank);
     renderBoards(width, height, playerCount, blank);
     renderNexts(width, height, playerCount, blank);

@@ -26,18 +26,17 @@ using namespace std;
 
 export class Game {
     vector<string> args;
+    int highscore;
     unique_ptr<Player> p1;
     unique_ptr<Player> p2;
     Player* currP;
     unique_ptr<TextDisplay> textDisplay;
     unique_ptr<GraphicDisplay> graphicsDisplay;
-    int highscore;
     bool textOnly;
     CommandCenter cmdCenter;
 
 
     public:
-        Game();
         Game(const vector<string>& argv, const string& player1, const string& player2);
         Game(const vector<string>& argv, const string& player1, const string& player2, int startLevel);
         Game(const vector<string>& argv, const string& player1, const string& player2, 
