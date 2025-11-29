@@ -14,7 +14,7 @@ export module Game;
 import Player;
 import Display;
 import TextDisplay;
-// import GraphicDisplay;
+import GraphicDisplay;
 import CommandCenter;
 
 import <string>;
@@ -25,17 +25,16 @@ import <iostream>;
 using namespace std; 
 
 export class Game {
+    vector<string> args;
     unique_ptr<Player> p1;
     unique_ptr<Player> p2;
     Player* currP;
     unique_ptr<TextDisplay> textDisplay;
-    // unique_ptr<GraphicDisplay> graphicsDisplay;
+    unique_ptr<GraphicDisplay> graphicsDisplay;
     int highscore;
     bool textOnly;
     CommandCenter cmdCenter;
 
-
-    // vector<string> args;
 
     public:
         Game();

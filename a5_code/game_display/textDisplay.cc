@@ -8,12 +8,15 @@ import Display;
 using namespace std;
 
 export class TextDisplay : public Display {
-    string boardsSpace = "          ";
+    string boardsSpace = string(10, ' ');
+
     public:
         TextDisplay(vector<Player*> players);
-
-        // void render(vector<Board*> board, vector<int> score, vector<int> level, vector<Block*> next);
         void render() override;
         string spaceGen(int score);
+    private:
+        void renderStats(int width, int height, int playerCount, char blank);
+        void renderBoards(int width, int height, int playerCount, char blank);
+        void renderNexts(int width, int height, int playerCount, char blank);
 };
 
