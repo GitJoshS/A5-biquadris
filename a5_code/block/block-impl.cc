@@ -1,3 +1,15 @@
+/* 
+Filename: block-impl.cc
+Author: Taim, Josh and Linh
+Date: 2024-11-25
+Last Edited: 2024-11-28
+
+Description:
+This is the implementation file for the Block class, which represents individual blocks and is a
+super class for all specific block types in the Biquadris game. This file contains the definitions of the
+Block class methods. It handles the construction of blocks, rotation logic, position management, and cell tracking.
+*/
+
 module Block;
 
 import <string>;
@@ -6,19 +18,41 @@ import <vector>;
 
 using namespace std;
 
+/*
+The constructor for the Block class.
+*/
 Block::Block(char blockType, int levelGenerated, int cellsLeft, vector<pair<int,int>> cells) : 
     blockType{blockType}, levelGenerated{levelGenerated}, cellsLeft{cellsLeft}, cells{cells} {}
 
+/*
+ Get's the current position of the block's cells. This method returns the coordinates of 
+the block's cells on the board.
+*/
 vector<pair<int,int>> Block::getPosition() {
     return cells;
 }
+
+/*
+setPosition Sets the position of the block to a new position and updates the coordinates of the block's cells.
+*/
 void Block::setPosition(vector<pair<int,int>>& newPos) {
     cells = newPos;
 }
 
+/*
+getType just returns the type of the block as a character. It indicates what kind of block it is 
+(I, J, L, O, S, T, Z).
+*/
 char Block::getType(){
     return blockType;
 }
+
+/*
+rotatePositions works by first determining the bounding rectangle of the block's current cells.
+It then calculates the new positions of each cell based on whether the rotation is clockwise or counterclockwise.
+Finally, it adjusts the positions so that the rotated block's lower-left corner aligns with the original position.
+It returns a vector of pairs representing the new coordinates after rotation.
+*/
 vector<pair<int,int>> Block::rotatePosition(bool clockwise) {
     vector<pair<int,int>> rotated;
     
@@ -80,6 +114,9 @@ vector<pair<int,int>> Block::rotatePosition(bool clockwise) {
     return rotated;
 }
 
+/*
+decreaseCells works by decreasing the cellsLeft attribute by 1 each time a cell in the block is destroyed.
+*/
 bool Block::decreaseCells() {
     cellsLeft--;
     if (cellsLeft == 0) {
@@ -88,6 +125,9 @@ bool Block::decreaseCells() {
     return false;
 }
 
+/*
+getLevelGenerated simply returns the level at which the block was generated.
+*/
 int Block::getLevelGenerated() {
     return levelGenerated;
 }

@@ -1,3 +1,13 @@
+/* 
+Filename: sBlock.cc
+Author: Taim, Josh and Linh
+Date: 2024-11-25
+Last Edited: 2024-11-28
+
+Description:
+Contains the interface for the starBlock class, which represents the "*" shaped block in the Biquadris game.
+*/
+
 export module starBlock;
 
 import <string>;
@@ -9,5 +19,10 @@ using namespace std;
 
 export class starBlock : public Block{
     public:
-    starBlock();
+        /*
+        Purpose: constructor for starBlock class.
+        @param: None
+        returns: starBlock object
+        */
+        starBlock();
 };

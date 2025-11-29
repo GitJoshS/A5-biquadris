@@ -1,3 +1,13 @@
+/* 
+Filename: oBlock-impl.cc
+Author: Taim, Josh and Linh
+Date: 2024-11-25
+Last Edited: 2024-11-28
+
+Description:
+Contains the implementation for the OBlock class, which represents the "O" shaped block in the Biquadris game.
+*/
+
 module OBlock;
 
 import <string>;
