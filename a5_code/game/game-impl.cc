@@ -28,7 +28,10 @@ import CommandCenter;
 
 using namespace std;
 
-// when constructing a game
+/*
+Basic constructor with command-line options - no startLevel or file Note, we intialize the two players
+here which will then intialize their boards, blocks, levels, etc.
+*/
 Game::Game(const vector<string>& argv, const string& player1, const string& player2)
     : args{argv}, highscore{0},
       p1{make_unique<Player>(0, 1, player1, "../biquadris/biquadris_sequence1.txt")},
@@ -39,7 +42,9 @@ Game::Game(const vector<string>& argv, const string& player1, const string& play
                       : nullptr},
       textOnly{true}, cmdCenter{CommandCenter()} {}
 
-// constructor with command-line options - startLevel
+/*
+Constructor with command-line options - startLevel.
+*/
 Game::Game(const vector<string>& argv, const string& player1, const string& player2, int startLevel)
     : args{argv}, highscore{0},
       p1{make_unique<Player>(0, 1, player1, "../biquadris/biquadris_sequence1.txt", startLevel)},
@@ -50,7 +55,9 @@ Game::Game(const vector<string>& argv, const string& player1, const string& play
                       : nullptr},
       textOnly{true}, cmdCenter{CommandCenter()} {}
 
-// constructor with command-line options - file
+/*
+Constructor with command-line options - script file.
+*/
 Game::Game(const vector<string>& argv, const string& player1, const string& player2, 
              const string& scriptFile, bool script1) 
     : args{argv}, highscore{0},
@@ -64,14 +71,34 @@ Game::Game(const vector<string>& argv, const string& player1, const string& play
                       : nullptr},
       textOnly{true}, cmdCenter{CommandCenter()} {}
 
+/*
+Get the current player whose turn it is.
+*/
 Player* Game::getCurrentPlayer() { return currP; }
+
+/*
+Get player 1.
+*/
 Player* Game::getPlayer1() { return p1.get(); }
+
+/*
+Get player 2.
+*/
 Player* Game::getPlayer2() { return p2.get(); }
 
+/*
+swapTurn switches the current player pointer to the other player.
+We call this at the end of each turn aka a block is dropped.
+*/
 void Game::swapTurn() {
     currP = (currP == p1.get()) ? p2.get() : p1.get();
 }
 
+/*
+Main game loop that runs until the game is exited. It works by rendering the displays,
+processing user commands, checking for game over conditions, and managing turn transitions.
+In addition if applicable it may apply special effects between turns.
+*/
 void Game::runGame() {
 
         // See if use wants text only mode
@@ -119,6 +146,9 @@ void Game::runGame() {
 }
 
 
+/*
+Reroute command handles commands that need access to Game state before passing them to CommandCenter.
+*/
 bool Game::rerouteCommand(string command) {
     int mult = 0;
     string cmd = cmdCenter.processCmd(command, &mult);
@@ -142,7 +172,10 @@ bool Game::rerouteCommand(string command) {
     return cmdCenter.executeCmd(cmd, currP, otherPlayer, mult);
 }
 
-
+/*
+runSeq reads commands from a file and executes them one at a time. It checks for game over conditions
+after each command and handles turn transitions appropriately. It is used for the "sequence" command.
+*/
 bool Game::runSeq(string name) {
 
     ifstream file("files/" + name);
@@ -178,8 +211,15 @@ bool Game::runSeq(string name) {
     return false;  // The sequence command itself doesn't end the turn
 }
 
-void Game::handleSpecialAction(string action) {}   
-void Game::triggerSpecialAction(string action) {}   
+// /*
+
+// */
+// void Game::handleSpecialAction(string action) {}  
+
+// /*
+
+// */
+// void Game::triggerSpecialAction(string action) {}   
 
 void Game::reset() { 
     p1->reset();
