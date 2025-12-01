@@ -237,31 +237,6 @@ A5-biquadris/
     └── graphicsdemo.cc
 ```
 
----
-
-## Submission Checklist
-- [ ] Program compiles without errors
-- [ ] Program runs and does something
-- [ ] Text display works
-- [ ] Graphics display works (if not using `-text`)
-- [ ] All required sequence files included
-- [ ] Documentation complete
-- [ ] Design document included
-- [ ] Makefile works correctly
-- [ ] `make clean` removes all generated files
-
-**Remember:** A partially working program is better than a non-compiling one!
-
----
-
-## Resources
-- **Assignment Specification**: `biquadris.pdf`
-- **Project Guidelines**: `guidelines.pdf`
-- **XQuartz Download**: https://www.xquartz.org/
-- **Course Piazza**: For questions and clarifications
-
----
-
 ## Authors
 - Joshua Stein
 - Taim Alsaadi
