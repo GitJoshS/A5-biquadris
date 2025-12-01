@@ -12,6 +12,7 @@ module Game;
 
 import <iostream>;
 import <string>;
+import <sstream>;
 import <vector>;
 import <memory>;
 import <algorithm>;
@@ -101,21 +102,27 @@ In addition if applicable it may apply special effects between turns.
 */
 void Game::runGame() {
 
-        // See if use wants text only mode
-        auto it = find(args.begin(), args.end(), string("-text"));
-        bool textOnly = it != args.end();
+    // See if use wants text only mode
+    auto it = find(args.begin(), args.end(), string("-text"));
+    bool textOnly = it != args.end();
 
-        while (true){
+    while (true) {
         textDisplay->render(highscore);
         if (!textOnly) {
             graphicsDisplay->render(highscore);
         }
-
-    
-        string command; 
+        
+        string line;
         cout << "Make a move " << currP->getName() << ": ";
+        if (!getline(cin, line)) {
+            // EOF or serious error
+            cout << "\nEOF. Game Terminating. Goodbye :3" << endl;
+            break;
+        }
 
-        if (cin >> command) {
+        istringstream iss(line);
+        string command; 
+        if (iss >> command) {
             bool turnEnded = rerouteCommand(command);
             
             if (currP->getBoard()->isGameOver()) { // Check game over BEFORE swapping

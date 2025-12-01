@@ -6,9 +6,7 @@ SOURCES = level/level.cc level/level-impl.cc level/level0.cc level/level0-impl.c
 
 OBJECTS = level.o level-impl.o level0.o level0-impl.o level1.o level1-impl.o level2.o level2-impl.o level3.o level3-impl.o level4.o level4-impl.o levelFactory.o levelFactory-impl.o block.o block-impl.o iBlock.o iBlock-impl.o jBlock.o jBlock-impl.o lBlock.o lBlock-impl.o oBlock.o oBlock-impl.o sBlock.o sBlock-impl.o starBlock.o starBlock-impl.o tBlock.o tBlock-impl.o zBlock.o zBlock-impl.o board.o board-impl.o player.o player-impl.o display.o display-impl.o window.o window-impl.o graphicDisplay.o graphicDisplay-impl.o textDisplay.o textDisplay-impl.o commandCenter.o commandCenter-impl.o game.o game-impl.o main.o
 
-HEADERS = vector memory iostream sstream algorithm climits cmath fstream utility cstdlib string
-
-
+HEADERS = vector iomanip memory iostream sstream algorithm climits cmath fstream utility cstdlib string
 
 EXEC = biquadris
 

@@ -31,7 +31,17 @@ GraphicDisplay::GraphicDisplay(vector<Player*> players)
        window{
          static_cast<int>(players.size() * (players[0]->getBoard()->getWidth() * cellSize) + (players.size() - 1) * boardSpacing) + 44, // width
          static_cast<int>(topMargin + players[0]->getBoard()->getHeight() * cellSize + bottomMargin) // length
-        } {}
+        } {
+            background = window.addColor("#0e083b");
+            T = window.addColor("#800080");
+            O = window.addColor("#ffff00");
+            I = window.addColor("#00ffff");
+            S = window.addColor("#00ff00");
+            Z = window.addColor("#Ff0000");
+            J = window.addColor("#0000ff");
+            L = window.addColor("#ff7f00");
+            star = window.addColor("#4f2c0aff");
+        }
 
 /*
 render works by clearing the window, then rendering each player's info, board, and next block preview
@@ -42,11 +52,11 @@ void GraphicDisplay::render(int highscore) {
     int playerCount = players.size();
     
     // Clear window by filling with white
-    window.fillRectangle(0, 0, 2000, 2000, Xwindow::White);
+    window.fillRectangle(0, 0, 2000, 2000, background);
     
     string strHighscore = "Highscore: " + to_string(highscore);
     int vertical = 20;
-    window.drawString(extraMargin, vertical, strHighscore);
+    window.drawString(extraMargin, vertical, strHighscore, Xwindow::White);
 
     // Render each player's display
     for (int player = 0; player < playerCount; ++player) {
@@ -74,17 +84,17 @@ void GraphicDisplay::renderPlayerInfo(int playerIndex, int xOffset) {
     // Draw player name
     int vertical = 20;
     string name = players[playerIndex]->getName();
-    window.drawString(xOffset, 2*vertical, name);
+    window.drawString(xOffset, 2*vertical, name, Xwindow::White);
     
     // Draw level
     int level = players[playerIndex]->getBoard()->getLevel()->getLevel();
     string levelText = "Level: " + to_string(level);
-    window.drawString(xOffset, 3*vertical, levelText);
+    window.drawString(xOffset, 3*vertical, levelText, Xwindow::White);
     
     // Draw score
     int score = players[playerIndex]->getCurScore();
     string scoreText = "Score: " + to_string(score);
-    window.drawString(xOffset, 4*vertical, scoreText);
+    window.drawString(xOffset, 4*vertical, scoreText, Xwindow::White);
 }
 
 /*
@@ -113,7 +123,7 @@ void GraphicDisplay::renderBoard(int playerIndex, int xOffset, int yOffset) {
                 (row <= 11 && row >= 2) && (col <= 8 && col >= 2)) {
                 // Draw question mark area (gray)
                 window.fillRectangle(x, y, cellSize, cellSize, Xwindow::Black);
-                window.drawString(x + 8, y + 18, "?");
+                window.drawString(x + 8, y + 18, "?", Xwindow::Black);
             } else if (grid[col][row]) {
                 // Draw filled block with appropriate color
                 char type = grid[col][row]->getType();
@@ -125,7 +135,7 @@ void GraphicDisplay::renderBoard(int playerIndex, int xOffset, int yOffset) {
                 window.fillRectangle(x, y, 1, cellSize, Xwindow::Black);
             } else {
                 // Empty cell - white
-                window.fillRectangle(x, y, cellSize, cellSize, Xwindow::White);
+                window.fillRectangle(x, y, cellSize, cellSize, background);
             }
         }
     }
@@ -139,7 +149,7 @@ and draws the block preview in the designated area.
 void GraphicDisplay::renderNextBlock(int playerIndex, int xOffset, int yOffset) {
     
     // Draw "Next:" label
-    window.drawString(xOffset, yOffset, "Next:");
+    window.drawString(xOffset, yOffset, "Next:", Xwindow::White);
     
     // Get next block info
     shared_ptr<Block> nextBlock = players[playerIndex]->getBoard()->getNextBlock();
@@ -178,14 +188,14 @@ This method maps block types to specific X11 colors for rendering.
 int GraphicDisplay::getColorForBlock(char type) {
     // Map block types to X11 colors
     switch(type) {
-        case 'I': return Xwindow::Cyan;
-        case 'J': return Xwindow::Blue;
-        case 'L': return Xwindow::Orange;
-        case 'O': return Xwindow::Yellow;
-        case 'S': return Xwindow::Green;
-        case 'Z': return Xwindow::Red;
-        case 'T': return Xwindow::Magenta;
-        case '*': return Xwindow::Brown;  // Special block
-        default: return Xwindow::White;
+        case 'I': return I;
+        case 'J': return J;
+        case 'L': return L;
+        case 'O': return O;
+        case 'S': return S;
+        case 'Z': return Z;
+        case 'T': return T;
+        case '*': return star;  // Special block
+        default: return background;
     }
 }

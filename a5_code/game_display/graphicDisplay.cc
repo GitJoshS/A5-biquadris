@@ -28,6 +28,9 @@ export class GraphicDisplay : public Display {
     static const int nextBlockMargin = 20; // space for "Next:" section
     static const int extraMargin = 20;
 
+    int background, T, O, I, S, Z, J, L, star;
+
+
     public:
         /*
         Purpose: Constructor for GraphicDisplay class.

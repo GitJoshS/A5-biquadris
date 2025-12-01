@@ -16,6 +16,8 @@ module xwindow;
 import <iostream>;
 import <cstdlib>;
 import <string>;
+import <sstream>;
+import <iomanip>;
 
 using namespace std;
 
@@ -36,17 +38,17 @@ Xwindow::Xwindow(int width, int height) {
   //       height,DefaultDepth(d,DefaultScreen(d)));
   gc = XCreateGC(d, w, 0,(XGCValues *)0);
 
+  cmap = DefaultColormap(d, DefaultScreen(d));
+
   // Set up colours.
   XColor xcolour;
-  Colormap cmap;
   char color_vals[10][10]={"white", "black", "red", "green", "blue", "cyan", "yellow", "magenta", "orange", "brown"};
 
-  cmap=DefaultColormap(d,DefaultScreen(d));
-  // changed from 5 to 10
+  // colours.reserve(10);
   for(int i=0; i < 10; ++i) {
       XParseColor(d,cmap,color_vals[i],&xcolour);
       XAllocColor(d,cmap,&xcolour);
-      colours[i]=xcolour.pixel;
+      colours.push_back(xcolour.pixel);
   }
 
   XSetForeground(d,gc,colours[White]);
@@ -58,22 +60,80 @@ Xwindow::Xwindow(int width, int height) {
   hints.width = hints.base_width = hints.min_width = hints.max_width = width;
   XSetNormalHints(d, w, &hints);
 
-  // usleep(1000);
 }
 
 Xwindow::~Xwindow() {
+  // Free allocated colors
+  for (unsigned long color : colours) {
+    XFreeColors(d, cmap, &color, 1, 0);
+  }
   XFreeGC(d, gc);
   XCloseDisplay(d);
 }
 
-void Xwindow::fillRectangle(int x, int y, int width, int height, int colour) {
-  XSetForeground(d, gc, colours[colour]);
-  XFillRectangle(d, w, gc, x, y, width, height);
-  XSetForeground(d, gc, colours[Black]);
+int Xwindow::addColor(int r, int g, int b) {
+  // X11 uses 16-bit color values (0-65535), so scale from 0-255
+  XColor xcolour;
+  xcolour.red = r * 257;    // 257 = 65535/255
+  xcolour.green = g * 257;
+  xcolour.blue = b * 257;
+  xcolour.flags = DoRed | DoGreen | DoBlue;
+
+  if (XAllocColor(d, cmap, &xcolour)) {
+    colours.push_back(xcolour.pixel);
+    return colours.size() - 1;
+  } else {
+    cerr << "Failed to allocate color RGB(" << r << "," << g << "," << b << ")" << endl;
+    return Black; // Return black as fallback
+  }
 }
 
-void Xwindow::drawString(int x, int y, string msg) {
-  XDrawString(d, w, DefaultGC(d, s), x, y, msg.c_str(), msg.length());
+
+int Xwindow::addColor(const string& hexColor) {
+  // Parse hex color string (e.g., "#FF5733" or "FF5733")
+  string hex = hexColor;
+  if (hex[0] == '#') {
+    hex = hex.substr(1);
+  }
+
+  if (hex.length() != 6) {
+    cerr << "Invalid hex color format: " << hexColor << endl;
+    return Black;
+  }
+
+  // Convert hex to RGB
+  int r, g, b;
+  stringstream ss;
+  ss << std::hex << hex.substr(0, 2);
+  ss >> r;
+  ss.clear();
+  ss << std::hex << hex.substr(2, 2);
+  ss >> g;
+  ss.clear();
+  ss << std::hex << hex.substr(4, 2);
+  ss >> b;
+
+  return addColor(r, g, b);
+}
+
+void Xwindow::fillRectangle(int x, int y, int width, int height, int colour) {
+  if (colour >= 0 && colour < static_cast<int>(colours.size())) {
+    XSetForeground(d, gc, colours[colour]);
+    XFillRectangle(d, w, gc, x, y, width, height);
+    XSetForeground(d, gc, colours[Black]);
+  } else {
+    cerr << "Invalid color index: " << colour << endl;
+  }
+}
+
+void Xwindow::drawString(int x, int y, string msg, int colour) {
+  if (colour >= 0 && colour < static_cast<int>(colours.size())) {
+    XSetForeground(d, gc, colours[colour]);
+    XDrawString(d, w, gc, x, y, msg.c_str(), msg.length());
+    XSetForeground(d, gc, colours[Black]);
+  } else {
+    cerr << "Invalid color index: " << colour << endl;
+  }
 }
 
 

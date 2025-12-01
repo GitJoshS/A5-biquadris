@@ -13,13 +13,15 @@ module;
 export module xwindow;
 import <iostream>;
 import <string>;
+import <vector>;
 
 export class Xwindow {
   Display *d;
   Window w;
   int s;
   GC gc;
-  unsigned long colours[10];
+  std::vector<unsigned long> colours;
+  Colormap cmap;
 
  public:
     /*
@@ -68,6 +70,23 @@ export class Xwindow {
     */
     enum {White=0, Black, Red, Green, Blue, Cyan, Yellow, Magenta, Orange, Brown};
 
+    /*
+    Purpose: Adds a custom color using RGB values (0-255 range)
+    @param: r - red component (0-255)
+            g - green component (0-255)
+            b - blue component (0-255)
+    returns: color index that can be used in fillRectangle
+    */
+    int addColor(int r, int g, int b);
+
+    /*
+    Purpose: Adds a custom color using hex string (e.g., "#FF5733")
+    @param: hexColor - hex color string (e.g., "#RRGGBB")
+    returns: color index that can be used in fillRectangle
+    */
+    int addColor(const std::string& hexColor);
+
+
     // Draws a rectangle
     /*
     Purpose: Draws a filled rectangle at specified position with given dimensions and colour.
@@ -88,7 +107,7 @@ export class Xwindow {
             msg - the string message to be drawn
     returns: None
     */
-    void drawString(int x, int y, std::string msg);
+    void drawString(int x, int y, std::string msg, int colour);
 
     /*
     Purpose: Flushes the output buffer, ensuring all drawing commands are executed.
